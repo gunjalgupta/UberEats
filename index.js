@@ -2,11 +2,11 @@ const express = require('express');
 const cookieParser = require('cookie-parser')
 const cors = require('cors') ;
 const app = express();
-const Sequelize = require("sequelize");
+//const Sequelize = require("sequelize");
 const dbconfig = require('./config/dbconfig')
 const initRoutes = require("./routes/image");
 
-const sequelize = new Sequelize(dbconfig.database, dbconfig.user, dbconfig.password, dbconfig.host, dbconfig.port);
+//const sequelize = new Sequelize(dbconfig.database, dbconfig.user, dbconfig.password, dbconfig.host, dbconfig.port);
 
 // parse requests of content-type = application/json
 app.use(express.json());
@@ -14,12 +14,12 @@ app.use(cookieParser());
 app.use(cors());
 //parse requests of content-type = application/x-www-form-urlencoded
 
-const db = {};
+// const db = {};
 
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
+// db.Sequelize = Sequelize;
+// db.sequelize = sequelize;
 
-db.images = require("./image.model.js")(sequelize, Sequelize);
+// db.images = require("./image.model.js")(sequelize, Sequelize);
 
 // simple route
 app.get("/", (req, res) => {
@@ -28,6 +28,8 @@ app.get("/", (req, res) => {
 
 require("./routes/customerprofile.js")(app);
 
+require("./routes/restaurant.js")(app);
+
 // set port, listen for requests
 app.listen(3000, () => {
   console.log("Server is running on port 3000.");
@@ -35,11 +37,11 @@ app.listen(3000, () => {
 
 
 
-global.__basedir = __dirname;
+// global.__basedir = __dirname;
 
-initRoutes(app);
+// initRoutes(app);
 
-db.sequelize.sync();
+// db.sequelize.sync();
 // db.sequelize.sync({ force: true }).then(() => {
 //   console.log("Drop and re-sync db.");
 // });

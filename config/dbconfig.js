@@ -8,7 +8,7 @@ connection = mysql.createConnection({
     user     : 'admin',
     password : 'ubereats',
     port     : '3306',
-    database : 'ubereaats'
+    database : 'UberEats'
   });
   
   connection.connect(function(err) {

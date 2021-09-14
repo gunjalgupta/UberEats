@@ -1,6 +1,7 @@
+
 const bcrypt = require('bcrypt')
 const { sign } = require('jsonwebtoken');
-const Customer = require('../models/customers.js');
+const Restaurant = require('../models/restaurants.js');
 
 exports.create = (req, res) => {
     console.log("In controller", req.body)
@@ -15,15 +16,15 @@ exports.create = (req, res) => {
     const encryptedPassword = bcrypt.hash(password, saltRounds)
     console.log("Request", req.body)
     // Create a Customer
-    const customer = new Customer({
+    const restaurant = new Restaurant({
       email: req.body.email,
-      cname: req.body.cname,
+      rname: req.body.rname,
       pwd: encryptedPassword 
       
     });
-    console.log("=======",customer)
+    console.log("=======",restaurant)
     // Save Customer in the database
-    Customer.create(customer, (err, data) => {
+    Restaurant.create(restaurant, (err, data) => {
       console.log("In create");
       if (err)
         res.status(500).send({
@@ -41,7 +42,7 @@ exports.find = (req,res) => {
       })
   }
   //SELECT Customer
-  Customer.find(req.body.email,  (err, data) => {
+  Restaurant.find(req.body.email,  (err, data) => {
       console.log(req.body.email);
       console.log(req.body.pwd);
       if(err){
@@ -86,18 +87,18 @@ exports.find = (req,res) => {
       });
     }
   
-    Customer.updateById(
-      req.params.customerId,
-      new Customer(req.body),
+    Restaurant.updateById(
+      req.params.restaurantId,
+      new Restaurant(req.body),
       (err, data) => {
         if (err) {
           if (err.kind === "not_found") {
             res.status(404).send({
-              message: `Not found Customer with id ${req.params.customerId}.`
+              message: `Not found Customer with id ${req.params.restaurantId}.`
             });
           } else {
             res.status(500).send({
-              message: "Error updating Customer with id " + req.params.customerId
+              message: "Error updating Customer with id " + req.params.restaurantId
             });
           }
         } else res.send(data);

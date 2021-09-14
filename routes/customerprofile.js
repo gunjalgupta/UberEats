@@ -1,11 +1,12 @@
-module.exports = app => {
-    const Customer = require("../controllers/customer.controller.js");
-    console.log("In router")
-    //app.post("/register", Customer.create);
+module.exports = (app) => {
+  // eslint-disable-next-line global-require
+  const Customer = require('../controllers/customer.controller');
+  console.log('In router');
+  app.post("/customerprofile/register", Customer.create);
 
-    // Update a Customer with customerId
-    app.post("/updatedetails/:customerId", Customer.update);
+  // Update a Customer with customerId
+  app.post('/customerprofile/updatedetails/:customerId', Customer.update);
 
-    app.post("/updatecontact/:customerId", Customer.update);
+  app.post('/customerprofile/updatecontact/:customerId', Customer.update);
+};
 
-}

@@ -4,7 +4,7 @@ module.exports = app => {
 const { checkToken } = require('../middleware/auth.js')
     
 //CREATE a new Customer 
-app.post("/register", checkToken, customer.create);
+//app.post("/register", checkToken, customer.create);
 
 //login 
 app.post("/login", customer.find);

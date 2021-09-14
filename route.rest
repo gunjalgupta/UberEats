@@ -8,19 +8,19 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:3000/updatedetails/2
+POST http://localhost:3000/updatedetails/1
 Content-Type: application/json 
 
 {
     "cname":"gunjal",
     "DOB":"1997/12/12",
     "city": "jose",
-    "stateId": 1,
+    "stateId": 2,
     "countryId":1,
     "nickname": "nickname"
 }
 ###
-POST http://localhost:3000/updatecontact/2
+POST http://localhost:3000/customerprofile/updatecontact/2
 Content-Type: application/json 
 
 {
