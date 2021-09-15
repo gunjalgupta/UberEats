@@ -73,5 +73,21 @@ Customer.updateById = (customerId, customer, result) => {
     },
   );
 };
+
+//====================================================================
+
+Customer.get = function (customerId , result) {
+  connection.query("SELECT * FROM customer where customerId= ?", customerId, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("profile: ", res);
+    result(null, res);
+  });
+};
+
 module.exports = Customer;
 

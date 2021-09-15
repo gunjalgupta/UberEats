@@ -105,3 +105,20 @@ exports.find = (req,res) => {
       }
     );
   };
+
+  //===============================================================================
+  exports.findProfile =  (req, res) => {
+    if(!req.body){
+      res.status(400).send({
+          message: "Enter the values properly...!!!"
+      })
+    }
+    Restaurant.get(req.body.restaurantId,(err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving customers."
+        });
+      else res.send(data);
+    });
+  };

@@ -52,6 +52,21 @@ Restaurant.find = function (email, result) {
 };
 //= ==========================================================
 
+Restaurant.get = function (restaurantId , result) {
+  connection.query("SELECT * FROM restaurant where restaurantId= ?", restaurantId, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("profile: ", res);
+    result(null, res);
+  });
+};
+
+//============================================================
+
 Restaurant.updateById = (restaurantId, restaurant, result) => {
   console.log('restaurantID', restaurantId);
   console.log("in model restaurant", restaurant);
@@ -78,4 +93,5 @@ Restaurant.updateById = (restaurantId, restaurant, result) => {
     },
   );
 };
+
 module.exports = Restaurant;

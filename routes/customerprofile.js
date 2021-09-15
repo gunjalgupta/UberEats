@@ -8,5 +8,7 @@ module.exports = (app) => {
   app.post('/customerprofile/updatedetails/:customerId', Customer.update);
 
   app.post('/customerprofile/updatecontact/:customerId', Customer.update);
+
+  app.get('/customerprofile',Customer.findProfile);
 };
 
