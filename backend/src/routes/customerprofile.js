@@ -1,0 +1,22 @@
+const Restaurant = require('../controllers/restaurant.controller');
+
+module.exports = (app) => {
+  // eslint-disable-next-line global-require
+  const Customer = require('../controllers/customer.controller');
+  console.log('In router');
+  app.post("/customerprofile/register", Customer.create);
+
+  // Update a Customer with customerId
+  app.post('/customerprofile/updatedetails/:customerId', Customer.update);
+
+  app.post('/customerprofile/updatecontact/:customerId', Customer.update);
+
+  app.get('/customerprofile',Customer.findProfile);
+
+  app.get('/customerprofile/getRestaurants', Customer.getRestaurants);
+
+  app.get('/customerprofile/searchRestaurants', Restaurant.searchRestaurants);
+
+
+};
+
