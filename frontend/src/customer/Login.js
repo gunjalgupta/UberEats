@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './Login.css';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { login } from '../features/userSlice';
+import { login } from './userSlice';
 import { useHistory, Link } from 'react-router-dom';
 
 function Login() {
@@ -10,6 +10,7 @@ function Login() {
     const dispatch = useDispatch();
     const [email , setEmail ] = useState("");
     const [pwd , setPwd ] = useState("");
+    const [error , setError] = useState("");
     const history = useHistory();
     
     async function cuslogin(event) {
@@ -21,23 +22,32 @@ function Login() {
             };
             console.log("------",loginAdmin)
             console.log("local", localStorage.getItem('token'))
-            const res = await axios.post("http://localhost:8080/login",loginAdmin);
-            localStorage.setItem('token', res.data.token);
-            if(res.data.success == 1) {
-                dispatch(login({
-                    email: res.data.email,
-                    customerId: res.data.id,
-                    name: res.data.name,
-                    loggedIn: true, 
-                }))
-              history.push("/details")
+            const res = await axios.post("http://localhost:8081/customer/login",loginAdmin)
+        localStorage.setItem('customer', JSON.stringify(res.data));
+        localStorage.setItem('token', res.data.token);
+        if(res.data.success == 1) {
+            dispatch(login({
+                email: res.data.email,
+                customerId: res.data.customerId,
+                name: res.data.name,
+                loggedIn: true, 
+            }))
+          history.push("/cprofile")
+            
+            
             }
-            console.log("response", res);
-        }catch(err){
-            console.error(err);
+        }
+            //console.log("response", res);
+        catch(err){
+            console.log("error",err.response.data.message);
             console.log("incatch")
+            setError(err.response.data.message)
         }
     }
+
+    const divStyle = {
+        color: 'red'
+      }; 
 
     return(
     <div className ="login_cen">
@@ -58,6 +68,10 @@ function Login() {
                 <div className="login__text">
                     <p>New to Uber?</p>
                     <Link to="/register" className="login_ul"><p className="login__create">Create an account</p></Link>
+                </div>
+                <div style = {divStyle}>
+                    {error && <p> {error} </p>}
+                        
                 </div>
             </div>
         </div>

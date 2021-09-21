@@ -40,13 +40,13 @@ exports.create = (req, res) => {
   };
 //=======================================================
 exports.find = (req,res) => {
-  if(!req.body){
+  if(!req.params){
       res.status(400).send({
           message: "Enter the values properly...!!!"
       })
   }
   //SELECT Customer
-  Dish.find(req.body.restaurantId,  (err, data) => {
+  Dish.find(req.params.restaurantId,  (err, data) => {
     
       if(err){
       
@@ -91,3 +91,22 @@ exports.find = (req,res) => {
       }
     );
   };
+
+  //====================================================================
+
+exports.findKey = (req, res) =>{
+  console.log(req.body.dishId);
+  Dish.findKey( req.body.dishId, (err,data)=>{
+    if( err){
+      console.log(err);
+      res.status(500).send({
+        message: err.message
+      })
+    }
+    else {
+      res.json({
+        key: data.profilepic
+      })
+    }
+  })
+}

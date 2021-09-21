@@ -1,17 +1,27 @@
-POST http://localhost:3000/customerprofile/register
+POST http://localhost:8081/customer/register
 Content-Type: application/json 
 
 {
     "cname":"HELi",
-    "email":"hELI4@gmail.com",
+    "email":"hELI1@gmail.com",
     "pwd":"1234"
 }
 
 ###
-POST http://localhost:3000/customerprofile/updatedetails/2
+POST http://localhost:8081/customer/login
 Content-Type: application/json 
 
 {
+    "email":"hELI@gmail.com",
+    "pwd":"1234"
+}
+
+###
+POST http://localhost:8081/customerprofile/updatedetails/
+Content-Type: application/json 
+
+{
+    "customerId":1,
     "cname":"gu",
     "DOB":"1997/12/12",
     "city": "jose",
@@ -29,23 +39,37 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:3000/restaurant/register
+POST http://localhost:8081/restaurant/register
 Content-Type: application/json 
 
 {
     "rname":"gunjal",
-    "email":"gunjal2@gmail.com",
+    "email":"gunjal1gupta@gmail.com",
     "pwd":"1234"
 }
-###
 
-POST http://localhost:3000/restaurant/updatedetails/1
+###
+POST http://localhost:8081/restaurant/login
 Content-Type: application/json 
 
 {
+    "email":"gunjalgupta@gmail.com",
+    "pwd":"1234"
+}
+
+###
+
+
+
+POST http://localhost:8081/restaurant/updatedetails/
+Content-Type: application/json 
+
+{
+    "restaurantId": 1,
+    "email" : "gunjal1gupta@gmail.com",
     "rname":"gunjal",
     "city": "jose",
-    "stateId": 2,
+    "stateId": 3,
     "countryId":"1"
 }
 ###
@@ -57,71 +81,66 @@ Content-Type: application/json
     "mobileNo" : "1234567"
 }
 ###
-POST http://localhost:3000/restaurant/adddish
+POST http://localhost:8081/restaurant/adddish
 Content-Type: application/json 
 
 {
-    "dname" : "Naan",
-    "ingredients" : "Floor",
-    "ddesc" : "Made by kneeding wheat floor",
+    "dname" :"Buttermilk",
+    "ingredients" : "Yogurt, spices",
+    "ddesc" : "Fermented dairy drink made with yogurt",
     "restaurantId" : 1,
-    "cuisineId" : 1,
+    "cuisineId" : 2,
     "veg" : true,
     "nonVeg" : false,
     "vegan" : true,
-    "categoryId" : 3,
+    "categoryId" : 5,
     "price" : 10
 }
 ###
-POST http://localhost:3000/restaurant/editdish/1
+POST http://localhost:8081/restaurant/editdish/1
 Content-Type: application/json 
 
 {
-    "dname" : "roti",
-    "ingredients" : "Floor",
-    "ddesc" : "Made by kneeding wheat floor",
+    "dname" : "Paneer tikka",
+    "ingredients" : "Cottage cheese",
+    "ddesc" : "'Barceque the marinated paneer'",
     "restaurantId" : 1,
     "cuisineId" : 1,
     "veg" : true,
     "nonVeg" : false,
     "vegan" : true,
-    "categoryId" : 3,
-    "price" : 9
+    "categoryId" : 1,
+    "price" : 15
 }
 ###
-GET  http://localhost:3000/restaurant/getdish
+POST  http://localhost:8081/restaurant/getdish/1
+
+###
+
+GET  http://localhost:8081/restaurant/profile/20
 Content-Type: application/json 
 
 {
-    "restaurantId":1
+    "restaurantId":20
 }
 ###
-
-GET  http://localhost:3000/restaurant/profile
-Content-Type: application/json 
-
-{
-    "restaurantId":1
-}
-###
-GET  http://localhost:3000/customerprofile
-Content-Type: application/json 
-
-{
-    "customerId":1
-}
-###
-GET  http://localhost:3000/customerprofile/getRestaurants
+GET  http://localhost:8081/customerprofile/2
 Content-Type: application/json 
 
 {
     "customerId":2
 }
+###
+GET   http://localhost:8081/customerprofile/getRestaurants/5
+
 
 ###
-GET  http://localhost:3000/customerprofile/searchRestaurants
+GET  http://localhost:8081/customerprofile/searchRestaurant
 Content-Type: application/json 
 
 {
-    "name":"roti"
+    "name":"Naan"
 }
+
+###
+POST  http://localhost:8081/restaurant/profile/1

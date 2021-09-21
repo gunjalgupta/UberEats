@@ -4,7 +4,7 @@ const { sign } = require('jsonwebtoken');
 const Customer = require('../models/customers.js');
 const Restaurant = require('../models/restaurants.js');
 
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
     console.log("In controller", req.body)
     // Validate request
     if (!req.body) {
@@ -14,7 +14,7 @@ exports.create = (req, res) => {
     }
     const password = req.body.pwd;
     var saltRounds = 10;
-    const encryptedPassword = bcrypt.hash(password, saltRounds)
+    const encryptedPassword = await bcrypt.hash(password, 10)
     console.log("Request", req.body)
     // Create a Customer
     const customer = new Customer({
@@ -26,39 +26,54 @@ exports.create = (req, res) => {
     console.log("=======",customer)
     // Save Customer in the database
     Customer.create(customer, (err, data) => {
-      console.log("In create");
       if (err)
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while creating the Customer."
-        });
-      else res.send(data);
+        {
+          if (err.kind === "already exists") {
+            res.status(400).send({
+            message: "Account already exists"}
+            );
+          } else {
+            res.status(500).send({
+              message: "Error retrieving Customer  " 
+            });
+          }
+        }
+      else {res.send(data);}
     });
   };
 //=======================================================
-exports.find = (req,res) => {
+exports.find = async (req,res) => {
   if(!req.body){
       res.status(400).send({
           message: "Enter the values properly...!!!"
       })
   }
   //SELECT Customer
-  Customer.find(req.body.email,  (err, data) => {
-      console.log(req.body.email);
-      console.log(req.body.pwd);
+  Customer.find(req.body.email, async (err, data) => {
+      console.log("emaill",req.body.email);
+      console.log("pwdd",req.body.pwd);
       if(err){
-          console.log(err);
+        if (err.kind === "not register") {
+          res.status(404).send({
+            message: 'Email not found'
+          });
+        } else {
           res.status(500).send({
-              message : err.message
-          })
+            message: "Error retrieving Customer with email " + req.body.email
+          });
+        }
       }
-      if(!data){
-          return res.json({
-              success : 0,
-              message : "Invalid email or password"
-          })
-      }
-      const result = bcrypt.compare(req.body.pwd, data.pwd);
+      // else if(!data){
+      //     return res.json({
+      //         success : 0,
+      //         message : "Invalid email or password"
+      //     })
+      // }
+      if (data)
+      {
+      const result = await bcrypt.compare(req.body.pwd, data.pwd);
+      console.log("result",result);
+      console.log("pwd",data.pwd);
       if(result) {
           const accessToken = sign({ id: data}, "ubereats", {
               expiresIn: 86400 //24 hours
@@ -66,15 +81,19 @@ exports.find = (req,res) => {
           return res.json({
               success: 1,
               message : "login successfull",
-              token: accessToken
+              token: accessToken,
+              name: data.cname,
+              customerId: data.customerId,
+              email: data.email
           })
           
-      } else {
+      } 
+      else {
           return res.json({
               success : 0,
               message: "Invalid email or password"
           })
-      }
+       } }
   })
 }
 //============================================================
@@ -88,16 +107,16 @@ exports.find = (req,res) => {
       });
     }
   
-    Customer.updateById( req.params.customerId, new Customer(req.body),
+    Customer.updateById( req.body.customerId, req.body,
       (err, data) => {
         if (err) {
           if (err.kind === "not_found") {
             res.status(404).send({
-              message: `Not found Customer with id ${req.params.customerId}.`
+              message: `Not found Customer .`
             });
           } else {
             res.status(500).send({
-              message: "Error updating Customer with id " + req.params.customerId
+              message: "Error updating Customer "
             });
           }
         } else res.send(data);
@@ -107,12 +126,12 @@ exports.find = (req,res) => {
 //============================================================================
 
 exports.findProfile =  (req, res) => {
-  if(!req.body){
+  if(!req.params){
     res.status(400).send({
         message: "Enter the values properly...!!!"
     })
   }
-  Customer.get(req.body.customerId,(err, data) => {
+  Customer.findprofile (req.params.customerId,(err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -123,34 +142,34 @@ exports.findProfile =  (req, res) => {
 };
 //==============================================================================
 
-exports.getRestaurants = async (req, res)=>{
-  
-  if(!req.body){
+exports.getRestaurants = (req, res)=>{
+  console.log("in controller");
+  if(!req.params){
     res.status(400).send({
         message: "Enter the values properly...!!!"
     })
   }
-  Customer.getLocation(req.body.customerId, (err, address) => {
-  
+  Customer.getLocation(req.params.customerId, (err, address) => {
+    console.log("id",req.params.customerId);
     if (err)
       res.status(500).send({
         message: err.message || "Some error occurred while retrieving customers."
       });
     else {
-      Restaurant.getAllLocation(err,(err,data)=>{
-        if (err)
-          res.status(500).send({
-            message:
-              err.message || "Some error occurred while retrieving customers."
-          });
-        else {
-          
-          res.send(data);
-        }
-
-      })
+      console.log("addressc1",address);
       if(address.city===null){
-        
+        Restaurant.getAllLocation(err,(err,data)=>{
+          if (err)
+            res.status(500).send({
+              message:
+                err.message || "Some error occurred while retrieving customers."
+            });
+          else {
+            console.log("all",data);
+            res.send(data);
+          }
+  
+        })
       }
       else{
       Restaurant.getLocation(address.city, address.stateId, address.countryId, (err, data) => {
@@ -160,7 +179,7 @@ exports.getRestaurants = async (req, res)=>{
               err.message || "Some error occurred while retrieving customers."
           });
         else {
-          
+          console.log("loc",data);
           res.send(data);
         }
       });
@@ -168,7 +187,25 @@ exports.getRestaurants = async (req, res)=>{
     }
   }
   )
-
-  
-
 }
+
+//====================================================================
+
+exports.findKey = (req, res) =>{
+  console.log(req.body.customerId);
+  Customer.findKey( req.body.customerId, (err,data)=>{
+    if( err){
+      console.log(err);
+      res.status(500).send({
+        message: err.message
+      })
+    }
+    else {
+      res.json({
+        key: data.profilepic
+      })
+    }
+  })
+}
+//=====================================================================
+

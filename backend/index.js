@@ -3,8 +3,8 @@ const cookieParser = require('cookie-parser')
 const cors = require('cors') ;
 const app = express();
 //const Sequelize = require("sequelize");
-const dbconfig = require('./config/dbconfig')
-const initRoutes = require("./routes/image");
+const dbconfig = require('./src/config/dbconfig')
+//const initRoutes = require("./src/routes/image");
 
 //const sequelize = new Sequelize(dbconfig.database, dbconfig.user, dbconfig.password, dbconfig.host, dbconfig.port);
 
@@ -21,18 +21,26 @@ app.use(cors());
 
 // db.images = require("./image.model.js")(sequelize, Sequelize);
 
-// simple route
+// // simple route
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to bezkoder application." });
 });
 
-require("./routes/customerprofile.js")(app);
+require("./src/routes/customerprofile.js")(app);
 
-require("./routes/restaurant.js")(app);
+require("./src/routes/customer.js")(app);
+
+require("./src/routes/restaurant.js")(app);
+
+require("./src/routes/uploadroutes.js")(app);
+
+require("./src/routes/imageRestaurant.js")(app);
+
+require("./src/routes/imageDish.js")(app);
 
 // set port, listen for requests
-app.listen(3000, () => {
-  console.log("Server is running on port 3000.");
+app.listen(8081, () => {
+  console.log("Server is running on port 8081.");
 });
 
 

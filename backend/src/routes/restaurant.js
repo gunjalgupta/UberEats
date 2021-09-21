@@ -5,9 +5,11 @@ module.exports = (app) => {
 
     console.log('In router');
     app.post("/restaurant/register", Restaurant.create);
+
+    app.post("/restaurant/login", Restaurant.find);
   
     // Update a Customer with customerId
-    app.post('/restaurant/updatedetails/:restaurantId', Restaurant.update);
+    app.post('/restaurant/updatedetails/', Restaurant.update);
   
     app.post('/restaurant/updatecontact/:restaurantId', Restaurant.update);
 
@@ -15,9 +17,13 @@ module.exports = (app) => {
 
     app.post('/restaurant/editdish/:dishId',Dish.update);
 
-    app.get('/restaurant/getdish',Dish.find);
+    app.post('/dish/key', Dish.findKey);
 
-    app.get('/restaurant/profile',Restaurant.findProfile);
+    app.post('/restaurant/getdish/:restaurantId',Dish.find);
+
+    app.post('/restaurant/profile/:restaurantId',Restaurant.findProfile);
+
+    app.post("/restaurant/key", Restaurant.findKey);
   };
   
   

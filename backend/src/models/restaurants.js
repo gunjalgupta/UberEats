@@ -1,12 +1,13 @@
 const connection = require('../config/dbconfig');
 
-console.log('In db');
 // constructor
 const Restaurant = function (restaurant) {
-  //this.rname = restaurant.rname;
+  this.rname = restaurant.rname;
   //this.email = restaurant.email;
+  this.restaurantId = restaurant.Id,
   this.pwd = restaurant.pwd;
-  this.timings = restaurant.timings;
+  this.fromTime = restaurant.fromTime,
+  this.toTime = restaurant.toTime,
   //this.city = restaurant.city;
   this.stateId = restaurant.stateId;
   this.countryId = restaurant.countryId;
@@ -17,29 +18,40 @@ const Restaurant = function (restaurant) {
   this.veg = restaurant.veg;
   this.nonVeg = restaurant.nonVeg;
   this.vegan = restaurant.vegan;
-  if(restaurant.rname){
-    this.cname=restaurant.rname.toLowerCase();
-  }
-  if(customer.email){
+  
+  if(restaurant.email){
     this.email=restaurant.email.toLowerCase();
   }
-  if(customer.city){
+  if(restaurant.city){
     this.city=restaurant.city.toLowerCase();
   }
 };
 
-Restaurant.create = (newRestaurant, result) => {
+Restaurant.create = async (newRestaurant, result) => {
   console.log('in model');
-  connection.query('INSERT INTO restaurant SET ?', newRestaurant, (err, res) => {
-    if (err) {
-      console.log('error: ', err);
-      result(err, null);
-      return;
-    }
+  console.log('---', newRestaurant);
+  await connection.query('SELECT * FROM restaurant where email=?',newRestaurant.email,(err,res)=> {
+    console.log("res",res);
+    if (res.length) {
 
-    console.log('Restaurant created: ', { id: res.insertId, ...newRestaurant });
-    result(null, { id: res.insertId, ...newRestaurant });
-  });
+    result({ kind: 'already exists' },{ message:'Email already exists' }, null);
+    
+    }
+    else {
+       connection.query('INSERT INTO restaurant SET ?', newRestaurant, (err, res) => {
+        if (err) {
+          console.log('error: ', err);
+          result(err, null);
+          return;
+        }
+        else {
+          console.log('created restaurant: ', newRestaurant);
+          result(null, { newRestaurant });
+        }
+    }
+  )
+    
+  }});
 };
 //= ========================================================
 
@@ -54,15 +66,16 @@ Restaurant.find = function (email, result) {
       console.log('Login Successfull:', res);
       result(null, res[0]);
     } else {
-      console.log('Restaurant not found', res);
-      result({ kind: 'not register' }, null);
+      result({ kind: 'not register' }, { message:'Email doesnt exists' },null);
     }
   });
 };
+
 //= ==========================================================
 
-Restaurant.get = function (restaurantId , result) {
-  connection.query("SELECT * FROM restaurant where restaurantId= ?", restaurantId, (err, res) => {
+Restaurant.findprofile = function (restaurantId , result) {
+  console.log("res",restaurantId);
+  connection.query("SELECT * FROM restaurant where restaurantId= ? ", restaurantId, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -76,13 +89,13 @@ Restaurant.get = function (restaurantId , result) {
 
 //============================================================
 
-Restaurant.updateById = (restaurantId, restaurant, result) => {
-  console.log('restaurantID', restaurantId);
+Restaurant.updateById = (restaurantId,restaurant, result) => {
+  //console.log('restaurantID', restaurantId);
   console.log("in model restaurant", restaurant);
   connection.query(
-    'UPDATE restaurant SET rname = ?, city=? , stateId=?, countryId=?, email =?, mobileNo=?, timings=?, rdesc=?, pickup=?, delivery =?, veg=?, nonVeg=? , vegan=? WHERE restaurantId = ?',
+    'UPDATE restaurant SET rname = ?, city=? , stateId=?, countryId=?, email =?, mobileNo=?, fromTime=?, toTime =?, rdesc=?, pickup=?, delivery =?, veg=?, nonVeg=? , vegan=? WHERE restaurantId = ?',
     // eslint-disable-next-line max-len
-    [restaurant.rname,  restaurant.city, restaurant.stateId, restaurant.countryId, restaurant.email, restaurant.mobileNo, restaurant.timings, restaurant.rdesc, restaurant.pickup, restaurant.delivery, restaurant.veg, restaurant.nonVeg, restaurant.vegan, restaurantId],
+    [restaurant.values.rname,  restaurant.values.city, restaurant.values.stateId, restaurant.values.countryId, restaurant.values.email, restaurant.values.mobileNo, restaurant.values.fromTime, restaurant.values.toTime, restaurant.values.rdesc, restaurant.values.pickup, restaurant.values.delivery, restaurant.values.veg, restaurant.values.nonVeg, restaurant.values.vegan, restaurantId],
     (err, res) => {
       if (err) {
         console.log('error: ', err);
@@ -97,8 +110,9 @@ Restaurant.updateById = (restaurantId, restaurant, result) => {
         return;
       }
 
-      console.log('updated restaurant: ', { restaurantId, ...restaurant });
-      result(null, { restaurantId, ...restaurant });
+      console.log('updated restaurant: ', { restaurant });
+      console.log('updated restaurant: ', { res });
+      result(null, restaurant );
     },
   );
 };
@@ -119,6 +133,7 @@ Restaurant.getLocation = function (city, stateId, countryId , result) {
   });
 };
 
+//================================================================
 Restaurant.getAllLocation = function (err, result) {
   
   connection.query("SELECT * FROM restaurant", (err, res) => {
@@ -132,5 +147,39 @@ Restaurant.getAllLocation = function (err, result) {
     result(null, res);
   });
 };
+
+//==================================================================
+
+Restaurant.findKey = function (restaurantId, result){
+  console.log("in key",restaurantId);
+  connection.query ("SELECT profilepic FROM restaurant WHERE restaurantId= ?",restaurantId, (err, res) =>{
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    else{
+      console.log("result", res[0]);
+      result(null, res[0]);
+    }
+  })
+}
+
+//===================================================================
+
+Restaurant.addpicture = function (restaurantId, key, result) {
+  console.log("model",key);
+  connection.query(" UPDATE restaurant SET profilepic =? WHERE restaurantId = ?",[key,restaurantId], (err,res) =>{
+    if(err){
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    else {
+      console.log("result", res);
+      result(null,res);
+    }
+  })
+}
 
 module.exports = Restaurant;

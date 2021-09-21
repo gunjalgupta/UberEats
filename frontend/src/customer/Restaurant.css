@@ -1,0 +1,10 @@
+.card_res {
+    display: flex;
+    flex-direction: column;
+    margin: 25px;
+    background-color: #0066cc;
+}
+
+.cardd_res {
+    background-color: #0066cc;
+}

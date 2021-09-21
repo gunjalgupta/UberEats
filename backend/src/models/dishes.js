@@ -33,7 +33,7 @@ Dish.create = (newDish, result) => {
 
 Dish.find = function (restaurantId, result) {
   
-  connection.query('SELECT * FROM dish WHERE restaurantId = ?', restaurantId, (err, res) => {
+  connection.query('SELECT d.dishId, d.dname, d.ingredients, d.ddesc, d.restaurantId, d.cuisineId, c.cuisineName, d.veg, d.nonVeg, d.vegan, d.categoryId, d.Price FROM dish d join cuisine c ON d.cuisineId = c.cuisineId WHERE restaurantId = ?' , restaurantId, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -103,6 +103,40 @@ Dish.getRId = function (cuisineId, result) {
   
   });
 };
+
+//====================================================================
+
+Dish.findKey = function (dishId, result){
+  console.log("in key",dishId);
+  connection.query ("SELECT profilepic FROM dish WHERE dishId= ?",dishId, (err, res) =>{
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    else{
+      console.log("result", res[0]);
+      result(null, res[0]);
+    }
+  })
+}
+
+//===================================================================
+
+Dish.addpicture = function (dishId, key, result) {
+  console.log("model",key);
+  connection.query(" UPDATE dish SET profilepic =? WHERE dishId = ?",[key,dishId], (err,res) =>{
+    if(err){
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    else {
+      console.log("result", res);
+      result(null,res);
+    }
+  })
+}
 
 module.exports = Dish;
 

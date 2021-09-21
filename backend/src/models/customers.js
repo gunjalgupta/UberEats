@@ -3,18 +3,17 @@ const connection = require('../config/dbconfig');
 
 //constructor
 const Customer = function (customer) {
-  //this.cname = customer.cname;
-  //this.email = customer.email;
   this.pwd = customer.pwd;
   this.DOB = customer.DOB;
-  //this.city = customer.city;
   this.stateId = customer.stateId;
   this.countryId = customer.countryId;
   this.nickname = customer.nickname;
   this.mobileNo = customer.mobileNo;
+  this.about= customer.about;
   if(customer.cname){
     this.cname=customer.cname.toLowerCase();
-  }
+  }else
+  this.cname=customer.cname
   if(customer.email){
     this.email=customer.email.toLowerCase();
   }
@@ -31,19 +30,31 @@ const Customer = function (customer) {
 // if(Customer.city){
 //   Customer.city=Customer.city.toLowerCase();
 // }
-Customer.create = (newCustomer, result) => {
+Customer.create = async (newCustomer, result) => {
   console.log('in model');
   console.log('---', newCustomer);
-  connection.query('INSERT INTO customer SET ?', newCustomer, (err, res) => {
-    if (err) {
-      console.log('error: ', err);
-      result(err, null);
-      return;
-    }
+  await connection.query('SELECT * FROM customer where email=?',newCustomer.email,(err,res)=> {
+    console.log("res",res);
+    if (res.length) {
 
-    console.log('created customer: ', { id: res.insertId, ...newCustomer });
-    result(null, { id: res.insertId, ...newCustomer });
-  });
+    result({ kind: 'already exists' },{ message:'Email already exists' }, null);
+    
+    }
+    else {
+       connection.query('INSERT INTO customer SET ?', newCustomer, (err, res) => {
+        if (err) {
+          console.log('error: ', err);
+          result(err, null);
+          return;
+        }
+        else {
+          console.log('created customer: ');
+          result(null, { newCustomer });
+        }
+    }
+  )
+    
+  }});
 };
 //= ========================================================
 
@@ -55,11 +66,11 @@ Customer.find = function (email, result) {
       result(err, null);
     }
     if (res.length) {
-      console.log('Login Successfull:', res);
+      console.log('Login Successfull:', res[0][0]);
       result(null, res[0]);
     } else {
-      console.log('db mein kuch hai hi nai', res);
-      result({ kind: 'not register' }, null);
+      console.log(res)
+      result({ kind: 'not register' }, { message:'Email doesnt exists' },null);
     }
   });
 };
@@ -68,9 +79,9 @@ Customer.find = function (email, result) {
 Customer.updateById = (customerId, customer, result) => {
   console.log('customerID', customerId);
   connection.query(
-    'UPDATE customer SET cname = ?, DOB = ? , city=? , stateId=?, countryId=?, nickname=?, email =?, mobileNo=? WHERE customerId = ?',
+    'UPDATE customer SET cname = ?, DOB = ? , city=? , stateId=?, countryId=?, nickname=?, email =?, mobileNo=?, about= ? WHERE customerId = ?',
     // eslint-disable-next-line max-len
-    [customer.cname, customer.DOB, customer.city, customer.stateId, customer.countryId, customer.nickname, customer.email, customer.mobileNo, customerId],
+    [customer.values.cname, customer.values.DOB, customer.values.city, customer.values.stateId, customer.values.countryId, customer.values.nickname, customer.values.email, customer.values.mobileNo, customer.values.about ,customerId],
     (err, res) => {
       if (err) {
         console.log('error: ', err);
@@ -93,7 +104,7 @@ Customer.updateById = (customerId, customer, result) => {
 
 //====================================================================
 
-Customer.get = function (customerId , result) {
+Customer.findprofile = function (customerId , result) {
   connection.query('SELECT * FROM customer where customerId= ?', customerId, (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -118,6 +129,39 @@ Customer.getLocation = function (customerId, address){
     address(null, res[0]);
   });
    
+}
+//====================================================================
+
+Customer.findKey = function (customerId, result){
+  console.log("in key",customerId);
+  connection.query ("SELECT profilepic FROM customer WHERE customerId= ?",customerId, (err, res) =>{
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    else{
+      console.log("result", res[0]);
+      result(null, res[0]);
+    }
+  })
+}
+
+//===================================================================
+
+Customer.addpicture = function (customerId, key, result) {
+  console.log("model",key);
+  connection.query(" UPDATE customer SET profilepic =? WHERE customerId = ?",[key,customerId], (err,res) =>{
+    if(err){
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    else {
+      console.log("result", res);
+      result(null,res);
+    }
+  })
 }
 
 module.exports = Customer;
