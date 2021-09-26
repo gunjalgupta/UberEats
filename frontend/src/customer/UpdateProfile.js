@@ -73,18 +73,20 @@ const UpdateProfile = () => {
 
 return (customerData.email?
    
-    <div className="update"> 
+    
                     <section className="section" id="about">
                 <div className="update" >
                    
                     <div className="header__upper">
                 <div className="header__upperheader"  style={{backgroundColor:headbg,boxShadow:shadow}}   >
+                 
                   <div className="header__upperheaderleft">
-                    
+                  <Link to = "/chome">
                      <img
                          src="https://d3i4yxtzktqr9n.cloudfront.net/web-eats-v2/ee037401cb5d31b23cf780808ee4ec1f.svg "
-                          alt="uber eats" />
+                          alt="uber eats" />  </Link>
                  </div>
+                
                  {/* <div className="header__upperheadercenter"   >
                  
                     <input type="text" placeholder="What are you craving? " />
@@ -118,7 +120,7 @@ return (customerData.email?
                                 stateId: customerData.stateId,
                                 countryId: customerData.countryId,
                                 
-                                DOB: dob,
+                                DOB: customerData.DOB?customerData.DOB.substr(0,20):null,
                                 nickname: customerData.nickname,
                                 about: customerData.about,
                                 
@@ -158,7 +160,7 @@ return (customerData.email?
                                     }).catch(err => {
                                         console.log(err)
                                     })
-                                history.push('/customerDashboard')
+                                history.push('/chome')
                             }}>
                             {({
                                 errors,
@@ -227,10 +229,10 @@ return (customerData.email?
 }
                     </div>
                 </div>
-            </section>
+            </section>:<h1></h1> 
         
 
-    </div>:<h1></h1> 
+
     // <form onSubmit={submit}>
     //   <input
     //     type="text"

@@ -1,6 +1,5 @@
 const connection = require('../config/dbconfig');
 
-console.log('In db');
 // constructor
 const Dish = function (dish) {
   this.dname = dish.dname;
@@ -13,6 +12,7 @@ const Dish = function (dish) {
   this.vegan = dish.vegan;
   this.categoryId = dish.categoryId;
   this.price= dish.price;
+  this.profilepic= dish.profilepic;
 };
 
 Dish.create = (newDish, result) => {
@@ -32,8 +32,8 @@ Dish.create = (newDish, result) => {
 //= ========================================================
 
 Dish.find = function (restaurantId, result) {
-  
-  connection.query('SELECT d.dishId, d.dname, d.ingredients, d.ddesc, d.restaurantId, d.cuisineId, c.cuisineName, d.veg, d.nonVeg, d.vegan, d.categoryId, d.Price FROM dish d join cuisine c ON d.cuisineId = c.cuisineId WHERE restaurantId = ?' , restaurantId, (err, res) => {
+  console.log("in find",restaurantId)
+  connection.query('SELECT d.dishId, d.dname, d.ingredients, d.ddesc, d.restaurantId, d.cuisineId, c.cuisineName, d.veg, d.nonVeg, d.vegan, d.categoryId, d.Price, d.profilepic FROM dish d join cuisine c ON d.cuisineId = c.cuisineId WHERE restaurantId = ?' , restaurantId, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -104,6 +104,23 @@ Dish.getRId = function (cuisineId, result) {
   });
 };
 
+//====================================================
+
+Dish.getId = function (dishId, result) {
+  
+  connection.query('SELECT * FROM dish WHERE dishId = ?', dishId, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("ID: ", res);
+    result(null, res);
+  
+  });
+};
+
 //====================================================================
 
 Dish.findKey = function (dishId, result){
@@ -136,6 +153,23 @@ Dish.addpicture = function (dishId, key, result) {
       result(null,res);
     }
   })
+}
+//==========================================================================
+
+Dish.deletedish = function (dishId, result) {
+  console.log("dishId", dishId);
+  connection.query(" DELETE FROM dish WHERE dishId = ?", dishId , (err,res) => {
+    if(err){
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    else {
+      console.log("result", res);
+      result(null,res);
+    }
+  })
+
 }
 
 module.exports = Dish;

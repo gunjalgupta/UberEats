@@ -15,9 +15,10 @@ const Restaurant = function (restaurant) {
   this.mobileNo = restaurant.mobileNo;
   this.pickup = restaurant.pickup;
   this.delivery = restaurant.delivery;
-  this.veg = restaurant.veg;
+  this.veg = restaurant.veg;s
   this.nonVeg = restaurant.nonVeg;
   this.vegan = restaurant.vegan;
+  this.profilepic = restaurant.profilepic;
   
   if(restaurant.email){
     this.email=restaurant.email.toLowerCase();
@@ -81,8 +82,10 @@ Restaurant.findprofile = function (restaurantId , result) {
       result(null, err);
       return;
     }
+    console.log("data",res[0]);
     
-    result(null, res);
+    result(null, res[0]);
+   
     
   });
 };

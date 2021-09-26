@@ -10,7 +10,7 @@ module.exports = app => {
     const {uploadFile, getFileStream} = require('../controllers/s3.js')
     const { checkToken } = require('../middleware/auth.js')
     
-    app.get('/restaurant/key/:key', (req, res) => {
+    app.get('/images/key/:key', (req, res) => {
       console.log("++++++",req.params)
       const key = req.params.key
       const readStream = getFileStream(key)

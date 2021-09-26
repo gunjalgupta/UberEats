@@ -24,6 +24,19 @@ module.exports = (app) => {
     app.post('/restaurant/profile/:restaurantId',Restaurant.findProfile);
 
     app.post("/restaurant/key", Restaurant.findKey);
+
+    app.post("/restaurant/getd/:dishId", Dish.getid);
+
+    app.post('/restaurant/deletedish/:dishId', Dish.deletedish);
+
+    app.post("/customer/addfav", Restaurant.addfav);
+
+    app.post("/customer/deletefav/", Restaurant.deletefav);
+
+    app.post("/customer/showfav/:customerId", Restaurant.showfav);
+
+    app.post("/customer/checkfav", Restaurant.checkfav);
+
   };
   
   

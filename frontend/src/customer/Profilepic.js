@@ -11,7 +11,7 @@ async function postImages({image,customerId}){
         headers: {'Content-Type': 'multipart/form-data'}
     })
     console.log("result", result)
-    localStorage.setItem('key', result.data.key);
+    localStorage.setItem('cuspkey', result.data.key);
     return result.data;
 }
 

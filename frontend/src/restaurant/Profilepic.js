@@ -11,7 +11,7 @@ async function postImages({image,restaurantId}){
         headers: {'Content-Type': 'multipart/form-data'}
     })
     console.log("result", result)
-    localStorage.setItem('key', result.data.key);
+    localStorage.setItem('respkey', result.data.key);
     return result.data;
 }
 

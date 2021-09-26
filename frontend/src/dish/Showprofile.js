@@ -10,7 +10,8 @@ const Showprofile = () => {
         const getkey = async () => {
             try{
                 const resId = {
-                    restaurantId : JSON.parse(localStorage.getItem("dish")).dishId
+                     dishId: JSON.parse(localStorage.getItem("dishId"))
+                     
                 }
                 const res = await axios.post("http://localhost:8081/dish/key", resId)
                 console.log("------",res)

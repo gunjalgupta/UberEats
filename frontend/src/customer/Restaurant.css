@@ -2,9 +2,9 @@
     display: flex;
     flex-direction: column;
     margin: 25px;
-    background-color: #0066cc;
+    margin-top: 300;
 }
 
-.cardd_res {
-    background-color: #0066cc;
+.cardd_res{
+    margin-top: 300;
 }

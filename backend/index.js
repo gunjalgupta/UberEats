@@ -38,6 +38,8 @@ require("./src/routes/imageRestaurant.js")(app);
 
 require("./src/routes/imageDish.js")(app);
 
+require("./src/routes/order.js")(app);
+
 // set port, listen for requests
 app.listen(8081, () => {
   console.log("Server is running on port 8081.");

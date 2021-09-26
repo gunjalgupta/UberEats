@@ -12,6 +12,9 @@ import CProfile from './customer/UpdateProfile';
 import CHome from "./customer/Home";
 import RHome from "./restaurant/Home";
 import Resprofile  from './restaurant/Resprofile';
+import Adddish from './dish/Adddish'
+import Editdish from './dish/Editdish'
+import Favorite from './customer/Favourite';
 //import Details from './customer/Details'
 //import Profilepic from './customer/Profilepic';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -34,7 +37,7 @@ function App() {
          <Route path='/rregister'>
             <RRegister/>
           </Route>
-          <Route path = '/resprofile'>
+          <Route exact path = '/resprofile/:restaurantId'>
             <Resprofile />
             </Route>
           <Route path='/rprofile/'>
@@ -48,6 +51,15 @@ function App() {
           </Route>
           <Route path='/rhome/'>
             <RHome/>
+          </Route>
+          <Route path='/adddish/'>
+            <Adddish/>
+          </Route>
+          <Route exact path='/editdish/:dishId'>
+            <Editdish/>
+          </Route>
+          <Route path='/favourite/'>
+            <Favorite/>
           </Route>
 
     <Route path= "/">

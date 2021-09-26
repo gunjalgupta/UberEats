@@ -153,7 +153,7 @@ exports.getRestaurants = (req, res)=>{
     console.log("id",req.params.customerId);
     if (err)
       res.status(500).send({
-        message: err.message || "Some error occurred while retrieving customers."
+        message: err.message || "Some error occurred while retrieving restaurant."
       });
     else {
       console.log("addressc1",address);
@@ -162,7 +162,7 @@ exports.getRestaurants = (req, res)=>{
           if (err)
             res.status(500).send({
               message:
-                err.message || "Some error occurred while retrieving customers."
+                err.message || "No restaurant found at your location."
             });
           else {
             console.log("all",data);

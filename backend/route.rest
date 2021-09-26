@@ -12,7 +12,7 @@ POST http://localhost:8081/customer/login
 Content-Type: application/json 
 
 {
-    "email":"hELI@gmail.com",
+    "email":"gunjal@gmail.com",
     "pwd":"1234"
 }
 
@@ -85,16 +85,16 @@ POST http://localhost:8081/restaurant/adddish
 Content-Type: application/json 
 
 {
-    "dname" :"Buttermilk",
-    "ingredients" : "Yogurt, spices",
-    "ddesc" : "Fermented dairy drink made with yogurt",
+    "dname" :"Lemonade",
+    "ingredients" : "Lime, spices",
+    "ddesc" : "",
     "restaurantId" : 1,
     "cuisineId" : 2,
     "veg" : true,
     "nonVeg" : false,
     "vegan" : true,
     "categoryId" : 5,
-    "price" : 10
+    "price" : 5
 }
 ###
 POST http://localhost:8081/restaurant/editdish/1
@@ -110,18 +110,18 @@ Content-Type: application/json
     "nonVeg" : false,
     "vegan" : true,
     "categoryId" : 1,
-    "price" : 15
+    "price" : 10
 }
 ###
 POST  http://localhost:8081/restaurant/getdish/1
 
 ###
 
-GET  http://localhost:8081/restaurant/profile/20
+POST  http://localhost:8081/restaurant/profile/5
 Content-Type: application/json 
 
 {
-    "restaurantId":20
+    "restaurantId":55
 }
 ###
 GET  http://localhost:8081/customerprofile/2
@@ -135,12 +135,73 @@ GET   http://localhost:8081/customerprofile/getRestaurants/5
 
 
 ###
-GET  http://localhost:8081/customerprofile/searchRestaurant
+POST  http://localhost:8081/customerprofile/searchRestaurant
 Content-Type: application/json 
 
 {
-    "name":"Naan"
+    "name":""
 }
 
 ###
 POST  http://localhost:8081/restaurant/profile/1
+###
+POST http://localhost:8081/restaurant/deletedish/11
+###
+
+POST  http://localhost:8081/restaurant/getd/12
+
+###
+POST  http://localhost:8081/order/addorder
+Content-Type: application/json 
+
+{
+    "resId":1,
+    "cusId": 5,
+    "ostatus":"placed",
+    "total":30,
+    "invoiceId":"sfv"
+}
+###
+POST  http://localhost:8081/order/adddetails
+Content-Type: application/x-www-form-urlencoded  
+
+
+    [
+{
+    "invoiceId":"sfv",
+    "dishId": 13,
+    "quantity":3,
+    "price":3,
+    "total":9
+},
+{
+    "invoiceId":"sfv",
+    "dishId": 14,
+    "quantity":5,
+    "price":5,
+    "total":25
+},
+{
+    "invoiceId":1,
+    "dishId": 12,
+    "quantity":5,
+    "price":3,
+    "total":15
+}
+    ]
+###
+POST  http://localhost:8081/customer/showfav/5
+Content-Type: application/json 
+
+{
+    "restaurantId":2,
+    "customerId": 5  
+}
+###
+POST  http://localhost:8081/customer/checkfav
+Content-Type: application/json 
+
+{
+    "restaurantId":6,
+    "customerId": 5  
+}

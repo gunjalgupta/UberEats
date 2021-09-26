@@ -238,7 +238,7 @@ exports.searchRestaurant = (req, res)=>{
   }
   else{
     console.log(req.body)
-    connection.query('SELECT restaurant.restaurantId, restaurant.rname, restaurant.pwd, restaurant.mobileNo, restaurant.city, restaurant.stateId, restaurant.countryId, restaurant.fromTime, restaurant.toTime, restaurant.rdesc, restaurant.pickup,restaurant.delivery, restaurant.veg, restaurant.nonVeg, restaurant.vegan FROM restaurant JOIN dish ON dish.restaurantId = restaurant.restaurantId WHERE dish.dname = ? UNION SELECT restaurant.restaurantId, restaurant.rname, restaurant.pwd, restaurant.mobileNo, restaurant.city, restaurant.stateId, restaurant.countryId, restaurant.fromTime, restaurant.toTime, restaurant.rdesc, restaurant.pickup, restaurant.delivery, restaurant.veg, restaurant.nonVeg, restaurant.vegan FROM restaurant JOIN dish ON dish.restaurantId = restaurant.restaurantId WHERE dish.cuisineId = (SELECT cuisineId from cuisine where cuisine.cuisineName=?) UNION SELECT restaurant.restaurantId, restaurant.rname, restaurant.pwd, restaurant.mobileNo, restaurant.city, restaurant.stateId, restaurant.countryId, restaurant.fromTime, restaurant.toTime, restaurant.rdesc, restaurant.pickup, restaurant.delivery, restaurant.veg, restaurant.nonVeg, restaurant.vegan FROM restaurant WHERE (restaurant.city = ? or restaurant.stateId= ? or restaurant.countryId= ?);', [req.body.name, req.body.name, req.body.name, req.body.name, req.body.name], (err,response) =>{
+    connection.query('SELECT restaurant.restaurantId, restaurant.rname, restaurant.pwd, restaurant.mobileNo, restaurant.city, restaurant.stateId, restaurant.countryId, restaurant.fromTime, restaurant.toTime, restaurant.rdesc, restaurant.pickup,restaurant.delivery, restaurant.veg, restaurant.nonVeg, restaurant.vegan, restaurant.profilepic FROM restaurant JOIN dish ON dish.restaurantId = restaurant.restaurantId WHERE dish.dname = ? UNION SELECT restaurant.restaurantId, restaurant.rname, restaurant.pwd, restaurant.mobileNo, restaurant.city, restaurant.stateId, restaurant.countryId, restaurant.fromTime, restaurant.toTime, restaurant.rdesc, restaurant.pickup, restaurant.delivery, restaurant.veg, restaurant.nonVeg, restaurant.vegan , restaurant.profilepic FROM restaurant JOIN dish ON dish.restaurantId = restaurant.restaurantId WHERE dish.cuisineId = (SELECT cuisineId from cuisine where cuisine.cuisineName=?) UNION SELECT restaurant.restaurantId, restaurant.rname, restaurant.pwd, restaurant.mobileNo, restaurant.city, restaurant.stateId, restaurant.countryId, restaurant.fromTime, restaurant.toTime, restaurant.rdesc, restaurant.pickup, restaurant.delivery, restaurant.veg, restaurant.nonVeg, restaurant.vegan, restaurant.profilepic FROM restaurant WHERE (restaurant.city = ? or restaurant.stateId= ? or restaurant.countryId= ?);', [req.body.name, req.body.name, req.body.name, req.body.name, req.body.name], (err,response) =>{
       console.log(err)
       console.log(response)
       if(err){
@@ -247,6 +247,11 @@ exports.searchRestaurant = (req, res)=>{
           err.message || "Some error occurred while retrieving customers."
         })
         }
+      else if(response===null){
+        connection.query('SELECT * FROM restaurant',(err,response)=>{
+          res.send(response);
+        })
+      }
       else{
         res.send(response);
       }
@@ -269,6 +274,69 @@ exports.findKey = (req, res) =>{
       res.json({
         key: data.profilepic
       })
+    }
+  })
+}
+//========================================================
+exports.addfav =(req,res)=>{
+  connection.query('INSERT INTO favourites (restaurantId, customerId) VALUES (?,?)', [req.body.restaurantId,req.body.customerId], (err,data)=>{
+    if( err){
+      console.log(err);
+      res.status(500).send({
+        message: err.message
+      })
+    }
+    else {
+      res.send(data);
+    }
+  })
+}
+//=====================================================
+
+exports.deletefav =(req,res)=>{
+  connection.query('DELETE FROM favourites WHERE restaurantId= ? and customerId=?',[req.body.restaurantId,req.body.customerId], (err,data)=>{
+    if( err){
+      console.log(err);
+      res.status(500).send({
+        message: err.message
+      })
+    }
+    else {
+      res.send(data);
+    }
+  })
+}
+
+//=================================================
+exports.showfav =(req,res)=>{
+  connection.query('SELECT restaurant.* FROM favourites JOIN restaurant ON favourites.restaurantId = restaurant.restaurantId WHERE customerId= ?', req.params.customerId, (err,data)=>{
+    if( err){
+      console.log(err);
+      res.status(500).send({
+        message: err.message
+      })
+    }
+    else {
+      res.send(data);
+    }
+  })
+}
+//========================================================
+exports.checkfav =(req,res)=>{
+  console.log(req.body);
+  connection.query('SELECT * FROM UberEats.favourites WHERE customerId= ? and restaurantId=?', [req.body.customerId, req.body.restaurantId],(err,data)=>{
+    if( err){
+      console.log(err);
+      res.status(500).send({
+        message: err.message
+      })
+    }
+    else if(data.length ===0){
+      res.send("failed");
+    }
+    else {
+      console.log(data.length)
+      res.send("success");
     }
   })
 }

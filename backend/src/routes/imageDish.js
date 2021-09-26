@@ -28,7 +28,7 @@ module.exports = app => {
         const key = result.Key
         const dishId = req.body.dishId
         console.log("key dishId", dishId,key)
-        Restaurant.addpicture(req.body.dishId, result.Key, (err,data) => {
+        Dish.addpicture(req.body.dishId, result.Key, (err,data) => {
           if(err) {
             res.status(500).send({
               message : err.message

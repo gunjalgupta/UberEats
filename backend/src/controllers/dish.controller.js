@@ -95,7 +95,7 @@ exports.find = (req,res) => {
   //====================================================================
 
 exports.findKey = (req, res) =>{
-  console.log(req.body.dishId);
+  console.log("controller",req.body.dishId);
   Dish.findKey( req.body.dishId, (err,data)=>{
     if( err){
       console.log(err);
@@ -107,6 +107,38 @@ exports.findKey = (req, res) =>{
       res.json({
         key: data.profilepic
       })
+    }
+  })
+}
+
+//================================================================
+
+exports.deletedish = (req,res) =>{
+  Dish.deletedish(req.params.dishId, (err,data) =>{
+    if( err){
+      console.log(err);
+      res.status(500).send({
+        message: err.message
+      })
+    }
+    else {
+      res.send(data);
+    }
+  })
+}
+
+//===========================================================
+
+exports.getid = (req, res) =>{
+  Dish.getId(req.params.dishId, (err,data)=>{
+    if( err){
+      console.log(err);
+      res.status(500).send({
+        message: err.message
+      })
+    }
+    else {
+      res.send(data);
     }
   })
 }

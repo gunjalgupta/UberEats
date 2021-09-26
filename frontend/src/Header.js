@@ -3,6 +3,7 @@
 import React,{useState} from "react";
 import "./Header.css";
 import { Menu, LocationOn,WatchLater,ArrowDownward } from "@mui/icons-material";
+import { useHistory, Link } from 'react-router-dom';
 
 function Header() {
    
@@ -20,7 +21,7 @@ function Header() {
     }
     else{
       setheadbg('transparent');
-      setshadow('none');
+      setshadow('none');  
       setinputdisplay(0);
 
 
@@ -58,10 +59,10 @@ function Header() {
               <LocationOn />
               <input type="text" placeholder="Enter delivery address" />
             </div>
-
+            <Link to= "/clogin">
             <div className="header__upperheaderright">
-              <p> Sign in </p>
-            </div>
+               <p>Sign in </p>
+            </div></Link>
           </div>
         </div>
         <div className="header__center">

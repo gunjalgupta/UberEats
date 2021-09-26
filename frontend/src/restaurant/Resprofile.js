@@ -1,7 +1,19 @@
-import React, { useEffect } from 'react' ;
-import Dishes from '../components/Dishes'
-import { BrowserRouter as Router, useHistory } from 'react-router-dom'
+import React, { useEffect,useState } from 'react' ;
+import Restaurantpic from '../components/Restaurantpic'
+import { BrowserRouter as Router, useParams ,useHistory } from 'react-router-dom'
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import M from 'materialize-css';
+import Dish from '../components/Dishes'
+import { Menu, LocationOn,WatchLater,ArrowDownward } from "@mui/icons-material";
+import Showprofile from './Showprofile';
+import './Resprofile.css'
+import Modal from '@mui/material/Modal';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import { experimentalStyled as styled } from '@mui/material/styles';
+import Grid from '@mui/material/Grid';
 
 
 function Resprofile() {
@@ -9,16 +21,44 @@ function Resprofile() {
     const history = useHistory()
     const [restaurant, setRestaurant] = React.useState([])
     const [dishes, setDishes] = React.useState([])
+    const [image, setImage] = useState([])
+    const [headbg,setheadbg]=useState('transparent');
+    const [shadow,setshadow]=useState('none');
+    const [inputdisplay,setinputdisplay]=useState(0);
+
+  window.addEventListener('scroll',()=>{
+    if(window.scrollY>=50){
+      setheadbg('#FFFFFF');
+      setshadow('rgb(226 226 226) 0px -2px 0px inset');
+      setinputdisplay(1);
+
+    }
+    else{
+      setheadbg('transparent');
+      setshadow('none');
+      setinputdisplay(0);
+
+
+    }
+  })
+  const Item = styled(Paper)(({ theme }) => ({
+    ...theme.typography.body2,
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  }));
+
+  const { restaurantId } = useParams(); 
 
     useEffect(()=>{
-
+        console.log(restaurantId)
         getRestaurant()
         getDishes()
     }, []);
 
     const getRestaurant = async () =>{
         //const customerId =  JSON.parse(localStorage.getItem("customer")).customerId;
-        const restaurantId =1
+        
         await axios.post(`http://localhost:8081/restaurant/profile/${restaurantId}`,{})
         .then(responseData => {
             console.log("res",responseData);
@@ -40,7 +80,7 @@ function Resprofile() {
 
     const getDishes = async () =>{
         //const customerId =  JSON.parse(localStorage.getItem("customer")).customerId;
-        const restaurantId =1
+       
         await axios.post(`http://localhost:8081/restaurant/getdish/${restaurantId}`,{})
         .then(responseData => {
             console.log("res",responseData);
@@ -50,20 +90,69 @@ function Resprofile() {
             }
             else {
                     //setcustomerData(responseData.data)
-                    //setRestaurant(responseData.data)
+                    setDishes(responseData.data)
                     console.log(" dishes",responseData.data)
+                    
                     //console.log("resss ",customerData);
-                    localStorage.setItem('restaurant', JSON.stringify(responseData.data));
+                    //localStorage.setItem('dish', JSON.stringify(responseData.data));
                 
             }
         })
 
     }
-    return (
+    return (restaurant?
         <div>
-            {/* <Dishes key={} dname={} des={} ing={} price={} imageKey={} /> */}
+              <div className="header__upper">
+           <div className="header__upperheader"  style={{backgroundColor:headbg,boxShadow:shadow}}   >
+             <div className="header__upperheaderleft">
+                <Menu />
+                <img
+                    src="https://d3i4yxtzktqr9n.cloudfront.net/web-eats-v2/ee037401cb5d31b23cf780808ee4ec1f.svg "
+                     alt="uber eats" />
+            </div>
+            {/* <div className="header__upperheadercenter"   >
+               <LocationOn />
+               <input type="text" placeholder="What are you craving? " />
+            </div> */}
+
+            <div className="header__upperheaderright">
+                 <p> Sign out </p>
+            </div>
+           </div>
         </div>
+        <br />
+        <br />
+        <br />
+        <br />
+
+        <div>
+            <Restaurantpic imgKey={restaurant.profilepic} />
+            
+            </div>
+
+            <div className = 'dish_home'>
+                
+
+        <Box sx={{ flexGrow: 1 }}>
+                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                    {
+                    dishes.map(dish =>(
+                
+                         <Grid item xs={2} sm={4} md={4} key={dish.dishId}>
+                    <Item>
+                        <Dish id={dish.dishId} dname={dish.dname} des={dish.ddesc} ing={dish.ingredients} price={dish.Price} imageKey={dish.profilepic} />
+                    </Item>
+                </Grid>
+                        ))
+                    }
+                </Grid>
+                </Box>
+            </div>
+           
+        </div>:<h1></h1>
     )
 }
 
 export default Resprofile;
+
+

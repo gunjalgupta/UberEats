@@ -1,15 +1,23 @@
-.res_home {
-    display: flex;
-    flex-direction: row;
+.dishcard{
+    clear: both;
 }
+.root {
+    max-width: 345;
+    margin: "3rem";    
+    
+  }
 
-.App {
+.media {
+    height: 140;
+  }
+
+  .App {
     text-align: center;
     padding-top: 2rem;
   }
   
   .modal-overlay {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     z-index: 1040;
