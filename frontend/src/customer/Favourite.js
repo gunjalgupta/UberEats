@@ -47,7 +47,7 @@ const Favourite= function (){
             }
         })
        
-    }, []);
+    }, [restaurants]);
 
     
     return(

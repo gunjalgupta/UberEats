@@ -85,7 +85,7 @@ POST http://localhost:8081/restaurant/adddish
 Content-Type: application/json 
 
 {
-    "dname" :"Lemonade",
+    "dname" :"fries",
     "ingredients" : "Lime, spices",
     "ddesc" : "",
     "restaurantId" : 1,
@@ -97,9 +97,11 @@ Content-Type: application/json
     "price" : 5
 }
 ###
-POST http://localhost:8081/restaurant/editdish/1
+POST http://localhost:8081/restaurant/editdish/18
 Content-Type: application/json 
 
+{
+    "values":
 {
     "dname" : "Paneer tikka",
     "ingredients" : "Cottage cheese",
@@ -112,8 +114,9 @@ Content-Type: application/json
     "categoryId" : 1,
     "price" : 10
 }
+}
 ###
-POST  http://localhost:8081/restaurant/getdish/1
+POST  http://localhost:8081/restaurant/getdish/5
 
 ###
 
@@ -203,5 +206,12 @@ Content-Type: application/json
 
 {
     "restaurantId":6,
+    "customerId": 5  
+}
+###
+POST http://localhost:8081/order/getcusdetail
+Content-Type: application/json 
+
+{
     "customerId": 5  
 }

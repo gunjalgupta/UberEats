@@ -13,13 +13,17 @@ import './Home.css'
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import { experimentalStyled as styled } from '@mui/material/styles';
+import { useDispatch } from "react-redux";
+import { logoutRestaurant } from "../actions/resActions";
+
 
 const Home =()=>{
 
     const history = useHistory()
+    const dispatch = useDispatch()
     const [customerData, setcustomerData] = useState([])
-    const [restaurant, setRestaurant] = React.useState([])
-    const [dishes, setDishes] = React.useState([])
+    const [restaurant, setRestaurant] = useState([])
+    const [dishes, setDishes] = useState([])
     const [image, setImage] = useState([])
     const [headbg,setheadbg]=useState('transparent');
   const [shadow,setshadow]=useState('none');
@@ -54,9 +58,14 @@ const Home =()=>{
        
     }, []);
 
+    function signout(){
+      dispatch(logoutRestaurant());
+      localStorage.setItem("restaurant",null);
+      history.push("/")
+    }
     const getDishes = async () =>{
-      //const customerId =  JSON.parse(localStorage.getItem("customer")).customerId;
-      const restaurantId =1
+      const restaurantId =  JSON.parse(localStorage.getItem("restaurant")).restaurantId;
+      //const restaurantId =1
       await axios.post(`http://localhost:8081/restaurant/getdish/${restaurantId}`,{})
       .then(responseData => {
           if (responseData.data.error) {
@@ -64,9 +73,9 @@ const Home =()=>{
              // M.toast({ html: responseData.data.error, classes: "#c62828 red darken-3" })
           }
           else {
+            console.log(" dishes",responseData.data)
                   //setcustomerData(responseData.data)
                   setDishes(responseData.data)
-                  console.log(" dishes",responseData.data)
                   
                   //console.log("resss ",customerData);
                   //localStorage.setItem('dish', JSON.stringify(responseData.data));
@@ -76,8 +85,8 @@ const Home =()=>{
 
   }
   const getRestaurant = async () =>{
-    //const customerId =  JSON.parse(localStorage.getItem("customer")).customerId;
-    const restaurantId =1
+    const restaurantId =  JSON.parse(localStorage.getItem("restaurant")).restaurantId;
+    //const restaurantId =1
     await axios.post(`http://localhost:8081/restaurant/profile/${restaurantId}`,{})
     .then(responseData => {
         console.log("res",responseData);
@@ -94,9 +103,27 @@ const Home =()=>{
         }
     })
 
+} 
+const deleteDish =  (id) =>{
+
+  axios.post(`http://localhost:8081/restaurant/deletedish/${id}`,{})
+ .then(responseData => {
+     if (responseData.data.error) {
+        // M.toast({ html: responseData.data.error, classes: "#c62828 red darken-3" })
+     }
+     else {
+             setDishes(dishes.filter((dish) => dish.dishId !== id))
+             //console.log(" dishes",responseData.data)
+             
+             //console.log("resss ",customerData);
+             //localStorage.setItem('dish', JSON.stringify(responseData.data));
+         
+     }
+ })
+
 }
 
-    return(
+    return(dishes?
 
         <div className= "reshome">
         <div className="header__upper">
@@ -111,8 +138,11 @@ const Home =()=>{
                <LocationOn />
                <input type="text" placeholder="What are you craving? " />
             </div> */}
-
+            <a href="./adddish">
             <div className="header__upperheaderright">
+                 <p> Add Dishes </p>
+            </div></a>
+            <div className="header__upperheaderright" onClick={signout}>
                  <p> Sign out </p>
             </div>
             {/* <div className="header__upperheaderright">
@@ -135,7 +165,7 @@ const Home =()=>{
                 
                 <Grid item xs={2} sm={4} md={4} key={dish.dishId}>
       <Item>
-      <Dish id={dish.dishId} dname={dish.dname} des={dish.ddesc} ing={dish.ingredients} price={dish.Price} imageKey={dish.profilepic} />
+      <Dish id={dish.dishId} func={deleteDish}  dname={dish.dname} des={dish.ddesc} ing={dish.ingredients} price={dish.Price} imageKey={dish.profilepic} />
       </Item>
     </Grid>
                 ))
@@ -145,7 +175,7 @@ const Home =()=>{
             </div>
            
           
-    </div>
+    </div>:<h1></h1>
     )
     
 }

@@ -11,7 +11,7 @@ exports.create = (req, res) => {
       });
     }
     
-    // Create a Customer
+    // Create dish
   
     const dish = new Dish({
         dname : req.body.dname,
@@ -23,7 +23,7 @@ exports.create = (req, res) => {
         nonVeg : req.body.nonVeg,
         vegan : req.body.vegan,
         categoryId : req.body.categoryId,
-        price : req.body.price
+        Price : req.body.Price
       });
 
     //console.log("=======",restaurant)
@@ -72,10 +72,11 @@ exports.find = (req,res) => {
         message: "Content can not be empty!"
       });
     }
+
   
     Dish.updateById(
       req.params.dishId,
-      new Dish(req.body),
+      req.body,
       (err, data) => {
         if (err) {
           if (err.kind === "not_found") {

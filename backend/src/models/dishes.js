@@ -11,7 +11,7 @@ const Dish = function (dish) {
   this.nonVeg = dish.nonVeg;
   this.vegan = dish.vegan;
   this.categoryId = dish.categoryId;
-  this.price= dish.price;
+  this.Price= dish.Price;
   this.profilepic= dish.profilepic;
 };
 
@@ -48,11 +48,15 @@ Dish.find = function (restaurantId, result) {
 //= ==========================================================
 
 Dish.updateById = (dishId, dish, result) => {
+
+  console.log("here",dish.values, dishId)
+  console.log("here",dish.values.dname, dishId)
+  console.log("here",dish.values.ingredients, dishId)
   
   connection.query(
     'UPDATE dish SET dname = ?, ingredients = ? , ddesc=? , restaurantId =?, cuisineId =?, veg =?, nonVeg =?, vegan=?, categoryId =?, price =? WHERE dishId = ?',
     // eslint-disable-next-line max-len
-    [dish.dname, dish.ingredients, dish.ddesc, dish.restaurantId, dish.cuisineId, dish.veg, dish.nonVeg, dish.vegan, dish.categoryId, dish.price, dishId],
+    [dish.values.dname, dish.values.ingredients, dish.values.ddesc, dish.values.restaurantId, dish.values.cuisineId, dish.values.veg, dish.values.nonVeg, dish.values.vegan, dish.values.categoryId, dish.values.price, dishId],
     (err, res) => {
       if (err) {
         console.log('error: ', err);
@@ -66,9 +70,10 @@ Dish.updateById = (dishId, dish, result) => {
         result({ kind: 'not_found' }, null);
         return;
       }
-
+      console.log(dish.values);
+      console.log("data",res)
       //console.log('updated customer: ', { customerId, ...customer });
-      result(null, { dishId, ...dish });
+      result(null, dish );
     },
   );
 };

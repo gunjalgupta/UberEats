@@ -1,4 +1,4 @@
-import React from 'react' 
+import React ,{useState} from 'react' 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -12,28 +12,11 @@ import { BrowserRouter as Router, useHistory } from 'react-router-dom'
 import Modal from "react-modal";
  
 
-function Resdishes({id, dname, des, ing, imageKey , price}) {
+function Resdishes({id, dname, des, ing, imageKey , price, func}) {
 
-  const [dishes, setDishes] = React.useState([])
+  const [dishes, setDishes] = useState([])
   const history= useHistory();
-  const deleteDish =  () =>{
 
-     axios.post(`http://localhost:8081/restaurant/deletedish/${id}`,{})
-    .then(responseData => {
-        if (responseData.data.error) {
-           // M.toast({ html: responseData.data.error, classes: "#c62828 red darken-3" })
-        }
-        else {
-                //setDishes(responseData.data)
-                //console.log(" dishes",responseData.data)
-                
-                //console.log("resss ",customerData);
-                //localStorage.setItem('dish', JSON.stringify(responseData.data));
-            
-        }
-    })
-
-}
 
     return (
         <div className = 'dishcard' sx={{ display: 'flex' }}>
@@ -66,7 +49,7 @@ function Resdishes({id, dname, des, ing, imageKey , price}) {
           localStorage.setItem('dishId',JSON.stringify(id))
           history.push(`/editdish/${id}`);}
           } >Edit</Button>
-        <Button size="small" onClick= {deleteDish}>Delete</Button>
+        <Button size="small" onClick= {() => func(id)}>Delete</Button>
       </CardActions>
     </Card>
         </div>

@@ -1,9 +1,7 @@
 .showProfile {
     display: flex;
-    flex-direction: row-reverse;
-    align-items : right;
+    justify-content: center;
     margin : 50px;
-    margin-right: 200px;
 
 }
 

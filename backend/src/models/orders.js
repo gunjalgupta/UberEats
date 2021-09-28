@@ -11,7 +11,7 @@ const Order = function (order) {
   Order.place = (cusId,resId,ostatus,total, result) => {
     console.log('in model');
     console.log('---', newOrder);
-    connection.query('INSERT INTO UberEats.orders (orderId,customerId, restaurantId, ostatus, total) VALUES(null, ?,?,?,?);', cusId,resId,ostatus,total, (err, res) => {
+    connection.query('INSERT INTO UberEats.orders (orderId,customerId, restaurantId, total) VALUES(null, ?,?,?,?);', cusId,resId,total, (err, res) => {
       if (err) {
         console.log('error: ', err);
         result(err, null);

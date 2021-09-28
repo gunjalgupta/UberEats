@@ -51,9 +51,9 @@ const Editdish=()=>{
         else {
 
                 setdishData(response.data[0])
-                console.log(response.data[0])
+                console.log(response.data)
                 //console.log("resss ",customerData);
-                localStorage.setItem('dish', JSON.stringify(response.data));
+                //localStorage.setItem('dish', JSON.stringify(response.data));
             
         }
     })
@@ -86,9 +86,9 @@ const Editdish=()=>{
     <br />
     <br />
     <br />
-    <div className= "details_img" style={{marginTop:100, marginLeft: 20}}>
-                <Showprofile style={{marginTop:150, marginLeft: 20}} />
-                <Profilepic style={{marginTop:150, marginLeft: 20}}/>
+    <div className= "details_img">
+                <Showprofile />
+                <Profilepic />
                 </div>
 
                 <div className="row" style={{marginTop: 120, alignContent:Center}}>
@@ -107,6 +107,7 @@ const Editdish=()=>{
                             vegan : dishData.vegan,
                             categoryId: dishData.categoryId,
                             Price: dishData.Price,
+                            restaurantId: JSON.parse(localStorage.getItem("restaurant")).restaurantId,
                             
                         }}
                         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -129,11 +130,11 @@ const Editdish=()=>{
                             //             console.log(err)
                             //         })
                             // }
-                            const dishId = 1
-                            
-                            axios.post(`http://localhost:8081/restaurant/editdish/${dishId}`, { values: values})
+                            // const dishId = 1
+                            const value={ values: values}
+                            axios.post(`http://localhost:8081/restaurant/editdish/${dishId}`, value )
                                 .then(response => {
-                                    console.log("update",response)
+                                    console.log("update",value)
                                     if (response.data.error) {
                                         M.toast({ html: response.data.error, classes: "#c62828 red darken-3" })
                                     }

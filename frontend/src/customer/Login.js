@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './Login.css';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { login } from './userSlice';
+import { login } from '../actions/userActions';
 import { useHistory, Link } from 'react-router-dom';
 
 function Login() {
@@ -32,7 +32,7 @@ function Login() {
                 name: res.data.name,
                 loggedIn: true, 
             }))
-          history.push("/cprofile")
+          history.push("/chome")
             
             
             }
@@ -67,7 +67,7 @@ function Login() {
                 </form>
                 <div className="login__text">
                     <p>New to Uber?</p>
-                    <Link to="/register" className="login_ul"><p className="login__create">Create an account</p></Link>
+                    <Link to="/cregister" className="login_ul"><p className="login__create">Create an account</p></Link>
                 </div>
                 <div style = {divStyle}>
                     {error && <p> {error} </p>}

@@ -15,14 +15,24 @@ const connection = require('../config/dbconfig');
 }
 
 exports.getcusorder= (req,res)=>{
-    connection.query('SELECT O.*, R.*  FROM Orders O INNER JOIN Restaurant R ON O.restaurantId= R.restaurantId  WHERE O.customerId=?',req.body.customerId,(err,result)=>{
+    
+    connection.query('SELECT O.*, R.*  FROM UberEats.orders O INNER JOIN UberEats.restaurant R ON O.restaurantId= R.restaurantId  WHERE O.customerId=?',req.body.customerId,(err,result)=>{
+        
+        
         res.send(result);
     })
 }
 
 exports.getcusorderdetails = (req,res)=>{
-    connection.query('SELECT * FROM Orderdetails OD JOIN order O ON OD.invoiceId= O.invoiceId WHERE O.orderId?',req.body.orderId,(err,result)=>{
+    console.log("body",req.body)
+    connection.query('SELECT * FROM UberEats.orderdetails OD JOIN UberEats.orders O ON OD.invoiceId= O.invoiceId  WHERE O.customerId =?',req.body.customerId,(err,result)=>{
+        if(err){
+            console.log(err)
+        }
+        else{
+        console.log("here",result)
         res.send(result);
+        }
     })
 }
 
@@ -33,14 +43,17 @@ exports.getresorderdetails = (req,res)=>{
 }
 
 exports.addorder=(req,res)=>{
-    connection.query("INSERT INTO UberEats.orders (orderId,customerId, restaurantId, ostatus, total, invoiceId) VALUES(null, ?,?,?,?,?);", [req.body.cusId,req.body.resId,req.body.ostatus,req.body.total,req.body.invoiceId],(err,response)=>{
+    console.log("order", req.body)
+    connection.query("INSERT INTO UberEats.orders (orderId,customerId, restaurantId, total, invoiceId) VALUES(null, ?,?,?,?);", [req.body.customerId,req.body.restaurantId, req.body.total, req.body.invoiceId],(err,response)=>{
         res.send(response);
     })
 }
 exports.addorderdetails=(req,res)=>{
+    console.log("detail",req.body);
     req.body.map((orderDetail)=>{
-        console.log("order",OrderDetail);
-        connection.query("INSERT INTO UberEats.orderdetails (orderdetailsId,invoiceId, dishId, quantity, price, total) VALUES(null, ?,?,?,?,?);", [req.body.invoiceId,orderDetail.dishId,orderDetail.quantity, orderDetail.price,orderDetail.total],(err,response)=>{
+        console.log("detail2",orderDetail);
+        connection.query("INSERT INTO UberEats.orderdetails (orderdetailsId,invoiceId, dishId, quantity, price, subtotal) VALUES(null, ?,?,?,?,?);", [orderDetail.invoiceId,orderDetail.dishId,orderDetail.quantity, orderDetail.Price,orderDetail.subtotal],(err,response)=>{
+            console.log("detail3",response);
             res.send(response);
         })
     })

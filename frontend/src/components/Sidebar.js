@@ -1,77 +1,150 @@
-import React, { useState } from "react";
+import * as React from 'react';
+import { styled, useTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
+import CssBaseline from '@mui/material/CssBaseline';
+import MuiAppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import List from '@mui/material/List';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import MailIcon from '@mui/icons-material/Mail';
 
-//import react pro sidebar components
-import {
-  ProSidebar,
-  Menu,
-  MenuItem,
-  SidebarHeader,
-  SidebarFooter,
-  SidebarContent,
-} from "react-pro-sidebar";
+const drawerWidth = 240;
 
-//import icons from react icons
-import { FaList, FaRegHeart } from "react-icons/fa";
-import { FiHome, FiLogOut, FiArrowLeftCircle, FiArrowRightCircle } from "react-icons/fi";
-import { RiPencilLine } from "react-icons/ri";
-import { BiCog } from "react-icons/bi";
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: `-${drawerWidth}px`,
+    ...(open && {
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginLeft: 0,
+    }),
+  }),
+);
 
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme, open }) => ({
+  transition: theme.transitions.create(['margin', 'width'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: `${drawerWidth}px`,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}));
 
-//import sidebar css from react-pro-sidebar module and our custom css 
-import "react-pro-sidebar/dist/css/styles.css";
-import "./Sidebar.css";
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+  justifyContent: 'flex-end',
+}));
 
+export default function PersistentDrawerLeft() {
+  const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
 
-const Sidebar = () => {
-  
-    //create initial menuCollapse state using useState hook
-    const [menuCollapse, setMenuCollapse] = useState(false)
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
 
- //create a custom function that will change menucollapse state from false to true and true to false
- const menuIconClick = () => {
-    //condition checking to change state from true to false and vice versa
-    menuCollapse ? setMenuCollapse(false) : setMenuCollapse(true);
+  const handleDrawerClose = () => {
+    setOpen(false);
   };
 
   return (
-    <>
-      <div id="header">
-          {/* collapsed props to change menu size using menucollapse state */}
-        <ProSidebar collapsed={menuCollapse}>
-          <SidebarHeader>
-          <div className="logotext">
-              {/* small and big change using menucollapse state */}
-              <p>{menuCollapse ? "Logo" : "Big Logo"}</p>
-            </div>
-            <div className="closemenu" onClick={menuIconClick}>
-                {/* changing menu collapse icon on click */}
-              {menuCollapse ? (
-                <FiArrowRightCircle/>
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+      
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            sx={{ mr: 2, ...(open && { display: 'none' }) }}
+          >
+            <MenuIcon />
+            
+          </IconButton>
+          <img
+                src="https://d3i4yxtzktqr9n.cloudfront.net/web-eats-v2/ee037401cb5d31b23cf780808ee4ec1f.svg "
+                alt="uber eats"
+              />
+       
+      
+      <Drawer
+          sx={{
+            width: drawerWidth,
+            flexShrink: 0,
+            "& .MuiDrawer-paper": {
+              width: drawerWidth,
+              boxSizing: "border-box",
+            },
+          }}
+          variant="persistent"
+          anchor="left"
+          open={open}
+        >
+          <DrawerHeader>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === "ltr" ? (
+                <ChevronLeftIcon />
               ) : (
-                <FiArrowLeftCircle/>
-              )}
-            </div>
-          </SidebarHeader>
-          <SidebarContent>
-            <Menu iconShape="square">
-              <MenuItem active={true} icon={<FiHome />}>
-                Home
-              </MenuItem>
-              <MenuItem icon={<FaList />}>Category</MenuItem>
-              <MenuItem icon={<FaRegHeart />}>Favourite</MenuItem>
-              <MenuItem icon={<RiPencilLine />}>Author</MenuItem>
-              <MenuItem icon={<BiCog />}>Settings</MenuItem>
-            </Menu>
-          </SidebarContent>
-          <SidebarFooter>
-          <Menu iconShape="square">
-              <MenuItem icon={<FiLogOut />}>Logout</MenuItem>
-            </Menu>
-          </SidebarFooter>
-        </ProSidebar>
-      </div>
-    </>
+                <ChevronRightIcon />
+              )} 
+               <img
+                src="https://d3i4yxtzktqr9n.cloudfront.net/web-eats-v2/ee037401cb5d31b23cf780808ee4ec1f.svg "
+                alt="uber eats"
+              />
+            </IconButton>
+          </DrawerHeader>
+          <Divider />
+          <Divider />
+          <List>
+          <ListItem >
+            <a href= './clogin'>
+                <ListItemIcon>
+                 <InboxIcon />    Sign in as restaurant  
+                </ListItemIcon> 
+                <ListItemText/></a>
+              </ListItem>
+              <ListItem >
+              <a href= './cregister'>
+                <ListItemIcon>
+                 <InboxIcon />     Add Restaurant
+                </ListItemIcon>
+                <ListItemText></ListItemText></a>
+              </ListItem>
+          </List>
+        </Drawer>
+      <Main open={open}>
+        <DrawerHeader />
+      </Main>
+    </Box>
   );
-};
-
-export default Sidebar;
+}

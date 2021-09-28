@@ -315,7 +315,7 @@ const UpdateProfile = () => {
                                             
                                                 <label>Pickup <input type="dropdown" className="form-control" id="pickup" /></label>
                                                 <select name= 'pickup' value={values.pickup} id="pickup" onBlur={handleBlur} onChange={handleChange}>
-                                                <option value="Yes" label="Yes" />
+                                                <option value="Yes" label="Yes" defaultChecked/>
                                                 <option value="No" label="No" />
                                                 </select>
                                                 <p className="help-block text-danger"></p>
@@ -324,7 +324,7 @@ const UpdateProfile = () => {
                                             
                                                 <label style={{ width: "100%" }}> Delivery <input type="dropdown" className="form-control"   /></label>
                                                 <select  name ='delivery' value={values.delivery} id="delivery" onBlur={handleBlur} onChange={handleChange} >
-                                                <option value="Yes" label="Yes" />
+                                                <option value="Yes" label="Yes" defaultChecked/>
                                                 <option value="No" label="No" />
                                                 </select>
                                                 <p className="help-block text-danger"></p>
@@ -332,23 +332,26 @@ const UpdateProfile = () => {
                                             <div className="form-group" >
                                                 <label style={{ width: "100%" }}>Vegitarian options < input type="dropdown" className="form-control"  /></label>
                                                 <select name ='veg' value={values.veg} id="veg" onBlur={handleBlur} onChange={handleChange} >
-                                                <option value="Yes" label="Yes" />
+                                                <option value="Yes" label="Yes" defaultChecked/>
                                                 <option value="No" label="No" />
                                                 </select>
                                                 <p className="help-block text-danger"></p>
                                             </div>
                                             <div className="form-group" >
                                                 <label style={{ width: "100%" }}>Non-Vegetarian options <input type="dropdown" className="form-control"  /></label>
-                                                <select value={values.nonVeg} id="nonVeg" onBlur={handleBlur} onChange={handleChange}>
-                                                <option value="Yes" label="Yes" />
+                                                <select name ='nonVeg' value={values.nonVeg} id="nonVeg" onBlur={handleBlur} onChange={handleChange}>
+                                                <option value="Yes" label="Yes" defaultChecked/>
                                                 <option value="No" label="No" />
                                                 </select>
                                                 <p className="help-block text-danger"></p>
                                             </div>
+
+                                            
+
                                             <div className="form-group" >
                                                 <label style={{ width: "100%" }}>Vegan options <input type="dropdown" className="form-control" /></label>
-                                                <select value={values.vegan} id="vegan" onBlur={handleBlur} onChange={handleChange} >
-                                                <option value="Yes" label="Yes" />
+                                                <select name ='vegan' value={values.vegan} id="vegan" onBlur={handleBlur} onChange={handleChange} >
+                                                <option value="Yes" label="Yes" defaultChecked/>
                                                 <option value="No" label="No" />
                                                 </select>
                                                 <p className="help-block text-danger"></p>

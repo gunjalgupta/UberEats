@@ -30,7 +30,10 @@ const Profilepic = () => {
     setFile(fil)
   }
     return (
-        <div >
+        <div style={{
+            display: "flex",
+            justifyContent: "center",
+        }}>
             <form onSubmit={submit} className="profile_chose">
                 <input onChange={fileSelected} type="file" accept="image/*" className="profile_browse"></input>
                 <button type="submit" className="profile_button">Submit</button>

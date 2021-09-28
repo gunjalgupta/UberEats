@@ -4,6 +4,7 @@ import React,{useState} from "react";
 import "./Header.css";
 import { Menu, LocationOn,WatchLater,ArrowDownward } from "@mui/icons-material";
 import { useHistory, Link } from 'react-router-dom';
+import Sidebar from "./components/Sidebar";
 
 function Header() {
    
@@ -49,11 +50,8 @@ function Header() {
         <div className="header__upper">
           <div className="header__upperheader"  style={{backgroundColor:headbg,boxShadow:shadow}}   >
             <div className="header__upperheaderleft">
-              <Menu />
-              <img
-                src="https://d3i4yxtzktqr9n.cloudfront.net/web-eats-v2/ee037401cb5d31b23cf780808ee4ec1f.svg "
-                alt="uber eats"
-              />
+              <Menu /><Sidebar />
+              
             </div>
             <div className="header__upperheadercenter"  style={{transform:`scaleX(${inputdisplay})`}}    >
               <LocationOn />
