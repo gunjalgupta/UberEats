@@ -46,6 +46,12 @@ const Home =()=>{
     }
   })
 
+  function signout(){
+    dispatch(logoutRestaurant());
+    localStorage.setItem("restaurant",null);
+    history.push("/")
+  }
+
   const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(2),
@@ -58,11 +64,7 @@ const Home =()=>{
        
     }, []);
 
-    function signout(){
-      dispatch(logoutRestaurant());
-      localStorage.setItem("restaurant",null);
-      history.push("/")
-    }
+  
     const getDishes = async () =>{
       const restaurantId =  JSON.parse(localStorage.getItem("restaurant")).restaurantId;
       //const restaurantId =1
@@ -130,18 +132,23 @@ const deleteDish =  (id) =>{
            <div className="header__upperheader"  style={{backgroundColor:headbg,boxShadow:shadow}}   >
              <div className="header__upperheaderleft">
                 <Menu />
+                <Link to='/rhome'>
                 <img
                     src="https://d3i4yxtzktqr9n.cloudfront.net/web-eats-v2/ee037401cb5d31b23cf780808ee4ec1f.svg "
-                     alt="uber eats" />
+                     alt="uber eats" /></Link>
             </div>
             {/* <div className="header__upperheadercenter"   >
                <LocationOn />
                <input type="text" placeholder="What are you craving? " />
             </div> */}
-            <a href="./adddish">
+            <Link to="./adddish">
             <div className="header__upperheaderright">
                  <p> Add Dishes </p>
-            </div></a>
+            </div></Link>
+            <Link to="./allorders">
+            <div className="header__upperheaderright">
+                 <p> Orders </p>
+            </div></Link>
             <div className="header__upperheaderright" onClick={signout}>
                  <p> Sign out </p>
             </div>

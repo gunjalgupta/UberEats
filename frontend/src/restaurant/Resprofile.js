@@ -27,11 +27,14 @@ import Paper from "@mui/material/Paper";
 import { experimentalStyled as styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import bcrypt from 'bcryptjs';
+import { useDispatch } from "react-redux";
+import { logout } from "../actions/userActions";
 var _ = require('lodash');
 
 function Resprofile() {
 
   const history = useHistory();
+  const dispatch= useDispatch();
   const [restaurant, setRestaurant] = useState([]);
   const [dishes, setDishes] = useState([]);
   const [cart, setCart] = useState([JSON.parse(localStorage.getItem("cart"))]);
@@ -40,11 +43,6 @@ function Resprofile() {
   const [inputdisplay, setinputdisplay] = useState(0);
   const customerId =  JSON.parse(localStorage.getItem("customer")).customerId;
   const { restaurantId } = useParams();
-  const [total, setTotal] = useState(0);
-  const [dishId, setdishId]= useState()
-  const [quantity, setquantity]= useState()
-  const [subtotal, setsubtotal]= useState()
-  const [dishcart, setDishcart]= useState([])
   const custId = String(JSON.parse(localStorage.getItem("customer")).customerId)
   let invoiceId = bcrypt.hashSync(custId,10);
 
@@ -217,6 +215,14 @@ function Resprofile() {
         }
       });
   };
+
+    
+  function signout(){
+    dispatch(logout());
+    localStorage.setItem("customer",null);
+    history.push("/")
+  }
+
   return restaurant ? (
     <div>
       <div className="header__upper">
@@ -225,11 +231,13 @@ function Resprofile() {
           style={{ backgroundColor: headbg, boxShadow: shadow }}
         >
           <div className="header__upperheaderleft">
-            <Menu />
-            <img
-              src="https://d3i4yxtzktqr9n.cloudfront.net/web-eats-v2/ee037401cb5d31b23cf780808ee4ec1f.svg "
-              alt="uber eats"
-            />
+            
+            <Link to="/chome">
+              <img
+                src="https://d3i4yxtzktqr9n.cloudfront.net/web-eats-v2/ee037401cb5d31b23cf780808ee4ec1f.svg "
+                alt="uber eats"
+              />{" "}
+            </Link>
           </div>
           {/* <div className="header__upperheadercenter"   >
                <LocationOn />
@@ -253,7 +261,7 @@ function Resprofile() {
             />
           </div>
 
-          <div className="header__upperheaderright">
+          <div className="header__upperheaderright" onClick={signout}>
             <p> Sign out </p>
           </div>
         </div>

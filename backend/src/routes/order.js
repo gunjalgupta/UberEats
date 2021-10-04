@@ -6,7 +6,7 @@ module.exports = (app) => {
 
     app.post("/order/getcusdetail", Order.getcusorderdetails);
 
-    app.post("/order/getresdetail", Order.getresorderdetails);
+    app.post("/order/getresorders/:restaurantId", Order.getresorderdetails);
 
     app.post("/order/addorder", Order.addorder);
 

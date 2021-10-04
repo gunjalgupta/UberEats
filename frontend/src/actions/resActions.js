@@ -1,3 +1,10 @@
+export function registerRestaurant(payload){
+    return {
+        type: "REGISTER_RESTAURANT",
+        payload
+    }
+}
+
 export function loginRestaurant(payload){
     return {
         type: "LOGIN_RESTAURANT",

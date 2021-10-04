@@ -19,53 +19,57 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import { useDispatch } from "react-redux";
+import { logout } from "../actions/userActions";
 
 const Checkout = () => {
+  const history= useHistory();
+  const dispatch= useDispatch();
   const [headbg, setheadbg] = useState("transparent");
   const [shadow, setshadow] = useState("none");
-  const [inputdisplay, setinputdisplay] = useState(0);
   const [currentAddress, setCurrentAddress] = useState("")
+  const [mode, setMode] = useState("")
+  const [savedAddress, setSavedAddress]= useState([]);
   const [address, setAddress] = useState({
-    line1: "",
-    line2: "",
+    customerId: JSON.parse(localStorage.getItem("customer")).customerId,
+    addline1: "",
+    addline2: "",
     city: "",
     state: "",
-    zip: "",
+    zipcode: "",
   });
 
-  const savedAddress = [
-    {
-      line1: "1",
-      line2: "2",
-      city: "SJ",
-      state: "CA",
-      zip: "231",
-    },
-    {
-      line1: "3",
-      line2: "4",
-      city: "as",
-      state: "Aus",
-      zip: "q2",
-    },
-    {
-      line1: "6",
-      line2: "7",
-      city: "sf",
-      state: "sdf",
-      zip: "234",
-    },
-  ];
+  // const savedAddress = [
+  //   {
+  //     line1: "1",
+  //     line2: "2",
+  //     city: "SJ",
+  //     state: "CA",
+  //     zip: "231",
+  //   },
+  //   {
+  //     line1: "3",
+  //     line2: "4",
+  //     city: "as",
+  //     state: "Aus",
+  //     zip: "q2",
+  //   },
+  //   {
+  //     line1: "6",
+  //     line2: "7",
+  //     city: "sf",
+  //     state: "sdf",
+  //     zip: "234",
+  //   },
+  // ];
 
   window.addEventListener("scroll", () => {
     if (window.scrollY >= 50) {
       setheadbg("#FFFFFF");
       setshadow("rgb(226 226 226) 0px -2px 0px inset");
-      setinputdisplay(1);
     } else {
       setheadbg("transparent");
       setshadow("none");
-      setinputdisplay(0);
     }
   });
 
@@ -77,9 +81,10 @@ const Checkout = () => {
         restaurantId: order.restaurantId,
         invoiceId: order.invoiceId,
         total: order.total,
+        mode: mode
       })
       .then((response) => {
-        console.log("res", response);
+        //console.log("res", response);
         if (response.data.error) {
           console.log("res", response);
           M.toast({
@@ -88,48 +93,77 @@ const Checkout = () => {
           });
         } else {
           //setcustomerData(response.data[0])
-          console.log(response.data[0]);
+          console.log(response.data);
         }
         const dishesToPass = [];
         order.dishes.map((dish) => {
+          console.log(order.invoiceId);
           dishesToPass.push({
             invoiceId: order.invoiceId,
-            ...dish,
+            dishId: dish.dishId,
+            quantity: dish.quantity,
+            price: dish.Price,
+            subtotal: dish.subtotal
           });
         });
+        console.log("-----------",dishesToPass);
         axios.post("http://localhost:8081/order/adddetails", dishesToPass).then((res)=>{
           console.log(res)
         })
-      });
+      }).then(()=>{
+        localStorage.removeItem("cart",null);
+        localStorage.removeItem("order",null);
+        history.push("/chome")
+      })
   };
 
   const addAddress = () => {
     console.log(address);
+
+    axios.post("http://localhost:8081/customer/addaddress/",address)
+    .then(response => {
+        
+        if (response.data.error) {
+            //console.log("res",response);
+            M.toast({ html: response.data.error, classes: "#c62828 red darken-3" })
+        }
+        else {
+                //setSavedAddress(response.data)
+                console.log(response.data)
+        }
+    })
+
     setAddress({
-      line1: "",
-      line2: "",
+      addline1: "",
+      addline2: "",
       city: "",
       state: "",
-      zip: "",
+      zipcode: "",
     });
-    setCurrentAddress(`${address.line1}, ${address.line2}, ${address.city}, ${address.state} - ${address.zip}`)
+    setCurrentAddress(`${address.addline1}, ${address.addline2}, ${address.city}, ${address.state} - ${address.zipcode}`)
   };
 
   useEffect(() => {
-    // const customerId =  JSON.parse(localStorage.getItem("customer")).customerId;
-    // axios.get(`http://localhost:8081/customerprofile/${customerId}`,{})
-    // .then(response => {
-    //     console.log("res",response);
-    //     if (response.data.error) {
-    //         console.log("res",response);
-    //         M.toast({ html: response.data.error, classes: "#c62828 red darken-3" })
-    //     }
-    //     else {
-    //             //setcustomerData(response.data[0])
-    //             console.log(response.data[0])
-    //     }
-    // })
-  });
+    const customerId =  JSON.parse(localStorage.getItem("customer")).customerId;
+    axios.post(`http://localhost:8081/customer/fetchaddress/${customerId}`,{})
+    .then(response => {
+        
+        if (response.data.error) {
+            console.log("res",response);
+            M.toast({ html: response.data.error, classes: "#c62828 red darken-3" })
+        }
+        else {
+                setSavedAddress(response.data)
+                console.log(response.data[0])
+        }
+    })
+  },[]);
+
+  function signout(){
+    dispatch(logout());
+    localStorage.setItem("customer",null);
+    history.push("/")
+  }
 
   return (
     <section className="section" id="about">
@@ -153,7 +187,7 @@ const Checkout = () => {
     <input type="text" placeholder="What are you craving? " />
  </div> */}
 
-            <div className="header__upperheaderright">
+            <div className="header__upperheaderright" onClick={signout}>
               <p> Sign out </p>
             </div>
           </div>
@@ -199,7 +233,21 @@ const Checkout = () => {
               {JSON.parse(localStorage.getItem("order")).total}
             </Grid>
           </Grid>
-        </Grid>
+        
+            Mode of delivery:
+            <FormControl component="fieldset">
+              <FormLabel component="legend">Choose an option</FormLabel>
+              <RadioGroup
+                aria-label="gender"
+                defaultValue="female"
+                name="radio-buttons-group"
+                onChange={(e) => setMode(e.target.value)}
+              >    
+                <FormControlLabel value="pickup" control={<Radio />} label="Pick-up" />
+                <FormControlLabel value="delivery" control={<Radio />} label="Delivery" />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
         <Grid
           container
           spacing={3}
@@ -220,16 +268,16 @@ const Checkout = () => {
             Address:
             <TextField
               label="Address Line 1"
-              value={address.line1}
+              value={address.addline1}
               onChange={(e) =>
-                setAddress({ ...address, line1: e.target.value })
+                setAddress({ ...address, addline1: e.target.value })
               }
             />
             <TextField
               label="Address Line 2"
-              value={address.line2}
+              value={address.addline2}
               onChange={(e) =>
-                setAddress({ ...address, line2: e.target.value })
+                setAddress({ ...address, addline2: e.target.value })
               }
             />
             <TextField
@@ -246,8 +294,8 @@ const Checkout = () => {
             />
             <TextField
               label="Zip Code"
-              value={address.zip}
-              onChange={(e) => setAddress({ ...address, zip: e.target.value })}
+              value={address.zipcode}
+              onChange={(e) => setAddress({ ...address, zipcode: e.target.value })}
             />
             <br />
             <button
@@ -279,9 +327,9 @@ const Checkout = () => {
               >
                   {savedAddress.map((address) => 
                   <FormControlLabel
-                  value={`${address.line1}, ${address.line2}, ${address.city}, ${address.state} - ${address.zip}`}
+                  value={`${address.addline1}, ${address.addline2}, ${address.city}, ${address.state} - ${address.zipcode}`}
                   control={<Radio />}
-                  label={`${address.line1}, ${address.line2}, ${address.city}, ${address.state} - ${address.zip}`}
+                  label={`${address.addline1}, ${address.addline2}, ${address.city}, ${address.state} - ${address.zipcode}`}
                 />)}
               </RadioGroup>
             </FormControl>
@@ -305,7 +353,7 @@ const Checkout = () => {
               height: "fit-content",
             }}
           >
-            <button onClick={submitOrder}>Submit</button>
+            <button onClick={submitOrder}>Place Order</button>
           </Grid>
         </Grid>
       </Grid>

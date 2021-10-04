@@ -91,7 +91,7 @@ const Home = () => {
 
   function signout(){
     dispatch(logout());
-    localStorage.setItem("restaurant",null);
+    localStorage.setItem("customer",null);
     history.push("/")
   }
 
@@ -147,9 +147,9 @@ const Home = () => {
                   component="div"
                 >
                   <br />
-                  <div style={{display :"flex", flexDirection: "row"}}> 
+                  <div style={{display :"flex", flexDirection:"row"}}> 
                   <div>
-                  Dish name  </div> <div style={{marginLeft:"20"}}>   Quantity </div><div style={{paddingLeft:"10"}}>  Subtotal</div></div>
+                  Dish name  </div> <div style={{paddingLeft:"100"}}>   Quantity </div><div style={{paddingLeft:"10"}}>  Subtotal</div></div>
                 </Typography>
                 <Grid container spacing={3}>
                   {localStorage.getItem("cart") &&
@@ -172,7 +172,7 @@ const Home = () => {
                       Total Price
                     </Grid>
                     <Grid container xs={4}>
-                      {JSON.parse(localStorage.getItem("order")).total}
+                      {localStorage.getItem("order") && JSON.parse(localStorage.getItem("order")).total}
                     </Grid>
                   </Grid>
                 </Grid>

@@ -5,6 +5,9 @@ const initialState = {
 const reducer = (state= initialState, action)=>{
 
     switch(action.type){
+        case "REGISTER_RESTAURANT":
+            console.log("Signup succesful");
+            return {...state, restaurant : action.payload}
         case "LOGIN_RESTAURANT":
             console.log("login succesful");
             return {...state, restaurant : action.payload}

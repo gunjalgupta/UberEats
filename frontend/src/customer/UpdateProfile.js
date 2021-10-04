@@ -10,9 +10,12 @@ import { CountryDropdown, RegionDropdown } from "react-country-region-selector-m
 import './UpdateProfile.css'
 import Showprofile from './Showprofile';
 import Profilepic from './Profilepic';
+import { useDispatch } from "react-redux";
+import { logout } from "../actions/userActions";
 
 const UpdateProfile = () => {
     const history = useHistory()
+    const dispatch = useDispatch()
     const [customerData, setcustomerData] = useState([])
     const [image, setImage] = useState([])
     const [url, setUrl] = useState([])
@@ -37,6 +40,13 @@ const UpdateProfile = () => {
 
     }
   })
+
+
+  function signout(){
+    dispatch(logout());
+    localStorage.setItem("customer",null);
+    history.push("/")
+  }
 
     useEffect( () => {
         const customerId =  JSON.parse(localStorage.getItem("customer")).customerId;
@@ -92,7 +102,7 @@ return (customerData.email?
                     <input type="text" placeholder="What are you craving? " />
                  </div> */}
 
-                 <div className="header__upperheaderright">
+                 <div className="header__upperheaderright"  onClick={signout}>
                       <p> Sign out </p>
                  </div>
                 </div>

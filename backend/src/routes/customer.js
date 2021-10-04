@@ -10,6 +10,8 @@ module.exports = (app) => {
 
     app.post("/key", Customer.findKey);
 
- 
+    app.post("/customer/fetchaddress/:customerId", Customer.fetchaddress);
 
+    app.post("/customer/addaddress", Customer.addaddress);
+ 
 };

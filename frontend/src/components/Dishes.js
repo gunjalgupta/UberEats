@@ -50,7 +50,18 @@ function Dishes({ dname, des, ing, imageKey, price, id , restaurantId}) {
             { dishId: dishId, dname:dname, quantity: quantity, Price: price, subtotal: subtotal },
           ])
         )
-      } else {
+      } else 
+      {
+        if((localStorage.getItem('cart'))) {
+        localStorage.setItem(
+          "cart",
+          JSON.stringify([
+            ...JSON.parse(localStorage.getItem("cart")),
+            { dishId: dishId, dname:dname, quantity: quantity, Price: price, subtotal: subtotal  },
+          ])
+        )
+      }
+      else {
         localStorage.setItem(
           "cart",
           JSON.stringify([
@@ -58,7 +69,7 @@ function Dishes({ dname, des, ing, imageKey, price, id , restaurantId}) {
           ])
         )
       }
-    }
+    }}
     
   };
 

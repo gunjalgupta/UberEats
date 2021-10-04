@@ -1,4 +1,5 @@
 
+const connection = require('../config/dbconfig');
 const bcrypt = require('bcrypt')
 const { sign } = require('jsonwebtoken');
 const Customer = require('../models/customers.js');
@@ -209,3 +210,32 @@ exports.findKey = (req, res) =>{
 }
 //=====================================================================
 
+exports.fetchaddress =(req,res)=>{
+  connection.query('SELECT * FROM UberEats.address WHERE customerId=?', req.params.customerId, (err,data)=>{
+    if( err){
+      console.log(err);
+      res.status(500).send({
+        message: err.message
+      })
+    }
+    else {
+      res.send(data);
+    }
+  })
+}
+
+//======================================================================
+
+exports.addaddress =(req,res)=>{
+  connection.query('INSERT INTO UberEats.address (customerId, addline1, addline2, city, state, zipcode) VALUES (?,?,?,?,?,?)', [req.body.customerId, req.body.addline1, req.body.addline2, req.body.city, req.body.state, req.body.zipcode], (err,data)=>{
+    if( err){
+      console.log(err);
+      res.status(500).send({
+        message: err.message
+      })
+    }
+    else {
+      res.send(data);
+    }
+  })
+}

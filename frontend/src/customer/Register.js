@@ -1,13 +1,16 @@
 import React, {useState}  from 'react';
 import { useHistory, Link} from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { register } from '../actions/userActions';
 import axios from 'axios';
 import "./Register.css"
 
 function Register(){
     const history = useHistory();
+    const dispatch = useDispatch();
     const [email , setEmail ] = useState("");
     const [pwd , setPwd ] = useState("");
-    const [rname , setName] = useState("");
+    const [cname , setName] = useState("");
     const [error , setError] = useState("");
   
 
@@ -15,16 +18,20 @@ function Register(){
         event.preventDefault();
         try {
            const regAdmin = {
-               rname,
+                cname,
                 email,
                 pwd,
             };
             console.log("------",regAdmin)
             const res = await axios.post("http://localhost:8081/customer/register",regAdmin);
             console.log("response", res);
+            dispatch(register({
+                email: res.data.email,
+                signedIn: true, 
+            }))
             history.push("/clogin");
         }catch(err){
-            console.log("error",err.response.message);
+            console.log("error",err.response.data.message);
             console.log("incatch")
             
                 setError(err.response.data.message)
@@ -48,7 +55,7 @@ function Register(){
                     <p>Enter your email, phone number and password(required)</p>
                     <form>
                         <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} value={email} required></input>
-                        <input type="text" placeholder="Name" onChange={(e) => setName(e.target.value)} value={rname} required></input>
+                        <input type="text" placeholder="Name" onChange={(e) => setName(e.target.value)} value={cname} required></input>
                         <input type="password" placeholder="password" onChange={(e) => setPwd(e.target.value)} value={pwd} required></input>
                         <button onClick={cusRegister} className="register__button">Next</button>
                     </form>

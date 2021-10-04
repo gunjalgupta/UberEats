@@ -17,6 +17,7 @@ import Editdish from './dish/Editdish'
 import Favorite from './customer/Favourite';
 import Checkout from './customer/Checkout';
 import Pastorders from './customer/Pastorders';
+import AllOrders from './restaurant/AllOrders';
 //import Details from './customer/Details'
 //import Profilepic from './customer/Profilepic';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -68,6 +69,9 @@ function App() {
           </Route>
           <Route path='/pastorders'>
             <Pastorders/>
+          </Route>
+          <Route path='/allorders'>
+            <AllOrders/>
           </Route>
 
     <Route path= "/">

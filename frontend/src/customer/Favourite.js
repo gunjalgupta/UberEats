@@ -3,9 +3,14 @@ import { Menu, LocationOn,WatchLater,ArrowDownward } from "@mui/icons-material";
 import axios from 'axios';
 import M from 'materialize-css'
 import Restaurant from '../components/Restaurants'
+import { useDispatch } from "react-redux";
+import { logout } from "../actions/userActions";
+import { useHistory } from "react-router-dom";
 
 const Favourite= function (){
 
+    const dispatch= useDispatch();
+    const history= useHistory();
     const [headbg,setheadbg]=useState('transparent');
     const [shadow,setshadow]=useState('none');
     const [inputdisplay,setinputdisplay]=useState(0);
@@ -27,6 +32,14 @@ const Favourite= function (){
   
       }
     })
+
+
+  function signout(){
+    dispatch(logout());
+    localStorage.setItem("customer",null);
+    history.push("/")
+  }
+
     useEffect(()=>{
         const customerId =  JSON.parse(localStorage.getItem("customer")).customerId;
 
@@ -72,7 +85,7 @@ const Favourite= function (){
                   
                  </div>
                  
-                 <div className="header__upperheaderright">
+                 <div className="header__upperheaderright" onClick={signout}>
                    
                       <p> Sign out </p>
                  </div>

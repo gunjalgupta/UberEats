@@ -26,8 +26,12 @@ import Select from "@mui/material/Select";
 import './Pastorders.css'
 import { Typography } from "@material-ui/core";
 import ReactDOM from "react-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../actions/userActions";
 
 const Pastorders = () => {
+  const history= useHistory();
+  const dispatch= useDispatch();
   const [headbg, setheadbg] = useState("transparent");
   const [shadow, setshadow] = useState("none");
   const [inputdisplay, setinputdisplay] = useState(0);
@@ -49,19 +53,21 @@ const Pastorders = () => {
       .then((res) => {
         console.log(res);
         setOrders(res.data)
-      });
+      })
 
-      axios
+  }, []);
+
+  const getdetails= (invoiceId)=>{
+    axios
     .post("http://localhost:8081/order/getcusdetail", {
       customerId: JSON.parse(localStorage.getItem("customer")).customerId,
+      invoiceId : invoiceId,
     })
     .then((res) => {
       console.log(res);
       setOrderdetails(res.data)
-    });
-  }, []);
-
-  
+    })
+  }
     
   
 
@@ -78,10 +84,10 @@ const Pastorders = () => {
   });
 
   const [status, setStatus] = React.useState("");
-  const filters =
-    JSON.parse(localStorage.getItem("order")).mode === "delivery"
-      ? ["Order Received", "Preparing", "On the way", "Delivered"]
-      : ["Order Received", "Preparing", " Pick up Ready", "Picked Up"];
+//   const filters =
+//     JSON.parse(localStorage.getItem("order")).mode === "delivery"
+//       ? ["Order Received", "Preparing", "On the way", "Delivered"]
+//       : ["Order Received", "Preparing", " Pick up Ready", "Picked Up"];
 
   const handleChange = (event) => {
     setStatus(event.target.value);
@@ -89,7 +95,7 @@ const Pastorders = () => {
 
   useEffect(() => {
     setFilteredOrders(orders.filter((order) => order.ostatus === status));
-  }, [status]);
+  }, []);
 
   const useModal = () => {
     const [isShowing, setIsShowing] = useState(false);
@@ -104,7 +110,7 @@ const Pastorders = () => {
     };
   };
 
-  const Modal = ({ isShowing, hide }) =>
+  const Modal = ({ isShowing, hide , total}) =>
     isShowing
       ? ReactDOM.createPortal(
           <React.Fragment>
@@ -154,24 +160,16 @@ const Pastorders = () => {
                   <Grid container item>
                     <Grid container xs={4}></Grid>
                     <Grid container xs={4}>
-                      {/* Total Price : {total} */}
+                      Total Price :
                     </Grid>
                     <Grid container xs={4}>
-                      {12}
+                    {total}
                     </Grid>
                   </Grid>
                 </Grid>
                 <Box
                   sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}
                 >
-                  <Link to ='/checkout'>
-                  <Button
-                    onClick={() => {
-                      toggle();
-                    }}
-                  >
-                    GO TO CHECKOUT
-                  </Button></Link>
                 </Box>
               </div>
             </div>
@@ -181,6 +179,12 @@ const Pastorders = () => {
       : null;
   const { isShowing, toggle } = useModal();
 
+  
+  function signout(){
+    dispatch(logout());
+    localStorage.setItem("customer",null);
+    history.push("/")
+  }
 
 
   return (
@@ -204,11 +208,12 @@ const Pastorders = () => {
 <input type="text" placeholder="What are you craving? " />
 </div> */}
 
-          <div className="header__upperheaderright">
+          <div className="header__upperheaderright" onClick={signout}>
             <p> Sign out </p>
           </div>
         </div>
       </div>
+     
       <div
         style={{
           paddingTop: "100px",
@@ -218,6 +223,9 @@ const Pastorders = () => {
         container
         direction={"row"}
       >
+        <div>
+        <h1>Past Orders</h1>
+      </div>
         <Box sx={{ minWidth: 120 }}>
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Status</InputLabel>
@@ -228,9 +236,9 @@ const Pastorders = () => {
               label="Status"
               onChange={handleChange}
             >
-              {filters.map((filter) => (
+              {/* {filters.map((filter) => (
                 <MenuItem value={filter}>{filter}</MenuItem>
-              ))}
+              ))} */}
             </Select>
           </FormControl>
         </Box>
@@ -243,17 +251,21 @@ const Pastorders = () => {
             <th>Restaurant Name</th>
             <th>Order Date</th>
             <th>Amount</th>
+            <th>Mode of delivery</th>
           </tr> 
 
           {/* Use filterredOrders for this */}
           {orders.map((order) => (
-            <tr onClick={toggle}>
+            <tr onClick={()=>{toggle()
+            getdetails(order.invoiceId)}}>
               <td>{order.rname}</td>
               <td>{order.orderDate}</td>
               <td>{order.total}</td>
+              <td>{order.mode}</td>
               <Modal
               isShowing={isShowing}
               hide={toggle}
+              total= {order.total}
               style={{ position: "absolute", width: "240px", height: "340px" }}
             />
             </tr>

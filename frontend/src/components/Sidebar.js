@@ -127,14 +127,14 @@ export default function PersistentDrawerLeft() {
           <Divider />
           <List>
           <ListItem >
-            <a href= './clogin'>
+            <a href= './rlogin'>
                 <ListItemIcon>
                  <InboxIcon />    Sign in as restaurant  
                 </ListItemIcon> 
                 <ListItemText/></a>
               </ListItem>
               <ListItem >
-              <a href= './cregister'>
+              <a href= './rregister'>
                 <ListItemIcon>
                  <InboxIcon />     Add Restaurant
                 </ListItemIcon>

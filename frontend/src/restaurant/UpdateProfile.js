@@ -12,9 +12,12 @@ import { CountryDropdown, RegionDropdown } from "react-country-region-selector-m
 import './UpdateProfile.css'
 import Showprofile from './Showprofile';
 import Profilepic from './Profilepic';
+import { logoutRestaurant } from "../actions/resActions";
+import { useDispatch } from "react-redux";
 
 const UpdateProfile = () => {
     const history = useHistory()
+    const dispatch = useDispatch()
     const [restaurantData, setRestaurantData] = useState([])
     const [image, setImage] = useState([])
     const [url, setUrl] = useState([])
@@ -39,16 +42,11 @@ const UpdateProfile = () => {
     }
   })
 
-  const dropdown = [
-    {
-        value: 'Yes',
-        label: 'Yes'
-    },
-    {
-        value: 'No',
-        label: 'No'
-    }
-];
+  function signout(){
+    dispatch(logoutRestaurant());
+    localStorage.setItem("restaurant",null);
+    history.push("/")
+  }
 
     //const { state, dispatch } = useContext(UserContext)
     useEffect(() => {
@@ -177,16 +175,19 @@ const UpdateProfile = () => {
                 <div className="header__upperheader"  style={{backgroundColor:headbg,boxShadow:shadow}}   >
                   <div className="header__upperheaderleft">
                     
-                     <img
-                         src="https://d3i4yxtzktqr9n.cloudfront.net/web-eats-v2/ee037401cb5d31b23cf780808ee4ec1f.svg "
-                          alt="uber eats" />
+                  <Link to="/rhome">
+                 <img
+                    src="https://d3i4yxtzktqr9n.cloudfront.net/web-eats-v2/ee037401cb5d31b23cf780808ee4ec1f.svg "
+                     alt="uber eats"
+                   />{" "}
+                 </Link>
                  </div>
                  {/* <div className="header__upperheadercenter"   >
                  
                     <input type="text" placeholder="What are you craving? " />
                  </div> */}
 
-                 <div className="header__upperheaderright">
+                 <div className="header__upperheaderright" onClick={signout}>
                       <p> Sign out </p>
                  </div>
                 </div>
