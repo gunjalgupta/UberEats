@@ -11,9 +11,8 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { BrowserRouter as Router, useHistory } from "react-router-dom";
 import "../customer/Restaurant.css";
 import axios from "axios";
-import { FavoriteBorder } from "@mui/icons-material";
 
-const Restaurants = ({ Name, Opens_at, imageKey, id }) => {
+const Restaurants = ({ Name, Opens_at, imageKey, id ,desc}) => {
   const history = useHistory();
   const [icon, seticon] = useState([false]);
   const [favrestaurants, setRestaurants] = useState([]);
@@ -94,7 +93,7 @@ const Restaurants = ({ Name, Opens_at, imageKey, id }) => {
       <Card className="cardd_res" style={{
         height: '100%'
       }}>
-        <CardHeader title={Name} subheader={Opens_at} />
+        <CardHeader title={Name}/>
         {imageKey && (
           <CardMedia
             onClick={() => history.push(`/resprofile/${id}`)}
@@ -106,9 +105,12 @@ const Restaurants = ({ Name, Opens_at, imageKey, id }) => {
         )}
 
         <CardContent>
-          <Typography variant="body2" color="text.secondary">
-            resturant description
+        <Typography variant="body2" color="text.secondary">
+            Opens at: {Opens_at}
           </Typography>
+          {/* <Typography variant="body2" color="text.secondary">
+            {desc}
+          </Typography> */}
         </CardContent>
         <CardActions disableSpacing>
           <IconButton aria-label="add to favorites">

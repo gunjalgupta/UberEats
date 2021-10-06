@@ -18,6 +18,7 @@ import Favorite from './customer/Favourite';
 import Checkout from './customer/Checkout';
 import Pastorders from './customer/Pastorders';
 import AllOrders from './restaurant/AllOrders';
+import Cusprofile from './restaurant/Cusprofile';
 //import Details from './customer/Details'
 //import Profilepic from './customer/Profilepic';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -72,6 +73,9 @@ function App() {
           </Route>
           <Route path='/allorders'>
             <AllOrders/>
+          </Route>
+          <Route exact path='/cusprofile/:customerId'>
+            <Cusprofile/>
           </Route>
 
     <Route path= "/">

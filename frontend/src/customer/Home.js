@@ -55,7 +55,7 @@ const Home = () => {
   const [value, setValue] = useState("");
   const [headbg, setheadbg] = useState("transparent");
   const [shadow, setshadow] = useState("none");
-  const [inputdisplay, setinputdisplay] = useState(0);
+ 
 
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -72,11 +72,11 @@ const Home = () => {
     if (window.scrollY >= 50) {
       setheadbg("#FFFFFF");
       setshadow("rgb(226 226 226) 0px -2px 0px inset");
-      setinputdisplay(1);
+ 
     } else {
       setheadbg("transparent");
       setshadow("none");
-      setinputdisplay(0);
+
     }
   });
 
@@ -121,7 +121,9 @@ const Home = () => {
               role="dialog"
             >
               <div className="modal">
-                <div className="modal-header">
+              <div style={{ display: "flex", alignItems: "center",fontSize:30}}> {JSON.parse(localStorage.getItem("cart"))[0].rname}</div>
+               
+                <div className="modal-header" style={{justifyContent: 'flex-end'}}>
                   <button
                     type="button"
                     className="modal-close-button"
@@ -145,13 +147,14 @@ const Home = () => {
                   variant="subtitle1"
                   color="text.secondary"
                   component="div"
+                  style={{paddingBottom: '25px'}}
                 >
                   <br />
                   <div style={{display :"flex", flexDirection:"row"}}> 
-                  <div>
-                  Dish name  </div> <div style={{paddingLeft:"100"}}>   Quantity </div><div style={{paddingLeft:"10"}}>  Subtotal</div></div>
+                  <div>Dish name  </div> <div style={{paddingLeft:"85px"}}>   Quantity </div><div style={{paddingLeft:"110px"}}>  Subtotal</div><br></br></div>
                 </Typography>
                 <Grid container spacing={3}>
+                  
                   {localStorage.getItem("cart") &&
                     JSON.parse(localStorage.getItem("cart")).map((dish) => (
                       <Grid container item>
@@ -162,30 +165,23 @@ const Home = () => {
                           {dish.quantity}
                         </Grid>
                         <Grid container xs={4}>
-                          {dish.subtotal}
+                          ${dish.subtotal}
                         </Grid>
                       </Grid>
                     ))}
-                  <Grid container item>
-                    <Grid container xs={4}></Grid>
-                    <Grid container xs={4}>
-                      Total Price
-                    </Grid>
-                    <Grid container xs={4}>
-                      {localStorage.getItem("order") && JSON.parse(localStorage.getItem("order")).total}
-                    </Grid>
-                  </Grid>
+                  
                 </Grid>
                 <Box
                   sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}
                 >
-                  <Link to= '/checkout'>
+                  <Link to= '/checkout' style={{paddingTop: '40px'}}>  
                   <Button
                     onClick={() => {
                       toggle();
                     }}
+                    style={{color:'white', backgroundColor:'black', display:'flex',justifyContent:'center',alignContent:'center',alignItems:'center',alignSelf:'center'}}
                   >
-                    GO TO CHECKOUT
+                    GO TO CHECKOUT . ${localStorage.getItem("order") && JSON.parse(localStorage.getItem("order")).total}
                   </Button> </Link>
                 </Box>
               </div>
@@ -301,6 +297,8 @@ const Home = () => {
 
   console.log("filtered", filteredRestaurants)
   console.log("all", restaurants)
+
+
   return (
     <div className="cushome">
       <div className="header__upper">
@@ -425,18 +423,22 @@ const Home = () => {
         container
         style={{
           paddingTop: "120px",
+          paddingLeft:'30px'
         }}
       >
         <Grid container item xs={2} style={{
-          height: "fit-content"
+          height: "fit-content",
+          paddingTop: '20px'
         }}>
           <Grid container item>
             <FormControl component="fieldset">
-              <FormLabel component="legend">Options</FormLabel>
+              <FormLabel component="legend">Chose delivery option</FormLabel>
               <RadioGroup defaultValue="delivery" name="radio-buttons-group" >
                 <FormControlLabel
                   value="delivery"
-                  control={<Radio/>}
+                  control={<Radio style ={{
+                    color: "black",
+                  }}/>}
                   label="Delivery"
                   onChange={
                     (event) => updateFilters(
@@ -449,7 +451,9 @@ const Home = () => {
                 />
                 <FormControlLabel
                   value="pickup"
-                  control={<Radio />}
+                  control={<Radio style ={{
+                    color: "black",
+                  }}/>}
                   label="Pickup"
                   onChange={
                     (event) => updateFilters(
@@ -464,12 +468,14 @@ const Home = () => {
             </FormControl>
 
           </Grid>
-          <Grid container item>
+          <Grid container item style={{paddingTop: '50px'}}>
 
             <FormGroup >
-              <FormLabel component="legend">Type</FormLabel>
+              <FormLabel component="legend">Diet preference</FormLabel>
               <FormControlLabel
-                control={<Checkbox defaultChecked />}
+                control={<Checkbox defaultChecked style ={{
+                  color: "black",
+                }}/>}
                 label="Vegan"
                 onChange={
                   (event) => updateFilters(
@@ -480,7 +486,10 @@ const Home = () => {
                 }
               />
               <FormControlLabel
-                control={<Checkbox defaultChecked />}
+                control={<Checkbox defaultChecked  style ={{
+                  color: "black",
+                }}
+                />}
                 label="Veg"
                 onChange={
                   (event) => updateFilters(
@@ -491,7 +500,9 @@ const Home = () => {
                 }
               />
               <FormControlLabel
-                control={<Checkbox defaultChecked />}
+                control={<Checkbox defaultChecked style ={{
+                  color: "black",
+                }}/>}
                 label="Non-Veg"
                 onChange={
                   (event) => updateFilters(
@@ -506,21 +517,8 @@ const Home = () => {
         </Grid>
         
         {search ? (
-          <Grid container item xs={10} spacing={5}>
+          <Grid container item xs={10} spacing={5} style={{paddingRight:'40px'}}>
             {
-              // <Grid container disableGutters spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-              // {
-              // restaurants.map(restaurant =>(
-
-              // <Grid disableGutters item xs={2} sm={4} md={4} key={restaurant.restaurantId}>
-              //  <Item>
-              //   <Restaurant id ={restaurant.restaurantId} Name ={restaurant.rname} Opens_at={restaurant.fromTime} imageKey={restaurant.profilepic}/>
-              //  </Item>
-              // </Grid>
-              // ))
-              // }
-              // </Grid>
-
               filteredRestaurants.map((restaurant) => (
                 <Grid container item xs={4}>
                   <Restaurant
@@ -528,13 +526,14 @@ const Home = () => {
                     Name={restaurant.rname}
                     Opens_at={restaurant.fromTime}
                     imageKey={restaurant.profilepic}
+                    desc= {restaurant.rdesc}
                   />
                 </Grid>
               ))
             }
           </Grid>
         ) : (
-          <Grid container item xs={10} spacing={5}>
+          <Grid container item xs={10} spacing={5} style={{paddingRight:'40px'}}>
             {filteredRestaurants.map((restaurant) => (
               <Grid container item xs={4}>
                 <Restaurant
@@ -542,6 +541,7 @@ const Home = () => {
                   Name={restaurant.rname}
                   Opens_at={restaurant.fromTime}
                   imageKey={restaurant.profilepic}
+                  desc= {restaurant.rdesc}
                 />
               </Grid>
             ))}

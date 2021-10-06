@@ -9,7 +9,7 @@ import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import ReactDOM from "react-dom";
 
-function Dishes({ dname, des, ing, imageKey, price, id , restaurantId}) {
+function Dishes({ dname, des, ing, imageKey, price, id , restaurantId,rname}) {
   const [dish, setdish] = useState([]);
   let [counter, setcounter] = useState(0);
 
@@ -41,13 +41,13 @@ function Dishes({ dname, des, ing, imageKey, price, id , restaurantId}) {
           "cart",
           JSON.stringify([
             ...JSON.parse(localStorage.getItem("cart")),
-            { dishId: dishId, dname:dname, quantity: quantity, Price: price, subtotal: subtotal  },
+            { dishId: dishId, dname:dname, quantity: quantity, Price: price, subtotal: subtotal,rname:rname  },
           ])
         ) : 
         localStorage.setItem(
           "cart",
           JSON.stringify([
-            { dishId: dishId, dname:dname, quantity: quantity, Price: price, subtotal: subtotal },
+            { dishId: dishId, dname:dname, quantity: quantity, Price: price, subtotal: subtotal,rname:rname },
           ])
         )
       } else 
@@ -57,7 +57,7 @@ function Dishes({ dname, des, ing, imageKey, price, id , restaurantId}) {
           "cart",
           JSON.stringify([
             ...JSON.parse(localStorage.getItem("cart")),
-            { dishId: dishId, dname:dname, quantity: quantity, Price: price, subtotal: subtotal  },
+            { dishId: dishId, dname:dname, quantity: quantity, Price: price, subtotal: subtotal, rname:rname },
           ])
         )
       }
@@ -65,7 +65,7 @@ function Dishes({ dname, des, ing, imageKey, price, id , restaurantId}) {
         localStorage.setItem(
           "cart",
           JSON.stringify([
-            { dishId: dishId, dname:dname, quantity: quantity, Price: price, subtotal: subtotal },
+            { dishId: dishId, dname:dname, quantity: quantity, Price: price, subtotal: subtotal ,rname:rname},
           ])
         )
       }
@@ -86,7 +86,9 @@ function Dishes({ dname, des, ing, imageKey, price, id , restaurantId}) {
               role="dialog"
             >
               <div className="modal">
-                <div className="modal-header">
+              <div style={{ display: "flex", alignItems: "center",fontSize:30}}> {rname} </div>
+                <div className="modal-header" style={{justifyContent: 'flex-end'}}>
+                  
                   <button
                     type="button"
                     className="modal-close-button"

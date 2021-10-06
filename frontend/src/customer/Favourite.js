@@ -6,6 +6,8 @@ import Restaurant from '../components/Restaurants'
 import { useDispatch } from "react-redux";
 import { logout } from "../actions/userActions";
 import { useHistory } from "react-router-dom";
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 
 const Favourite= function (){
 
@@ -13,7 +15,6 @@ const Favourite= function (){
     const history= useHistory();
     const [headbg,setheadbg]=useState('transparent');
     const [shadow,setshadow]=useState('none');
-    const [inputdisplay,setinputdisplay]=useState(0);
     const [restaurants, setRestaurants] = useState([])
   
     
@@ -21,18 +22,14 @@ const Favourite= function (){
       if(window.scrollY>=50){
         setheadbg('#FFFFFF');
         setshadow('rgb(226 226 226) 0px -2px 0px inset');
-        setinputdisplay(1);
-  
       }
       else{
         setheadbg('transparent');
         setshadow('none');
-        setinputdisplay(0);
-  
-  
+     
       }
     })
-
+   
 
   function signout(){
     dispatch(logout());
@@ -91,16 +88,33 @@ const Favourite= function (){
                  </div>
                 </div>
              </div>
-             <div className="res" style={{marginTop: 100,marginLeft: 30 }}><h3>Favourites</h3></div>
-             <div className="res" style={{marginTop: 10, display: "flex"}}>
+             <div className="res" style={{marginTop: 100,paddingLeft: 40 }}><h3>Favourites</h3></div>
+             {/* <div className="res" style={{marginTop: 10, display: "flex"}}>
             {
                 restaurants.map(restaurant =>(
                     <Restaurant id ={restaurant.restaurantId} Name ={restaurant.rname} Opens_at={restaurant.fromTime} imageKey={restaurant.profilepic}/>
                 ))
             } 
+            </div> */}
 
-              
-            </div>
+            <Box style={{padding:40}}>
+            <Grid container item xs={10} spacing={5}>
+                {
+                restaurants.map(restaurant =>(
+                
+                <Grid container item xs={4} key={restaurant.restaurantId}>
+      
+      <Restaurant id ={restaurant.restaurantId} Name ={restaurant.rname} Opens_at={restaurant.fromTime} imageKey={restaurant.profilepic}/>
+                 
+    </Grid>
+                ))
+                }
+                </Grid>
+            </Box>
+
+            
+
+            
     </div>
     )
 }

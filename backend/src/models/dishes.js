@@ -54,9 +54,9 @@ Dish.updateById = (dishId, dish, result) => {
   console.log("here",dish.values.ingredients, dishId)
   
   connection.query(
-    'UPDATE dish SET dname = ?, ingredients = ? , ddesc=? , restaurantId =?, cuisineId =?, veg =?, nonVeg =?, vegan=?, categoryId =?, price =? WHERE dishId = ?',
+    'UPDATE dish SET dname = ?, ingredients = ? , ddesc=? , restaurantId =?, cuisineId =?, veg =?, nonVeg =?, vegan=?, categoryId =?, Price =? WHERE dishId = ?',
     // eslint-disable-next-line max-len
-    [dish.values.dname, dish.values.ingredients, dish.values.ddesc, dish.values.restaurantId, dish.values.cuisineId, dish.values.veg, dish.values.nonVeg, dish.values.vegan, dish.values.categoryId, dish.values.price, dishId],
+    [dish.values.dname, dish.values.ingredients, dish.values.ddesc, dish.values.restaurantId, dish.values.cuisineId, dish.values.veg, dish.values.nonVeg, dish.values.vegan, dish.values.categoryId, dish.values.Price, dishId],
     (err, res) => {
       if (err) {
         console.log('error: ', err);

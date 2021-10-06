@@ -61,7 +61,7 @@ const Editdish=()=>{
   }, []);
   
   return(dishData.dname?
-    <div className= "reshome">
+    <div className= "reshome" style ={{padding:20}}>
     <div className="header__upper">
        <div className="header__upperheader"  style={{backgroundColor:headbg,boxShadow:shadow}}   >
          <div className="header__upperheaderleft">
@@ -132,6 +132,7 @@ const Editdish=()=>{
                             // }
                             // const dishId = 1
                             const value={ values: values}
+                            console.log("price",value)
                             axios.post(`http://localhost:8081/restaurant/editdish/${dishId}`, value )
                                 .then(response => {
                                     console.log("update",value)
@@ -167,15 +168,15 @@ const Editdish=()=>{
                                             <p className="help-block text-danger"></p>
                                         </div>
                                         <div className="form-group" >
-                                            <label style={{ width: "100%" }}> Ingredients <input required type="text" style={{ width: "100%", borderRadius: 0 }} className="form-control" id="ingredients" onBlur={handleBlur} onChange={handleChange} value={values.ingredients} /></label>
+                                            <label style={{ width: "100%" }}> Ingredients <input type="text" style={{ width: "100%", borderRadius: 0 }} className="form-control" id="ingredients" onBlur={handleBlur} onChange={handleChange} value={values.ingredients} /></label>
                                             <p className="help-block text-danger"></p>
                                         </div>
                                         <div className="form-group" >
-                                            <label style={{ width: "100%" }}>Description <input required type="text" style={{ width: "100%", borderRadius: 0 }} className="form-control" id="ddesc" onBlur={handleBlur} onChange={handleChange} value={values.ddesc} /></label>
+                                            <label style={{ width: "100%" }}>Description <input type="text" style={{ width: "100%", borderRadius: 0 }} className="form-control" id="ddesc" onBlur={handleBlur} onChange={handleChange} value={values.ddesc} /></label>
                                             <p className="help-block text-danger"></p>
                                         </div>
                                         <div className="form-group" >
-                                            <label style={{ width: "100%" }}>Price <input type="number" style={{ width: "100%", borderRadius: 0 }} className="form-control" id="Price" onBlur={handleBlur} onChange={handleChange} value={values.Price} /></label>
+                                            <label style={{ width: "100%" }}>Price <input required type="number" style={{ width: "100%", borderRadius: 0 }} className="form-control" id="Price" onBlur={handleBlur} onChange={handleChange} value={values.Price} /></label>
                                             <p className="help-block text-danger"></p>
                                         </div>
 

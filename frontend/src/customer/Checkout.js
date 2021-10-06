@@ -28,8 +28,9 @@ const Checkout = () => {
   const [headbg, setheadbg] = useState("transparent");
   const [shadow, setshadow] = useState("none");
   const [currentAddress, setCurrentAddress] = useState("")
-  const [mode, setMode] = useState("")
+  const [mode, setMode] = useState("pickup")
   const [savedAddress, setSavedAddress]= useState([]);
+  const [value, setValue] = useState("pickup");
   const [address, setAddress] = useState({
     customerId: JSON.parse(localStorage.getItem("customer")).customerId,
     addline1: "",
@@ -206,24 +207,41 @@ const Checkout = () => {
           spacing={3}
           xs={6}
           style={{
-            border: "1px solid grey",
+            // border: "1px solid grey",
             height: "100%",
+           
           }}
         >
+          <Grid container xs={6} style={{display:'flex', justifyContent:'center',  paddingTop: "0px",fontSize:32}}>
+          {JSON.parse(localStorage.getItem("cart"))[0].rname}
+                </Grid>
+                <table
+            style={{
+            width: "100%",
+          }}
+        >
+          <tr>
+            <th>Dish Name</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+          </tr> 
           {localStorage.getItem("cart") &&
             JSON.parse(localStorage.getItem("cart")).map((dish) => (
+              <tr>
               <Grid container item>
                 <Grid container xs={4}>
-                  {dish.dname}
+                <td>{dish.dname}</td>
                 </Grid>
                 <Grid container xs={4}>
-                  {dish.quantity}
+                <td>{dish.quantity}</td>
                 </Grid>
                 <Grid container xs={4}>
-                  {dish.subtotal}
+                <td>{dish.subtotal}</td>
                 </Grid>
               </Grid>
+              </tr>
             ))}
+            </table>
           <Grid container item>
             <Grid container xs={4}></Grid>
             <Grid container xs={4}>
@@ -239,11 +257,12 @@ const Checkout = () => {
               <FormLabel component="legend">Choose an option</FormLabel>
               <RadioGroup
                 aria-label="gender"
-                defaultValue="female"
+                value= {value}
                 name="radio-buttons-group"
-                onChange={(e) => setMode(e.target.value)}
+                onChange={(e) => {setMode(e.target.value)
+                setValue(e.target.value)}}
               >    
-                <FormControlLabel value="pickup" control={<Radio />} label="Pick-up" />
+                <FormControlLabel value="pickup" defaultChecked="true" control={<Radio />} label="Pick-up" />
                 <FormControlLabel value="delivery" control={<Radio />} label="Delivery" />
               </RadioGroup>
             </FormControl>
@@ -353,7 +372,7 @@ const Checkout = () => {
               height: "fit-content",
             }}
           >
-            <button onClick={submitOrder}>Place Order</button>
+            <button style={{color:'white', backgroundColor:'black',paddingLeft:50,paddingRight:50, fontSize:20}}onClick={submitOrder}>Place Order</button>
           </Grid>
         </Grid>
       </Grid>

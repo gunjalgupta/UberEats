@@ -78,6 +78,7 @@ exports.find = (req,res) => {
       req.params.dishId,
       req.body,
       (err, data) => {
+        console.log("con",req.body)
         if (err) {
           if (err.kind === "not_found") {
             res.status(404).send({

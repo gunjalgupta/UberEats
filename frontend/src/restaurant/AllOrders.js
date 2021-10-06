@@ -22,6 +22,8 @@ import { useDispatch } from "react-redux";
 import { logoutRestaurant } from "../actions/resActions";
 import { BrowserRouter as Router, useHistory } from 'react-router-dom'
 import axios from "axios";
+import LaunchIcon from '@mui/icons-material/Launch';
+
 
 
 
@@ -53,6 +55,9 @@ function AllOrders() {
 
     const [headbg,setheadbg]=useState('transparent');
     const [shadow,setshadow]=useState('none');
+    const [deliveryData, setDeliveryData] = useState([]);
+    const [pickupData, setPickupData] = useState([]);
+    const [lookup, setLookup] = useState({  "placed": 'Placed', "Preparing": 'Preparing', "on the way": "on the way", " delivered":"delivered"  });
 
 
 
@@ -87,27 +92,57 @@ function AllOrders() {
         console.log("res", responseData);
         // M.toast({ html: responseData.data.error, classes: "#c62828 red darken-3" })
       } else {
+          const tempdatadel = []
+          const tempdatapic = []
+          responseData.data.forEach((row)=>{
+            if(row.mode=="delivery"){
+                if(row.ostatus=="Order received" || row.ostatus=="Preparing" || row.ostatus=="On the way")
+                {
+                    tempdatadel.push({...row, status: "New order"})
+                }
+                else if(row.ostatus=="Delivered"){
+                    tempdatadel.push({...row, status: "Delivered order"})
+                }
+                else if(row.ostatus=="Cancelled"){
+                    
+                    tempdatadel.push({...row, status: "Cancelled order"})
+                }
+                
+            }
+            
+            else {
+                if(row.ostatus=="Order received" || row.ostatus=="Preparing" || row.ostatus=="Pickup ready")
+                {
+                    
+                    tempdatapic.push({...row, status: "New order"})
+                }
+                else if(row.ostatus=="Picked up"){
+                    tempdatapic.push({...row, status: "Delivered order"})
+                }
+                else if(row.ostatus=="Cancelled"){
+                    tempdatapic.push({...row, status: "Cancelled order"})
+                }
+                
+            }
+            console.log("here",row)
+        })
+    
         //setcustomerData(responseData.data)
-        setData(responseData.data);
+        setDeliveryData(tempdatadel)
+        setPickupData(tempdatapic)
+        setData(tempdatadel);
         console.log("restaurant", responseData.data);
         //console.log("resss ",customerData);
         //localStorage.setItem("restaurant", JSON.stringify(responseData.data));
       }
-    });
+    })
 
   },[status])
   
-    const [columns, setColumns] = useState([
-      { title: 'Invoice number', field: 'orderId' ,editable: 'never'},
-      { title: 'Customer name', field: 'cname' ,editable: 'never'},
-      { title: 'Email', field: 'email', initialEditValue: 'initial edit value' , editable: 'never'},
-      { title: 'Contact Number', field: 'mobileNo', type: 'numeric' , editable: 'never'},
-      {
-        title: 'Order Status',
-        field: 'ostatus',
-        lookup: { "placed": 'Placed', "Preparing": 'Preparing' },
-      },
-    ]);
+    const [columns, setColumns] = useState();
+
+    // if mode == delivery then lookup:  { "placed": 'Placed', "Preparing": 'Preparing', on the way, delivered },
+    //else lookup:  { "placed": 'Placed', "Preparing": 'Preparing', pickup ready, picked up },
   
     const saveStatus = async (ostatus,orderId) =>{
         const req = { ostatus: ostatus,
@@ -116,11 +151,11 @@ function AllOrders() {
         await axios.post("http://localhost:8081/order/status",req)
         .then(responseData => {
             if (responseData.data.error) {
-                console.log("res",responseData);
+                //console.log("res",responseData);
                // M.toast({ html: responseData.data.error, classes: "#c62828 red darken-3" })
             }
             else {
-              console.log(" dishes",responseData.data)
+              //console.log(" dishes",responseData.data)
                     //setcustomerData(responseData.data)
                     //setDishes(responseData.data)
                     
@@ -156,12 +191,43 @@ function AllOrders() {
            </div>
         </div> 
       <div style={{paddingTop:90, paddingLeft:20, paddingRight:20}}>
+
+          <button onClick={() => {
+              setData(pickupData)
+             setLookup({ "Order received": 'Order received', "Preparing": 'Preparing', "Pickup ready": "Pickup ready", "Picked up": "Picked up" })}
+          }>Pickup orders</button>
+          <button onClick={() => {
+              setData(deliveryData)
+            
+              setLookup({  "Order received": 'Order received', "Preparing": 'Preparing', "On the way": "On the way", " Delivered":"Delivered"  })}}>
+                  Delivery orders</button>
       <MaterialTable
         icons={tableIcons}
-        title="All Orders"
-        columns={columns}
-        data={data}
+        title="Orders"
         
+        columns={[
+            { title: 'Invoice number', field: 'orderId' ,editable: 'never', grouping: false },
+            { title: 'Customer name', field: 'cname' ,editable: 'never' },
+            { title: 'Email', field: 'email', initialEditValue: 'initial edit value' , editable: 'never', grouping: false },
+            { title: 'Contact Number', field: 'mobileNo', type: 'numeric' , editable: 'never', grouping: false },
+            { title: 'Mode of delivery', field: 'mode' , editable: 'never', grouping: false },
+            { title: 'Status', field: "status" , editable: 'never'},
+            {
+              title: 'Order Status',
+              field: 'ostatus',
+              lookup: lookup,
+            },
+            
+          ]}
+        data={data}
+        actions={[
+          {
+            icon: () => <LaunchIcon />,
+            tooltip: 'See customer',
+            onClick: (event, rowData) => 
+            history.push(`/cusprofile/${rowData.customerId}`)
+          }
+        ]}
         cellEditable={{
           onCellEditApproved: (newValue, oldValue, rowData, columnDef) => {
             return new Promise((resolve, reject) => {
@@ -173,6 +239,9 @@ function AllOrders() {
             });
           }
         }}
+        options={{
+            grouping: true
+          }}
       />
       </div> 
       </div>

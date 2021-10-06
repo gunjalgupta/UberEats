@@ -28,13 +28,18 @@ import { Typography } from "@material-ui/core";
 import ReactDOM from "react-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../actions/userActions";
+import FormGroup from '@mui/material/FormGroup';
+import Checkbox from '@mui/material/Checkbox';
+
 
 const Pastorders = () => {
   const history= useHistory();
   const dispatch= useDispatch();
   const [headbg, setheadbg] = useState("transparent");
   const [shadow, setshadow] = useState("none");
-  const [inputdisplay, setinputdisplay] = useState(0);
+  const [mode, setMode] = useState("pickup")
+  // const [pickup, setPickup] = useState()
+  // const [delivery, setDelivery] = useState()
   const [orders, setOrders] = useState([
     {
       restaurantName: "restaurantName",
@@ -44,6 +49,11 @@ const Pastorders = () => {
   ]);
   const [orderdetails, setOrderdetails] = useState([])
   const [filteredOrders, setFilteredOrders] = useState(orders);
+  const [filters, setFilters] = useState([]);
+  const [pd, updatePD] = useState({
+    delivery: true,
+    pickup: true,
+  })
 
   useEffect(() => {
     axios
@@ -53,6 +63,7 @@ const Pastorders = () => {
       .then((res) => {
         console.log(res);
         setOrders(res.data)
+        
       })
 
   }, []);
@@ -75,27 +86,51 @@ const Pastorders = () => {
     if (window.scrollY >= 50) {
       setheadbg("#FFFFFF");
       setshadow("rgb(226 226 226) 0px -2px 0px inset");
-      setinputdisplay(1);
+     
     } else {
       setheadbg("transparent");
       setshadow("none");
-      setinputdisplay(0);
+   
     }
   });
 
-  const [status, setStatus] = React.useState("");
-//   const filters =
-//     JSON.parse(localStorage.getItem("order")).mode === "delivery"
-//       ? ["Order Received", "Preparing", "On the way", "Delivered"]
-//       : ["Order Received", "Preparing", " Pick up Ready", "Picked Up"];
+  const [status, setStatus] = useState("");
+  
+  useEffect(() => {
+    if(pd.pickup===true && pd.delivery===false){
+      console.log("pi")
+      setFilters(["Order received", "Preparing", " Pickup Ready", "Picked up"])
+      console.log(filters)
+    }
+    else if(pd.delivery===true && pd.pickup===false){
+      console.log("de")
+      setFilters(["Order received", "Preparing", "On the way", "Delivered"])
+    }
+    else{
+      
+      setFilters(["All orders","Order received", "Preparing", "On the way", "Delivered", " Pickup Ready", "Picked up"])
+    }
+    console.log(pd)
+  }, [pd])
+
+  // const filters = ["All orders","Order received", "Preparing", "On the way", "Delivered", " Pickup Ready", "Picked up"]
+
+   
+      // ["Order Received", "Preparing", "On the way", "Delivered"]
+      // ["Order Received", "Preparing", " Pick up Ready", "Picked Up"];
 
   const handleChange = (event) => {
     setStatus(event.target.value);
   };
 
   useEffect(() => {
-    setFilteredOrders(orders.filter((order) => order.ostatus === status));
-  }, []);
+    if(status=="All orders"){
+      setFilteredOrders(orders)
+    }
+    else setFilteredOrders(orders.filter((order) => order.ostatus === status));
+  }, [status]);
+
+  useEffect(() => setFilteredOrders(orders), [orders])
 
   const useModal = () => {
     const [isShowing, setIsShowing] = useState(false);
@@ -123,7 +158,7 @@ const Pastorders = () => {
               role="dialog"
             >
               <div className="modal">
-                <div className="modal-header">
+                <div className="modal-header" style={{justifyContent: 'flex-end'}}>
                   <button
                     type="button"
                     className="modal-close-button"
@@ -188,7 +223,7 @@ const Pastorders = () => {
 
 
   return (
-    <div className="update">
+    <div className="update" style={{padding:'30px'}}>
       <div className="header__upper">
         <div
           className="header__upperheader"
@@ -219,6 +254,7 @@ const Pastorders = () => {
           paddingTop: "100px",
           height: "100vh",
           width: "100vw",
+          
         }}
         container
         direction={"row"}
@@ -227,18 +263,38 @@ const Pastorders = () => {
         <h1>Past Orders</h1>
       </div>
         <Box sx={{ minWidth: 120 }}>
+        
+
+            <FormGroup style={{display:"flex"}}>
+                <FormControlLabel   value="pickup"  onChange={
+                  (event) => updatePD(
+                    {...pd,
+                      pickup: event.target.checked
+                    }
+                  )
+                }control={<Checkbox  defaultChecked="true"/>} label="Pick-up"/>
+                <FormControlLabel  value="delivery"   onChange={
+                  (event) => updatePD(
+                    {...pd,
+                      delivery: event.target.checked
+                    }
+                  )
+                }
+                   control={<Checkbox defaultChecked="true" />} label="Delivery" />
+           </FormGroup>
           <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Status</InputLabel>
+            <InputLabel id="demo-simple-select-label">Order status</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={status}
               label="Status"
               onChange={handleChange}
+    
             >
-              {/* {filters.map((filter) => (
+              {filters.map((filter) => (
                 <MenuItem value={filter}>{filter}</MenuItem>
-              ))} */}
+              ))}
             </Select>
           </FormControl>
         </Box>
@@ -255,7 +311,7 @@ const Pastorders = () => {
           </tr> 
 
           {/* Use filterredOrders for this */}
-          {orders.map((order) => (
+          {filteredOrders.map((order) => (
             <tr onClick={()=>{toggle()
             getdetails(order.invoiceId)}}>
               <td>{order.rname}</td>

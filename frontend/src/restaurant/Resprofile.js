@@ -95,7 +95,8 @@ function Resprofile() {
               role="dialog"
             >
               <div className="modal">
-                <div className="modal-header">
+                <div style={{ display: "flex", alignItems: "center",fontSize:30}}> {JSON.parse(localStorage.getItem("cart"))[0].rname}</div>
+                <div className="modal-header" style={{justifyContent: 'flex-end'}}>
                   <button
                     type="button"
                     className="modal-close-button"
@@ -111,11 +112,16 @@ function Resprofile() {
                   variant="subtitle1"
                   color="text.secondary"
                   component="div"
+                  style={{paddingBottom: '25px'}}
                 >
                   <br />
                   Cart Items
+                  <div style={{display :"flex", flexDirection:"row"}}> 
+                  <div>Dish name  </div> <div style={{paddingLeft:"85px"}}>   Quantity </div><div style={{paddingLeft:"110px"}}>  Subtotal</div></div>
+               
                 </Typography>
-                <Grid container spacing={3}>
+
+                 <Grid container spacing={3}>
                   {localStorage.getItem("cart") &&
                     JSON.parse(localStorage.getItem("cart")).map((dish) => (
                       <Grid container item>
@@ -126,30 +132,25 @@ function Resprofile() {
                           {dish.quantity}
                         </Grid>
                         <Grid container xs={4}>
-                          {dish.subtotal}
+                          ${dish.subtotal}
                         </Grid>
                       </Grid>
                     ))}
-                  <Grid container item>
-                    <Grid container xs={4}></Grid>
-                    <Grid container xs={4}>
-                      {/* Total Price : {total} */}
-                    </Grid>
-                    <Grid container xs={4}>
-                      {cartorder.total}
-                    </Grid>
-                  </Grid>
+                 <br></br>
                 </Grid>
                 <Box
                   sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}
                 >
-                  <Link to ='/checkout'>
+                  <br></br>
+                  <Link to ='/checkout'style={{paddingTop: '40px'}}>
+                  
                   <Button
                     onClick={() => {
                       toggle();
                     }}
+                    style={{color:'white', backgroundColor:'black', display:'flex',}}
                   >
-                    GO TO CHECKOUT
+                    GO TO CHECKOUT . ${cartorder.total}
                   </Button></Link>
                 </Box>
               </div>
@@ -160,12 +161,12 @@ function Resprofile() {
       : null;
   const { isShowing, toggle } = useModal();
 
-  const Item = styled(Paper)(({ theme }) => ({
-    ...theme.typography.body2,
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  }));
+  // const Item = styled(Paper)(({ theme }) => ({
+  //   ...theme.typography.body2,
+  //   padding: theme.spacing(2),
+  //   textAlign: "center",
+  //   color: theme.palette.text.secondary,
+  // }));
 
 
 
@@ -190,7 +191,7 @@ function Resprofile() {
           setRestaurant(responseData.data);
           console.log("restaurant", responseData.data);
           //console.log("resss ",customerData);
-          localStorage.setItem("restaurant", JSON.stringify(responseData.data));
+          //localStorage.setItem("restaurant", JSON.stringify(responseData.data));
         }
       });
   };
@@ -224,7 +225,7 @@ function Resprofile() {
   }
 
   return restaurant ? (
-    <div>
+    <div style={{padding:20}}>
       <div className="header__upper">
         <div
           className="header__upperheader"
@@ -239,10 +240,10 @@ function Resprofile() {
               />{" "}
             </Link>
           </div>
-          {/* <div className="header__upperheadercenter"   >
+          <div className="header__upperheadercenter"   >
                <LocationOn />
                <input type="text" placeholder="What are you craving? " />
-            </div> */}
+            </div>
           <div className="header__upperheaderright" onClick={toggle}>
             <p>
               {" "}
@@ -272,7 +273,7 @@ function Resprofile() {
       <br />
 
       <div>
-        <Restaurantpic imgKey={restaurant.profilepic} />
+        <Restaurantpic imgKey={restaurant.profilepic} name={restaurant.rname} desc={restaurant.rdesc} from={restaurant.fromTime} to={restaurant.toTime}/>
       </div>
 
       <div className="dish_home">
@@ -288,6 +289,7 @@ function Resprofile() {
                   price={dish.Price}
                   imageKey={dish.profilepic}
                   restaurantId= {restaurantId}
+                  rname={restaurant.rname}
                 />
               </Grid>
             ))}

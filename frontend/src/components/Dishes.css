@@ -50,7 +50,6 @@
   
   .modal-header {
     display: flex;
-    justify-content: flex-end;
   }
   
   .modal-close-button {
