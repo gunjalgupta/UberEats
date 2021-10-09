@@ -26,6 +26,10 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import ReceiptIcon from '@mui/icons-material/Receipt';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 
 const Home =()=>{
 
@@ -212,16 +216,16 @@ const deleteDish =  (id) =>{
           <ListItem >
           
                 <ListItemIcon>
-                <Link to ='./rprofile'>
-                 <InboxIcon /> </Link>  
+                <Link to ='./rprofile' style={{color:'black',}}>
+                 <AccountBoxIcon /> </Link>  
                 </ListItemIcon> 
                 <ListItemText> <Link to ='./rprofile' style={{textDecoration:'none', color:"black"}}>  View profile </Link></ListItemText>
               </ListItem>
         <ListItem >
           
                 <ListItemIcon>
-                <Link to ='./rprofile'>
-                 <InboxIcon />   
+                <Link to ='./rprofile' style={{color:'black',}}>
+                 <AssignmentIndIcon />   
                  </Link>  
                 </ListItemIcon> 
                 <ListItemText> <Link to ='./rprofile' style={{textDecoration:'none', color:"black"}}>  Update profile </Link></ListItemText>
@@ -229,16 +233,16 @@ const deleteDish =  (id) =>{
               <ListItem >
            
                 <ListItemIcon>
-                <Link to ='./adddish'> 
-                 <InboxIcon />  </Link>
+                <Link to ='./adddish' style={{color:'black',}}> 
+                 <AddBoxIcon />  </Link>
                 </ListItemIcon> 
                 <ListItemText>  <Link to ='./adddish' style={{textDecoration:'none', color:"black"}}>  Add dishes </Link></ListItemText>
               </ListItem>
               <ListItem >
           
                 <ListItemIcon>
-                <Link to ='./allorders'> 
-                 <InboxIcon />  </Link> 
+                <Link to ='./allorders' style={{color:'black',}}> 
+                 <ReceiptIcon />  </Link> 
                 </ListItemIcon> 
                 <ListItemText>  <Link to ='./allorders' style={{textDecoration:'none', color:"black"}}>   Orders</Link></ListItemText>
               </ListItem>

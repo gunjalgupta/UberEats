@@ -95,7 +95,7 @@ function Resprofile() {
               role="dialog"
             >
               <div className="modal">
-                <div style={{ display: "flex", alignItems: "center",fontSize:30}}> {JSON.parse(localStorage.getItem("cart"))[0].rname}</div>
+                <div style={{ display: "flex", alignItems: "center",fontSize:30}}>  {JSON.parse(localStorage.getItem("cart"))? JSON.parse(localStorage.getItem("cart"))[0].rname:<p></p>}</div>
                 <div className="modal-header" style={{justifyContent: 'flex-end'}}>
                   <button
                     type="button"
@@ -115,15 +115,16 @@ function Resprofile() {
                   style={{paddingBottom: '25px'}}
                 >
                   <br />
-                  Cart Items
+                  {localStorage.getItem("cart")? 
+                  <div >Cart Items
                   <div style={{display :"flex", flexDirection:"row"}}> 
-                  <div>Dish name  </div> <div style={{paddingLeft:"85px"}}>   Quantity </div><div style={{paddingLeft:"110px"}}>  Subtotal</div></div>
-               
+                  <div>Dish name  </div> <div style={{paddingLeft:"85px"}}>   Quantity </div><div style={{paddingLeft:"110px"}}>  Subtotal</div></div></div>
+                  :<p></p>}
                 </Typography>
 
                  <Grid container spacing={3}>
-                  {localStorage.getItem("cart") &&
-                    JSON.parse(localStorage.getItem("cart")).map((dish) => (
+                  {localStorage.getItem("cart")?
+                    localStorage.getItem("cart") && JSON.parse(localStorage.getItem("cart")).map((dish) => (
                       <Grid container item>
                         <Grid container xs={4}>
                           {dish.dname}
@@ -135,14 +136,19 @@ function Resprofile() {
                           ${dish.subtotal}
                         </Grid>
                       </Grid>
-                    ))}
+                    )):<Typography
+                    variant="subtitle1"
+                    color="text.secondary"
+                    component="div"
+                    style={{paddingBottom: '25px'}}
+                  > Cart is empty </Typography>}
                  <br></br>
                 </Grid>
                 <Box
                   sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}
                 >
                   <br></br>
-                  <Link to ='/checkout'style={{paddingTop: '40px'}}>
+                  {localStorage.getItem("cart")? <Link to ='/checkout'style={{paddingTop: '40px'}}>
                   
                   <Button
                     onClick={() => {
@@ -151,7 +157,15 @@ function Resprofile() {
                     style={{color:'white', backgroundColor:'black', display:'flex',}}
                   >
                     GO TO CHECKOUT . ${cartorder.total}
-                  </Button></Link>
+                  </Button></Link> : <Button disabled
+                    onClick={() => {
+                      toggle();
+                    }}
+                    style={{color:'white', backgroundColor:'black', display:'flex',}}
+                  >
+                    ADD ITEMS 
+                  </Button>}
+                  
                 </Box>
               </div>
             </div>

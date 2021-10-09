@@ -4,18 +4,9 @@ import { Link } from "react-router-dom";
 import { Grid, TextField } from "@material-ui/core";
 import axios from "axios";
 import M from "materialize-css";
-import { Formik } from "formik";
 import { Button } from "react-bootstrap";
 import { BrowserRouter as Router, useHistory } from "react-router-dom";
-import {
-  CountryDropdown,
-  RegionDropdown,
-} from "react-country-region-selector-material-ui-new";
 import "./UpdateProfile.css";
-import Showprofile from "./Showprofile";
-import Profilepic from "./Profilepic";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
@@ -30,6 +21,7 @@ import { useDispatch } from "react-redux";
 import { logout } from "../actions/userActions";
 import FormGroup from '@mui/material/FormGroup';
 import Checkbox from '@mui/material/Checkbox';
+import { LocationOn} from "@mui/icons-material";
 
 
 const Pastorders = () => {
@@ -223,7 +215,7 @@ const Pastorders = () => {
 
 
   return (
-    <div className="update" style={{padding:'30px'}}>
+    <div >
       <div className="header__upper">
         <div
           className="header__upperheader"
@@ -238,10 +230,11 @@ const Pastorders = () => {
             </Link>
           </div>
 
-          {/* <div className="header__upperheadercenter"   >
-
+          <div className="header__upperheadercenter"   >
+          <LocationOn />
 <input type="text" placeholder="What are you craving? " />
-</div> */}
+</div>
+
 
           <div className="header__upperheaderright" onClick={signout}>
             <p> Sign out </p>
@@ -253,16 +246,22 @@ const Pastorders = () => {
         style={{
           paddingTop: "100px",
           height: "100vh",
-          width: "100vw",
+          paddingLeft:'45px',
+          paddingRight:'45px'
           
         }}
         container
         direction={"row"}
       >
-        <div>
+        <div style ={{
+                  paddingBottom: '30px',
+                }}>
         <h1>Past Orders</h1>
       </div>
-        <Box sx={{ minWidth: 120 }}>
+        <Box sx={{ minWidth: 120 }} style ={{
+                  color: "black",
+                  paddingBottom:'30px'
+                }}>
         
 
             <FormGroup style={{display:"flex"}}>
@@ -272,7 +271,10 @@ const Pastorders = () => {
                       pickup: event.target.checked
                     }
                   )
-                }control={<Checkbox  defaultChecked="true"/>} label="Pick-up"/>
+                }control={<Checkbox  defaultChecked="true" style ={{
+                  color: "black",
+                }}/>} label="Pick-up"/>
+
                 <FormControlLabel  value="delivery"   onChange={
                   (event) => updatePD(
                     {...pd,
@@ -280,9 +282,13 @@ const Pastorders = () => {
                     }
                   )
                 }
-                   control={<Checkbox defaultChecked="true" />} label="Delivery" />
+                   control={<Checkbox defaultChecked="true" style ={{
+                  color: "black",
+                }} />} label="Delivery" />
            </FormGroup>
-          <FormControl fullWidth>
+          <FormControl fullWidth style ={{
+                  color: "black",
+                }}>
             <InputLabel id="demo-simple-select-label">Order status</InputLabel>
             <Select
               labelId="demo-simple-select-label"
@@ -290,7 +296,9 @@ const Pastorders = () => {
               value={status}
               label="Status"
               onChange={handleChange}
-    
+              style ={{
+                color: "black",
+              }}
             >
               {filters.map((filter) => (
                 <MenuItem value={filter}>{filter}</MenuItem>
@@ -301,6 +309,7 @@ const Pastorders = () => {
         <table
           style={{
             width: "100%",
+            paddingTop:'30px'
           }}
         >
           <tr>

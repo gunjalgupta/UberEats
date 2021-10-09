@@ -75,11 +75,20 @@ const Checkout = () => {
   });
 
   const submitOrder = () => {
+    console.log("here",mode,currentAddress)
+    if(mode==='delivery' && (currentAddress===null || currentAddress==="")){
+    console.log("here",mode,currentAddress)
+        M.toast({html:"Address required"})
+      
+  } 
+    
+    else{
     const order = JSON.parse(localStorage.getItem("order"));
+    const restId = JSON.parse(localStorage.getItem("rescartid"))[0];
     axios
       .post("http://localhost:8081/order/addorder", {
         customerId: order.customerId,
-        restaurantId: order.restaurantId,
+        restaurantId: restId.restaurantId,
         invoiceId: order.invoiceId,
         total: order.total,
         mode: mode
@@ -95,6 +104,7 @@ const Checkout = () => {
         } else {
           //setcustomerData(response.data[0])
           console.log(response.data);
+         
         }
         const dishesToPass = [];
         order.dishes.map((dish) => {
@@ -112,11 +122,15 @@ const Checkout = () => {
           console.log(res)
         })
       }).then(()=>{
+        
+        M.toast({ html:"Order placed successfully",  classes: "rounded", inDuration: 300,
+        outDuration: 375,})
         localStorage.removeItem("cart",null);
+        localStorage.removeItem("rescartid",null);
         localStorage.removeItem("order",null);
-        history.push("/chome")
+        //history.push("/chome")
       })
-  };
+  }};
 
   const addAddress = () => {
     console.log(address);
@@ -323,7 +337,7 @@ const Checkout = () => {
                 width: "fill-content",
               }}
             >
-              Add
+              Add address
             </button>
           </Grid>
 

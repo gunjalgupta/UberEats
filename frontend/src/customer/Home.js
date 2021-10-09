@@ -16,26 +16,19 @@ import {
 import "./Home.css";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Sidebar from "../components/Sidebar";
 import { styled, useTheme } from "@mui/material/styles";
 import Drawer from "@mui/material/Drawer";
-import CssBaseline from "@mui/material/CssBaseline";
-import MuiAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormGroup from "@mui/material/FormGroup";
@@ -45,6 +38,10 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { useDispatch } from "react-redux";
 import { logout } from "../actions/userActions";
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ReceiptIcon from '@mui/icons-material/Receipt';
 
 const Home = () => {
   const history = useHistory();
@@ -121,7 +118,7 @@ const Home = () => {
               role="dialog"
             >
               <div className="modal">
-              <div style={{ display: "flex", alignItems: "center",fontSize:30}}> {JSON.parse(localStorage.getItem("cart"))[0].rname}</div>
+              <div style={{ display: "flex", alignItems: "center",fontSize:30}}> {JSON.parse(localStorage.getItem("cart"))?JSON.parse(localStorage.getItem("cart"))[0].rname: <p/>}</div>
                
                 <div className="modal-header" style={{justifyContent: 'flex-end'}}>
                   <button
@@ -135,14 +132,7 @@ const Home = () => {
                   </button>
                 </div>
                 <Typography component="div" variant="h5"></Typography>
-                <Typography
-                  variant="subtitle1"
-                  color="text.secondary"
-                  component="div"
-                >
-                  
-                  Cart Items
-                </Typography>
+              
                 <Typography
                   variant="subtitle1"
                   color="text.secondary"
@@ -150,12 +140,16 @@ const Home = () => {
                   style={{paddingBottom: '25px'}}
                 >
                   <br />
+                  {localStorage.getItem("cart")? 
+                  <div >Cart Items
                   <div style={{display :"flex", flexDirection:"row"}}> 
-                  <div>Dish name  </div> <div style={{paddingLeft:"85px"}}>   Quantity </div><div style={{paddingLeft:"110px"}}>  Subtotal</div><br></br></div>
+                  <div>Dish name  </div> <div style={{paddingLeft:"85px"}}>   Quantity </div><div style={{paddingLeft:"110px"}}>  Subtotal</div></div></div>
+                  :<p></p>}
+                
                 </Typography>
                 <Grid container spacing={3}>
                   
-                  {localStorage.getItem("cart") &&
+                  {localStorage.getItem("cart")?localStorage.getItem("cart") &&
                     JSON.parse(localStorage.getItem("cart")).map((dish) => (
                       <Grid container item>
                         <Grid container xs={4}>
@@ -168,21 +162,35 @@ const Home = () => {
                           ${dish.subtotal}
                         </Grid>
                       </Grid>
-                    ))}
+                    )):<Typography
+                    variant="subtitle1"
+                    color="text.secondary"
+                    component="div"
+                    style={{paddingBottom: '25px'}}
+                  > Cart is empty </Typography>}
                   
                 </Grid>
                 <Box
                   sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}
                 >
-                  <Link to= '/checkout' style={{paddingTop: '40px'}}>  
+                  
+
+                  {localStorage.getItem("cart")? <Link to ='/checkout'style={{paddingTop: '40px'}}>
+                  
                   <Button
                     onClick={() => {
                       toggle();
                     }}
-                    style={{color:'white', backgroundColor:'black', display:'flex',justifyContent:'center',alignContent:'center',alignItems:'center',alignSelf:'center'}}
+                    style={{color:'white', backgroundColor:'black', display:'flex',}}
                   >
                     GO TO CHECKOUT . ${localStorage.getItem("order") && JSON.parse(localStorage.getItem("order")).total}
-                  </Button> </Link>
+                  </Button></Link> : <Button disabled
+                    onClick={() => {
+                      toggle();
+                    }}
+                    style={{color:'white', backgroundColor:'black', display:'flex',}}
+                  > ADD ITEMS
+                  </Button>}
                 </Box>
               </div>
             </div>
@@ -383,17 +391,17 @@ const Home = () => {
           <List>
           <ListItem >
           
-                <ListItemIcon>
-                <Link to ='./cprofile'>
-                 <InboxIcon /> </Link>  
+                <ListItemIcon >
+                <Link to ='./cprofile' style={{color:'black',}}>
+                 <AccountBoxIcon /> </Link>  
                 </ListItemIcon> 
                 <ListItemText> <Link to ='./cprofile' style={{textDecoration:'none', color:"black"}}>  View profile </Link></ListItemText>
               </ListItem>
         <ListItem >
           
                 <ListItemIcon>
-                <Link to ='./cprofile'>
-                 <InboxIcon />   
+                <Link to ='./cprofile' style={{color:'black',}}>
+                 <AssignmentIndIcon />   
                  </Link>  
                 </ListItemIcon> 
                 <ListItemText> <Link to ='./cprofile' style={{textDecoration:'none', color:"black"}}>  Update profile </Link></ListItemText>
@@ -401,16 +409,16 @@ const Home = () => {
               <ListItem >
            
                 <ListItemIcon>
-                <Link to ='./favourite'> 
-                 <InboxIcon />  </Link>
+                <Link to ='./favourite' style={{color:'black',}}> 
+                 <FavoriteIcon />  </Link>
                 </ListItemIcon> 
                 <ListItemText>  <Link to ='./favourite' style={{textDecoration:'none', color:"black"}}>  Favourites </Link></ListItemText>
               </ListItem>
               <ListItem >
           
                 <ListItemIcon>
-                <Link to ='./pastorders'> 
-                 <InboxIcon />  </Link> 
+                <Link to ='./pastorders' style={{color:'black',}}> 
+                 <ReceiptIcon />  </Link> 
                 </ListItemIcon> 
                 <ListItemText>  <Link to ='./pastorders' style={{textDecoration:'none', color:"black"}}>   Orders</Link></ListItemText>
               </ListItem>
@@ -432,7 +440,7 @@ const Home = () => {
         }}>
           <Grid container item>
             <FormControl component="fieldset">
-              <FormLabel component="legend">Chose delivery option</FormLabel>
+              <FormLabel component="legend">Choose delivery option</FormLabel>
               <RadioGroup defaultValue="delivery" name="radio-buttons-group" >
                 <FormControlLabel
                   value="delivery"

@@ -17,6 +17,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -126,20 +127,27 @@ export default function PersistentDrawerLeft() {
           <Divider />
           <Divider />
           <List>
-          <ListItem >
-            <a href= './rlogin'>
-                <ListItemIcon>
-                 <InboxIcon />    Sign in as restaurant  
-                </ListItemIcon> 
-                <ListItemText/></a>
-              </ListItem>
+          
+
               <ListItem >
-              <a href= './rregister'>
-                <ListItemIcon>
-                 <InboxIcon />     Add Restaurant
-                </ListItemIcon>
-                <ListItemText></ListItemText></a>
-              </ListItem>
+          
+          <ListItemIcon>
+          <Link to ='./rlogin'>
+           <InboxIcon /> </Link>  
+          </ListItemIcon> 
+          <ListItemText> <Link to ='./rlogin' style={{textDecoration:'none', color:"black"}}>  Sign in as restaurant </Link></ListItemText>
+        </ListItem>
+ 
+
+  <ListItem >
+          
+          <ListItemIcon>
+          <Link to ='./rregister'>
+           <InboxIcon /> </Link>  
+          </ListItemIcon> 
+          <ListItemText> <Link to ='./rregister' style={{textDecoration:'none', color:"black"}}>   Add Restaurant </Link></ListItemText>
+        </ListItem>
+  
           </List>
         </Drawer>
       <Main open={open}>

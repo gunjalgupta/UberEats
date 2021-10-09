@@ -52,7 +52,7 @@ const Favourite= function (){
                     setRestaurants(response.data)
                     //console.log("resss ",customerData);
                     //localStorage.setItem('customer', JSON.stringify(response.data[0]));
-                    //M.toast({ html: response.data.error, classes: "#c62828 red darken-3" })
+                    M.toast({ html: response.data[0], classes: "#c62828 red darken-3" })
                 
             }
         })

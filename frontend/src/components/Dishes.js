@@ -11,6 +11,7 @@ import ReactDOM from "react-dom";
 
 function Dishes({ dname, des, ing, imageKey, price, id , restaurantId,rname}) {
   const [dish, setdish] = useState([]);
+  const [dish1, setdish1] = useState([]);
   let [counter, setcounter] = useState(0);
 
   const increment = () => {
@@ -31,47 +32,108 @@ function Dishes({ dname, des, ing, imageKey, price, id , restaurantId,rname}) {
       toggle,
     };
   };
+  const useModal1 = () => {
+    const [isShowing1, setIsShowing1] = useState(false);
+
+    function toggle1() {
+      setIsShowing1(!isShowing1);
+    }
+
+    return {
+      isShowing1,
+      toggle1,
+    };
+  };
 
   const addToCart = (dishId, quantity,dname,price) => {
+    //console.log("here",dishId)
     const subtotal= quantity*price
     if (localStorage.getItem('order')) {
-      if (JSON.parse(localStorage.getItem('order')).restaurantId === restaurantId) {
-        localStorage.getItem("cart") ? 
+      //console.log("in order",restaurantId, JSON.parse(localStorage.getItem('rescartid')).restaurantId)
+      if (localStorage.getItem('rescartid')){
+        console.log("in order",restaurantId, JSON.parse(localStorage.getItem('rescartid'))[0].restaurantId, JSON.parse(localStorage.getItem('order')).restaurantId)
+      if (JSON.parse(localStorage.getItem('rescartid'))[0].restaurantId=== restaurantId) {
+        
+        console.log("in cart",restaurantId, JSON.parse(localStorage.getItem('order')).restaurantId)
+        if(localStorage.getItem("cart")) { 
         localStorage.setItem(
           "cart",
           JSON.stringify([
             ...JSON.parse(localStorage.getItem("cart")),
             { dishId: dishId, dname:dname, quantity: quantity, Price: price, subtotal: subtotal,rname:rname  },
           ])
-        ) : 
+        )
+        localStorage.setItem(
+          "rescartid",
+          JSON.stringify([
+            { restaurantId: restaurantId},
+          ])
+        )} else { 
         localStorage.setItem(
           "cart",
           JSON.stringify([
             { dishId: dishId, dname:dname, quantity: quantity, Price: price, subtotal: subtotal,rname:rname },
           ])
         )
-      } else 
-      {
-        if((localStorage.getItem('cart'))) {
         localStorage.setItem(
-          "cart",
+          "rescartid",
           JSON.stringify([
-            ...JSON.parse(localStorage.getItem("cart")),
-            { dishId: dishId, dname:dname, quantity: quantity, Price: price, subtotal: subtotal, rname:rname },
+            { restaurantId: restaurantId},
           ])
-        )
+        )}
       }
-      else {
+    //=====new function here
+    else{ toggle()
+      console.log(isShowing1)
+      console.log(isShowing)
+      toggle1();
+      setdish1({ dishId, dname, quantity, price,subtotal});
+    }
+    } else 
+      {
+      //   if((localStorage.getItem('cart'))) {
+      //   localStorage.setItem(
+      //     "cart",
+      //     JSON.stringify([
+      //       ...JSON.parse(localStorage.getItem("cart")),
+      //       { dishId: dishId, dname:dname, quantity: quantity, Price: price, subtotal: subtotal, rname:rname },
+      //     ])
+      //   )
+      // }
+      // else {
         localStorage.setItem(
           "cart",
           JSON.stringify([
             { dishId: dishId, dname:dname, quantity: quantity, Price: price, subtotal: subtotal ,rname:rname},
           ])
         )
-      }
+        localStorage.setItem(
+          "rescartid",
+          JSON.stringify([
+            { restaurantId: restaurantId},
+          ])
+        )
+      //}
     }}
     
   };
+
+  const newOrder=(dishId, quantity,dname,subtotal,price)=>{
+    
+    localStorage.setItem(
+      "cart",
+      JSON.stringify([
+        { dishId: dishId, dname:dname, quantity: quantity, Price: price, subtotal: subtotal,rname:rname },
+      ])
+    )
+    localStorage.setItem(
+      "rescartid",
+      JSON.stringify([
+        { restaurantId: restaurantId},
+      ])
+    )
+    console.log("sucessfully")
+  }
 
   const Modal = ({ isShowing, hide }) =>
     isShowing
@@ -164,7 +226,11 @@ function Dishes({ dname, des, ing, imageKey, price, id , restaurantId,rname}) {
                 </ButtonGroup>
                 <Button
                   style={{ marginLeft: 30 }}
-                  onClick={() => addToCart(id, counter,dname,price)}
+                  onClick={() => 
+                    
+                    addToCart(id, counter,dname,price)
+                
+                  }
                   disabled={counter===0}
                 >
                   {" "}
@@ -177,9 +243,78 @@ function Dishes({ dname, des, ing, imageKey, price, id , restaurantId,rname}) {
         )
       : null;
   const { isShowing, toggle } = useModal();
+  //====================================================================
+
+  const { isShowing1, toggle1 } = useModal1();
+
+  const Modal1 = ({ isShowing1, hide }) =>
+    isShowing1
+      ? ReactDOM.createPortal(
+          <React.Fragment>
+            <div className="modal-overlay" />
+            <div
+              className="modal-wrapper"
+              aria-modal
+              aria-hidden
+              tabIndex={-1}
+              role="dialog"
+            >
+              <div className="modal">
+                <div className="modal-header" style={{justifyContent: 'flex-end'}}>
+                  
+                  <button
+                    type="button"
+                    className="modal-close-button"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                    onClick={hide}
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <Typography component="div" variant="h4">
+                  Create new order?
+                </Typography>
+                <Typography
+                  variant="subtitle1"
+                  color="text.secondary"
+                  component="div"
+                >
+                  Your cart contains items from another restaurant. Do you want to create new order?
+                  <br />
+                 
+                </Typography>
+                <Box
+                  sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}
+                >
+                 
+                </Box>
+
+                 
+                    <Button
+                      key="one"
+                      onClick={() => {
+                        newOrder(dish1.id, dish1.quantity,dish1.dname,dish1.subtotal,dish1.price)
+                        toggle1()
+                      }}
+                      style={{color:'white', backgroundColor: "black" }}
+                    >
+                      New Order
+                    </Button>
+                 
+              </div>
+            </div>
+          </React.Fragment>,
+          document.body
+        )
+      : null;
+
+
+
   return (
     <div className="dishcard">
       <Modal isShowing={isShowing} hide={toggle} />
+      <Modal1 isShowing1={isShowing1} hide={toggle1} />
       <Card
         class
         Name="root"

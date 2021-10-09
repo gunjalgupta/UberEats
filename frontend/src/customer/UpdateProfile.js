@@ -12,6 +12,9 @@ import Showprofile from './Showprofile';
 import Profilepic from './Profilepic';
 import { useDispatch } from "react-redux";
 import { logout } from "../actions/userActions";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+//import "materialize-css/dist/css/materialize.min.css";
 
 const UpdateProfile = () => {
     const history = useHistory()
@@ -165,12 +168,25 @@ return (customerData.email?
                                         }
                                         else {
                                             console.log("update1",response)
-                                            M.toast({ html: "Updated restaurant details successfully", classes: "#43a047 green darken-1" })
+                                            alert("success")
+                                            toast('🦄 Wow so easy!', {
+                                                position: "top-left",
+                                                autoClose: 1900,
+                                                hideProgressBar: true,
+                                                closeOnClick: true,
+                                                pauseOnHover: true,
+                                                draggable: true,
+                                                progress: undefined,
+                                                });
+                                            M.toast({ html: "Updated customer details successfully", inDuration: 300,
+                                            outDuration: 375,
+                                            displyLength: 4000,
+                                            classes: "rounded", })
                                         }
                                     }).catch(err => {
                                         console.log(err)
                                     })
-                                history.push('/chome')
+                                //history.push('/chome')
                             }}>
                             {({
                                 errors,
