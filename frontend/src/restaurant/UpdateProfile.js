@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect} from 'react'
 
 
 import { Link } from 'react-router-dom'
 import axios from 'axios';
 import M from 'materialize-css'
 import { Formik } from 'formik';
-import { withFormik } from "formik";
 import { Button } from 'react-bootstrap'
-import { BrowserRouter as Router, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { CountryDropdown, RegionDropdown } from "react-country-region-selector-material-ui-new";
 import './UpdateProfile.css'
 import Showprofile from './Showprofile';

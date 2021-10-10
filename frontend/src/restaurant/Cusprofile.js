@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios';
 import { useDispatch } from "react-redux";
 import { logoutRestaurant } from "../actions/resActions";
-import { BrowserRouter as Router, useParams,useHistory } from 'react-router-dom'
+import { useParams,useHistory } from 'react-router-dom'
 
 const Cusprofile=()=>{
     const history = useHistory()

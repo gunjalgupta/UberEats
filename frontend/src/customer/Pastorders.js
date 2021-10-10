@@ -1,15 +1,12 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect} from "react";
 
 import { Link } from "react-router-dom";
-import { Grid, TextField } from "@material-ui/core";
+import { Grid} from "@material-ui/core";
 import axios from "axios";
-import M from "materialize-css";
-import { Button } from "react-bootstrap";
-import { BrowserRouter as Router, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import "./UpdateProfile.css";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";

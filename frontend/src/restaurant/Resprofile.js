@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Restaurantpic from "../components/Restaurantpic";
 import {
-  BrowserRouter as Router,
   useParams,
   useHistory,
 } from "react-router-dom";
@@ -9,22 +8,14 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import ReactDOM from "react-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import M from "materialize-css";
 import Typography from "@mui/material/Typography";
 import Dish from "../components/Dishes";
 import {
-  Menu,
-  LocationOn,
-  WatchLater,
-  ArrowDownward,
+  LocationOn
 } from "@mui/icons-material";
-import Showprofile from "./Showprofile";
 import "./Resprofile.css";
-import Modal from "@mui/material/Modal";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import { experimentalStyled as styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import bcrypt from 'bcryptjs';
 import { useDispatch } from "react-redux";

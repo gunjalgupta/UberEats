@@ -4,21 +4,18 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import M from "materialize-css";
 import Button from "@mui/material/Button";
-import { BrowserRouter as Router, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Restaurant from "../components/Restaurants";
 import ReactDOM from "react-dom";
 import {
   Menu,
   LocationOn,
-  WatchLater,
-  ArrowDownward,
 } from "@mui/icons-material";
 import "./Home.css";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import Sidebar from "../components/Sidebar";
 import { styled, useTheme } from "@mui/material/styles";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";

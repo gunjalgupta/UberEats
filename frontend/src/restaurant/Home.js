@@ -2,17 +2,13 @@ import React, { useEffect , useState} from "react";
 //import React, { useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios';
-import M from 'materialize-css';
 import Dish from '../components/Resdishes'
-import { Button } from 'react-bootstrap';
-import { BrowserRouter as Router, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import Grid from '@mui/material/Grid';
-import Restaurant from '../components/Restaurants'
-import { Menu, LocationOn,WatchLater,ArrowDownward } from "@mui/icons-material";
+import { Menu, LocationOn} from "@mui/icons-material";
 import './Home.css'
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-import { experimentalStyled as style } from '@mui/material/styles';
 import { useDispatch } from "react-redux";
 import { logoutRestaurant } from "../actions/resActions";
 import { styled,useTheme } from "@mui/material/styles";
@@ -20,7 +16,6 @@ import Drawer from "@mui/material/Drawer";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import List from "@mui/material/List";

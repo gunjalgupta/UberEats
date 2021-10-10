@@ -1,19 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect} from "react";
 
 import { Link } from "react-router-dom";
 import { Grid, TextField } from "@material-ui/core";
 import axios from "axios";
 import M from "materialize-css";
-import { Formik } from "formik";
-import { Button } from "react-bootstrap";
-import { BrowserRouter as Router, useHistory } from "react-router-dom";
-import {
-  CountryDropdown,
-  RegionDropdown,
-} from "react-country-region-selector-material-ui-new";
+import { useHistory } from "react-router-dom";
 import "./UpdateProfile.css";
-import Showprofile from "./Showprofile";
-import Profilepic from "./Profilepic";
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';

@@ -1,8 +1,8 @@
 import React from 'react' 
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
-import { useEffect,useState, useContext  } from 'react' ;
-import {render} from 'react-dom';
+import { useState } from 'react' ;
+
 
 export default function Example() {
     const [show, setShow] = useState(false);

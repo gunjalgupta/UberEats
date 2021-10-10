@@ -1,25 +1,14 @@
 import React, { useEffect, useState } from "react";
-//import React, { useState, useEffect, useContext } from 'react'
-import { Link } from "react-router-dom";
-import axios from "axios";
 import M from "materialize-css";
 import { Button } from "react-bootstrap";
 import {
-  BrowserRouter as Router,
-  useParams,
   useHistory,
 } from "react-router-dom";
-import Restaurant from "../components/Restaurants";
-import { Formik } from "formik";
 import {
-  Menu,
-  LocationOn,
-  WatchLater,
-  ArrowDownward,
+  Menu
 } from "@mui/icons-material";
-import Showprofile from "./Showprofile";
-import Profilepic from "./Profilepic";
 import Center from "../Center";
+import axios from 'axios';
 //import './Adddish.css'
 
 const Adddish = () => {

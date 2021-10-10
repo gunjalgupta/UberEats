@@ -20,7 +20,7 @@ import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import { useDispatch } from "react-redux";
 import { logoutRestaurant } from "../actions/resActions";
-import { BrowserRouter as Router, useHistory } from 'react-router-dom'
+import {  useHistory } from 'react-router-dom'
 import axios from "axios";
 import LaunchIcon from '@mui/icons-material/Launch';
 

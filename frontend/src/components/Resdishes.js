@@ -6,10 +6,8 @@ import CardMedia from '@mui/material/CardMedia';
 import CardActions from '@mui/material/CardActions';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import axios from 'axios';
-import Grid from '@mui/material/Grid';
-import { BrowserRouter as Router, useHistory } from 'react-router-dom'
-import Modal from "react-modal";
+import { useHistory } from 'react-router-dom'
+
  
 
 function Resdishes({id, dname, des, ing, imageKey , price, func}) {

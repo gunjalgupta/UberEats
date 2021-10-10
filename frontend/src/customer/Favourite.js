@@ -1,7 +1,6 @@
 import React, { useEffect , useState} from "react";
-import { Menu, LocationOn,WatchLater,ArrowDownward } from "@mui/icons-material";
+import { Menu, LocationOn } from "@mui/icons-material";
 import axios from 'axios';
-import M from 'materialize-css'
 import Restaurant from '../components/Restaurants'
 import { useDispatch } from "react-redux";
 import { logout } from "../actions/userActions";
