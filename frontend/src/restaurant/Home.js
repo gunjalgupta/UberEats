@@ -93,7 +93,7 @@ const Home =()=>{
     const getDishes = async () =>{
       const restaurantId =  JSON.parse(localStorage.getItem("restaurant")).restaurantId;
       //const restaurantId =1
-      await axios.post(`http://localhost:8081/restaurant/getdish/${restaurantId}`,{})
+      await axios.post(`/api/restaurant/getdish/${restaurantId}`,{})
       .then(responseData => {
           if (responseData.data.error) {
               console.log("res",responseData);
@@ -114,7 +114,7 @@ const Home =()=>{
   const getRestaurant = async () =>{
     const restaurantId =  JSON.parse(localStorage.getItem("restaurant")).restaurantId;
     //const restaurantId =1
-    await axios.post(`http://localhost:8081/restaurant/profile/${restaurantId}`,{})
+    await axios.post(`/api/restaurant/profile/${restaurantId}`,{})
     .then(responseData => {
         console.log("res",responseData);
         if (responseData.data.error) {
@@ -133,7 +133,7 @@ const Home =()=>{
 } 
 const deleteDish =  (id) =>{
 
-  axios.post(`http://localhost:8081/restaurant/deletedish/${id}`,{})
+  axios.post(`/api/restaurant/deletedish/${id}`,{})
  .then(responseData => {
      if (responseData.data.error) {
         // M.toast({ html: responseData.data.error, classes: "#c62828 red darken-3" })
@@ -271,7 +271,7 @@ const deleteDish =  (id) =>{
    marginRight: "30px",
    
    
- }} src={`http://localhost:8081/images/${restaurant.profilepic}`} className="showProfile_img"  />}
+ }} src={`/api/images/${restaurant.profilepic}`} className="showProfile_img"  />}
             </div>
         <div className="name" style={{paddingLeft: 40, fontSize:18}}>
            Your popular dishes

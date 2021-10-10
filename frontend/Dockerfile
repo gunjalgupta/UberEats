@@ -1,20 +1,41 @@
-# Dockerfile for React client
+FROM node:latest
 
-# Build react client
-FROM node:10.16-alpine
+# ADD src /src
 
-# Working directory be app
-WORKDIR /usr/src/app
+# ADD public /public
 
-COPY package*.json ./
+# RUN mkdir /app
 
-###  Installing dependencies
+# WORKDIR /app
 
-RUN npm install --silent
+# # add `/app/node_modules/.bin` to $PATH
+# ENV PATH /node_modules/.bin:$PATH
 
-# copy local files to app folder
-COPY . .
+# # install app dependencies
+# COPY package.json ./
+# COPY package-lock.json ./
+# RUN npm install --silent
 
-EXPOSE 3000
 
-CMD ["npm","start"]
+# # add app
+# COPY . ./
+# # RUN npm run build
+
+# # start app
+# CMD ["  ", "start"]
+
+# Create app directory
+RUN mkdir /app
+WORKDIR /app
+
+ENV PATH /app/node_modules/.bin:$PATH
+# Install app dependencies
+COPY package.json /app/
+COPY package-lock.json /app/
+RUN npm install
+
+# Bundle app source
+COPY . ./
+
+# EXPOSE 8080
+CMD [ "npm", "start" ]

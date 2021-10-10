@@ -49,7 +49,7 @@ const Pastorders = () => {
 
   useEffect(() => {
     axios
-      .post("http://localhost:8081/order/getcusorder", {
+      .post("/api/order/getcusorder", {
         customerId: JSON.parse(localStorage.getItem("customer")).customerId,
       })
       .then((res) => {
@@ -62,7 +62,7 @@ const Pastorders = () => {
 
   const getdetails= (invoiceId)=>{
     axios
-    .post("http://localhost:8081/order/getcusdetail", {
+    .post("/api/order/getcusdetail", {
       customerId: JSON.parse(localStorage.getItem("customer")).customerId,
       invoiceId : invoiceId,
     })

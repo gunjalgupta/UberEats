@@ -22,7 +22,8 @@ function Login() {
             };
             console.log("------",loginAdmin)
             console.log("local", localStorage.getItem('token'))
-            const res = await axios.post("http://localhost:8081/customer/login",loginAdmin)
+            const res = await axios.post("/api/customer/login",loginAdmin)
+            console.log("------",res)
         localStorage.setItem('customer', JSON.stringify(res.data));
         localStorage.setItem('token', res.data.token);
         if(res.data.success == 1) {

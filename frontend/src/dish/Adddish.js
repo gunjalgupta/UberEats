@@ -75,7 +75,7 @@ const Adddish = () => {
     restaurantId
   };
 
-    axios.post("http://localhost:8081/restaurant/adddish", dishes)
+    axios.post("/api/restaurant/adddish", dishes)
     .then((response) => {
       console.log("update", response);
       if (response.data.error) {

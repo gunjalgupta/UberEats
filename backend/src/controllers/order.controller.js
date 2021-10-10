@@ -43,13 +43,13 @@ exports.getresorderdetails = (req,res)=>{
 }
 
 exports.addorder=(req,res)=>{
-    console.log("order", req.body)
+    //console.log("order", req.body)
     connection.query("INSERT INTO UberEats.orders (orderId,customerId, restaurantId, total, invoiceId, mode) VALUES(null, ?,?,?,?,?);", [req.body.customerId,req.body.restaurantId, req.body.total, req.body.invoiceId, req.body.mode],(err,response)=>{
         res.send(response);
     })
 }
 exports.addorderdetails=(req,res)=>{
-    console.log("detail",req.body);
+    //console.log("detail",req.body);
     req.body.map((orderDetail)=>{
        
         connection.query("INSERT INTO UberEats.orderdetails (orderdetailsId,invoiceId, dishId, quantity, price, subtotal) VALUES(null, ?,?,?,?,?);", [orderDetail.invoiceId,orderDetail.dishId,orderDetail.quantity, orderDetail.Price,orderDetail.subtotal],(err,response)=>{

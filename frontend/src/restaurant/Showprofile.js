@@ -14,7 +14,7 @@ const Showprofile = () => {
                 const resId = {
                     restaurantId : JSON.parse(localStorage.getItem("restaurant")).restaurantId
                 }
-                const res = await axios.post("http://localhost:8081/restaurant/key", resId)
+                const res = await axios.post("/api/restaurant/key", resId)
                 console.log("------",res)
                 setKey(res.data.key)
                 }catch(err){
@@ -26,7 +26,7 @@ const Showprofile = () => {
     return (
         <div>
             <div className="showProfile">
-                {key && <img src={`http://localhost:8081/images/${key}`} className="showProfile_img"/>}
+                {key && <img src={`/api/images/${key}`} className="showProfile_img"/>}
             </div>
         </div>
     )

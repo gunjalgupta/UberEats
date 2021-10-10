@@ -41,7 +41,7 @@ const Editdish=()=>{
   })
 
   useEffect(()=>{
-    axios.post(`http://localhost:8081/restaurant/getd/${dishId}`,{})
+    axios.post(`/api/restaurant/getd/${dishId}`,{})
     .then(response => {
         console.log("res",response);
         if (response.data.error) {
@@ -133,7 +133,7 @@ const Editdish=()=>{
                             // const dishId = 1
                             const value={ values: values}
                             console.log("price",value)
-                            axios.post(`http://localhost:8081/restaurant/editdish/${dishId}`, value )
+                            axios.post(`/api/restaurant/editdish/${dishId}`, value )
                                 .then(response => {
                                     console.log("update",value)
                                     if (response.data.error) {

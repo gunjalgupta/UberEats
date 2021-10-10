@@ -2,17 +2,17 @@ const Order = require('../controllers/order.controller');
 
 module.exports = (app) => {
    
-    app.post("/order/getcusorder", Order.getcusorder);
+    app.post("/api/order/getcusorder", Order.getcusorder);
 
-    app.post("/order/getcusdetail", Order.getcusorderdetails);
+    app.post("/api/order/getcusdetail", Order.getcusorderdetails);
 
-    app.post("/order/getresorders/:restaurantId", Order.getresorderdetails);
+    app.post("/api/order/getresorders/:restaurantId", Order.getresorderdetails);
 
-    app.post("/order/addorder", Order.addorder);
+    app.post("/api/order/addorder", Order.addorder);
 
-    app.post("/order/adddetails", Order.addorderdetails);
+    app.post("/api/order/adddetails", Order.addorderdetails);
 
-    app.post("/order/status", Order.updateStatus);
+    app.post("/api/order/status", Order.updateStatus);
   
    
 };

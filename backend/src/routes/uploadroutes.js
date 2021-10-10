@@ -10,7 +10,7 @@ module.exports = app => {
     const {uploadFile, getFileStream} = require('../controllers/s3.js')
     const { checkToken } = require('../middleware/auth.js')
     
-    app.get('/images/:key', (req, res) => {
+    app.get('/api/images/:key', (req, res) => {
       console.log("++++++",req.params)
       const key = req.params.key
       const readStream = getFileStream(key)
@@ -18,7 +18,7 @@ module.exports = app => {
       readStream.pipe(res)
     })
       
-      app.post('/images', upload.single('image'), async (req, res) => {
+      app.post('/api/images', upload.single('image'), async (req, res) => {
         const file = req.file
         console.log("++++++",file)
         console.log("Here inside routes")

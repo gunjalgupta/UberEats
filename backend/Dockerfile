@@ -1,29 +1,20 @@
-#  Dockerfile for Node Express Backend
 
-FROM node:11-alpine
+FROM node:latest
 
-# Create App Directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+WORKDIR /app
+
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
+
+# install app dependencies
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm install --silent
 
 
-# Install Dependencies
-COPY package*.json ./
-
-
-
-RUN apk add --no-cache make gcc g++ python && \
-  npm cache clean --force && rm -rf node_modules\
-  npm install && \
-  npm rebuild bcryptjs --build-from-source && \
-  apk del make gcc g++ python
-
+# add app
+COPY . ./
 # RUN npm run build
 
-# Copy app source code
-COPY . .
-
-# Exports
-EXPOSE 8081
-
-CMD ["npm","start"]
+# start app
+CMD ["npm", "start"]

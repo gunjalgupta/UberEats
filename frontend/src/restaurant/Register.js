@@ -23,7 +23,7 @@ function Register(){
                 pwd,
             };
             console.log("------",regAdmin)
-            const res = await axios.post("http://localhost:8081/restaurant/register",regAdmin);
+            const res = await axios.post("/api/restaurant/register",regAdmin);
             console.log("response", res);
             dispatch(registerRestaurant({
                 email: res.data.email,

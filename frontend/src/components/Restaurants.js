@@ -25,7 +25,7 @@ const Restaurants = ({ Name, Opens_at, imageKey, id ,desc}) => {
     };
     console.log(Req);
     axios
-      .post("http://localhost:8081/customer/addfav", Req)
+      .post("/api/customer/addfav", Req)
 
       .then((responseData) => {
         console.log("add", responseData);
@@ -44,7 +44,7 @@ const Restaurants = ({ Name, Opens_at, imageKey, id ,desc}) => {
     };
     console.log(Req);
     axios
-      .post("http://localhost:8081/customer/deletefav", Req)
+      .post("/api/customer/deletefav", Req)
 
       .then((responseData) => {
         console.log("del", responseData);
@@ -62,7 +62,7 @@ const Restaurants = ({ Name, Opens_at, imageKey, id ,desc}) => {
     };
 
     axios
-      .post("http://localhost:8081/customer/checkfav", req)
+      .post("/api/customer/checkfav", req)
       .then((response) => {
         console.log("res", response);
         if (response.data === "success") {
@@ -99,7 +99,7 @@ const Restaurants = ({ Name, Opens_at, imageKey, id ,desc}) => {
             onClick={() => history.push(`/resprofile/${id}`)}
             component="img"
             height="194"
-            image={`http://localhost:8081/images/${imageKey}`}
+            image={`/api/images/${imageKey}`}
             alt="Paella dish"
           />
         )}

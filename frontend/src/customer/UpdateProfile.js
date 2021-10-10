@@ -54,7 +54,7 @@ const UpdateProfile = () => {
     useEffect( () => {
         const customerId =  JSON.parse(localStorage.getItem("customer")).customerId;
 
-        axios.get(`http://localhost:8081/customerprofile/${customerId}`,{})
+        axios.get(`/api/customerprofile/${customerId}`,{})
         .then(response => {
             console.log("res",response);
             if (response.data.error) {
@@ -160,7 +160,7 @@ return (customerData.email?
                                 // }
                                 const customerId = JSON.parse(localStorage.getItem("customer")).customerId
                                 console.log(customerId)
-                                axios.post(`http://localhost:8081/customerprofile/updatedetails/`, { customerId ,values: values})
+                                axios.post(`/api/customerprofile/updatedetails/`, { customerId ,values: values})
                                     .then(response => {
                                         console.log("update",response)
                                         if (response.data.error) {

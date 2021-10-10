@@ -33,6 +33,7 @@ const Customer = function (customer) {
 Customer.create = async (newCustomer, result) => {
   console.log('in model');
   console.log('---', newCustomer);
+  try{
   await connection.query('SELECT * FROM customer where email=?',newCustomer.email,(err,res)=> {
     console.log("res",res);
     if (res.length) {
@@ -54,12 +55,14 @@ Customer.create = async (newCustomer, result) => {
     }
   )
     
-  }});
+  }});}
+  catch(error){console.log(error)}
 };
 //= ========================================================
 
 Customer.find = function (email, result) {
   console.log(email);
+  try{
   connection.query('SELECT * FROM customer WHERE email = ?', email, (err, res) => {
     if (err) {
       console.log('error:', err);
@@ -72,7 +75,8 @@ Customer.find = function (email, result) {
       console.log(res)
       result({ kind: 'not register' }, { message:'Email doesnt exists' },null);
     }
-  });
+  });}
+  catch(error){console.log(error)}
 };
 //= ==========================================================
 

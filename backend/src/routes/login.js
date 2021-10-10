@@ -7,8 +7,8 @@ const { checkToken } = require('../middleware/auth.js')
 //app.post("/register", checkToken, customer.create);
 
 //login 
-app.post("/login", customer.find);
+app.post("/api/login", customer.find);
 
 //get users
-app.get("/inside", checkToken, customer.findAll);
+app.get("/api/inside", checkToken, customer.findAll);
 };

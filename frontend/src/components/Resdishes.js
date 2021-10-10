@@ -40,7 +40,7 @@ function Resdishes({id, dname, des, ing, imageKey , price, func}) {
       <CardMedia className= "media"
         component="img"
         sx={{ width: 151 }}
-        image={`http://localhost:8081/images/${imageKey}`}
+        image={`/api/images/${imageKey}`}
         alt="Live from space album cover"
       />}
       <CardActions>

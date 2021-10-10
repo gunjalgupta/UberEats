@@ -208,7 +208,7 @@ const Home = () => {
     const customerId = JSON.parse(localStorage.getItem("customer")).customerId;
     await axios
       .get(
-        `http://localhost:8081/customerprofile/getRestaurants/${customerId}`,
+        `/api/customerprofile/getRestaurants/${customerId}`,
         {}
       )
       //     .then((response) =>
@@ -238,7 +238,7 @@ const Home = () => {
     const Name = { name: name };
     console.log(Name);
     axios
-      .post("http://localhost:8081/customerprofile/searchRestaurant", Name)
+      .post("/api/customerprofile/searchRestaurant", Name)
 
       .then((responseData) => {
         console.log("res", responseData);

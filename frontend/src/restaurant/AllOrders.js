@@ -85,7 +85,7 @@ function AllOrders() {
   useEffect(()=>{
     const restaurantId =  JSON.parse(localStorage.getItem("restaurant")).restaurantId;
     axios
-    .post(`http://localhost:8081/order/getresorders/${restaurantId}`, {})
+    .post(`/api/order/getresorders/${restaurantId}`, {})
     .then((responseData) => {
       console.log("res", responseData);
       if (responseData.data.error) {
@@ -148,7 +148,7 @@ function AllOrders() {
         const req = { ostatus: ostatus,
         orderId: orderId}
         //const restaurantId =1
-        await axios.post("http://localhost:8081/order/status",req)
+        await axios.post("/api/order/status",req)
         .then(responseData => {
             if (responseData.data.error) {
                 //console.log("res",responseData);

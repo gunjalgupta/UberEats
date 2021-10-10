@@ -42,7 +42,7 @@ const Favourite= function (){
     useEffect(()=>{
         const customerId =  JSON.parse(localStorage.getItem("customer")).customerId;
 
-        axios.post(`http://localhost:8081/customer/showfav/${customerId}`,{})
+        axios.post(`/api/customer/showfav/${customerId}`,{})
         .then(response => {
             console.log("res",response);
             if (response.data.error) {

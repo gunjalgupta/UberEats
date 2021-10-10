@@ -97,7 +97,7 @@ const Checkout = () => {
     const order = JSON.parse(localStorage.getItem("order"));
     const restId = JSON.parse(localStorage.getItem("rescartid"))[0];
     axios
-      .post("http://localhost:8081/order/addorder", {
+      .post("/api/order/addorder", {
         customerId: order.customerId,
         restaurantId: restId.restaurantId,
         invoiceId: order.invoiceId,
@@ -129,7 +129,7 @@ const Checkout = () => {
           });
         });
         console.log("-----------",dishesToPass);
-        axios.post("http://localhost:8081/order/adddetails", dishesToPass).then((res)=>{
+        axios.post("/api/order/adddetails", dishesToPass).then((res)=>{
           console.log(res)
         })
       }).then(()=>{
@@ -157,7 +157,7 @@ const Checkout = () => {
   const addAddress = () => {
     console.log(address);
 
-    axios.post("http://localhost:8081/customer/addaddress/",address)
+    axios.post("/api/customer/addaddress/",address)
     .then(response => {
         
         if (response.data.error) {
@@ -182,7 +182,7 @@ const Checkout = () => {
 
   useEffect(() => {
     const customerId =  JSON.parse(localStorage.getItem("customer")).customerId;
-    axios.post(`http://localhost:8081/customer/fetchaddress/${customerId}`,{})
+    axios.post(`/api/customer/fetchaddress/${customerId}`,{})
     .then(response => {
         
         if (response.data.error) {

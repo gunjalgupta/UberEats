@@ -8,15 +8,15 @@ module.exports = (app) => {
   const router= express.Router();
 
   // Update a Customer with customerId
-  app.post('/customerprofile/updatedetails/', Customer.update);
+  app.post('/api/customerprofile/updatedetails/', Customer.update);
 
-  app.post('/customerprofile/updatecontact/:customerId', Customer.update);
+  app.post('/api/customerprofile/updatecontact/:customerId', Customer.update);
 
-  app.get('/customerprofile/:customerId',Customer.findProfile);
+  app.get('/api/customerprofile/:customerId',Customer.findProfile);
 
-  app.get('/customerprofile/getRestaurants/:customerId', Customer.getRestaurants);
+  app.get('/api/customerprofile/getRestaurants/:customerId', Customer.getRestaurants);
 
-  app.post('/customerprofile/searchRestaurant', Restaurant.searchRestaurant);
+  app.post('/api/customerprofile/searchRestaurant', Restaurant.searchRestaurant);
 
 
 

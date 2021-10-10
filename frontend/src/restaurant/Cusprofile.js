@@ -37,7 +37,7 @@ const Cusprofile=()=>{
 
       useEffect( () => {
 
-        axios.get(`http://localhost:8081/customerprofile/${customerId}`,{})
+        axios.get(`/api/customerprofile/${customerId}`,{})
         .then(response => {
             console.log("res",response);
             if (response.data.error) {
@@ -99,7 +99,7 @@ const Cusprofile=()=>{
    paddingTop : 100,
    
    
- }} src={`http://localhost:8081/images/${customer.profilepic}`} className="showProfile_img"  />}
+ }} src={`/api/images/${customer.profilepic}`} className="showProfile_img"  />}
             </div>
             <div className="name" style={{
    alignSelf: 'center',

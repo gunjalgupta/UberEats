@@ -22,7 +22,7 @@ function Login() {
             };
             console.log("------",loginAdmin)
             console.log("local", localStorage.getItem('token'))
-            const res = await axios.post("http://localhost:8081/restaurant/login",loginAdmin);
+            const res = await axios.post("/api/restaurant/login",loginAdmin);
                 localStorage.setItem('restaurant', JSON.stringify(res.data));
                 console.log("response",res);
                 console.log("data",res.data);
@@ -39,7 +39,9 @@ function Login() {
             }
             //console.log("response", res);
         }catch(err){
-            console.log(err.response.data.message);
+            console.log(err);
+            console.log(err.response);
+            console.log(err.response.data)
             console.log("incatch")
             setError(err.response.data.message)
         }

@@ -194,7 +194,7 @@ function Resprofile() {
     //const customerId =  JSON.parse(localStorage.getItem("customer")).customerId;
 
     await axios
-      .post(`http://localhost:8081/restaurant/profile/${restaurantId}`, {})
+      .post(`/api/restaurant/profile/${restaurantId}`, {})
       .then((responseData) => {
         console.log("res", responseData);
         if (responseData.data.error) {
@@ -214,7 +214,7 @@ function Resprofile() {
     
 
     await axios
-      .post(`http://localhost:8081/restaurant/getdish/${restaurantId}`, {})
+      .post(`/api/restaurant/getdish/${restaurantId}`, {})
       .then((responseData) => {
         console.log("res", responseData);
         if (responseData.data.error) {

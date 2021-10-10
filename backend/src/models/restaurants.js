@@ -58,6 +58,7 @@ Restaurant.create = async (newRestaurant, result) => {
 
 Restaurant.find = function (email, result) {
   console.log(email);
+  try{
   connection.query('SELECT * FROM restaurant WHERE email = ?', email, (err, res) => {
     if (err) {
       console.log('error:', err);
@@ -69,7 +70,8 @@ Restaurant.find = function (email, result) {
     } else {
       result({ kind: 'not register' }, { message:'Email doesnt exists' },null);
     }
-  });
+  });}
+  catch(error){console.log(error)}
 };
 
 //= ==========================================================

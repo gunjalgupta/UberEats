@@ -18,7 +18,7 @@ module.exports = app => {
       readStream.pipe(res)
     })
       
-      app.post('/dish/images', upload.single('image'), async (req, res) => {
+      app.post('/api/dish/images', upload.single('image'), async (req, res) => {
         const file = req.file
         console.log("++++++",file)
         console.log("Here inside routes")

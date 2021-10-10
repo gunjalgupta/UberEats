@@ -2,8 +2,8 @@ POST http://localhost:8081/customer/register
 Content-Type: application/json 
 
 {
-    "cname":"HELi",
-    "email":"hELI1@gmail.com",
+    "cname":"Heli",
+    "email":"gunjal1gupta@gmail.com",
     "pwd":"1234"
 }
 
@@ -12,7 +12,7 @@ POST http://localhost:8081/customer/login
 Content-Type: application/json 
 
 {
-    "email":"gunjal@gmail.com",
+    "email":"gunjal1gupta@gmail.com",
     "pwd":"1234"
 }
 
@@ -193,7 +193,7 @@ Content-Type: application/x-www-form-urlencoded
 }
     ]
 ###
-POST  http://localhost:8081/customer/showfav/5
+POST  http://localhost:8081/customer/showfav/1
 Content-Type: application/json 
 
 {
@@ -201,7 +201,7 @@ Content-Type: application/json
     "customerId": 5  
 }
 ###
-POST  http://localhost:8081/customer/checkfav
+POST  http://localhost:8081/customer/a
 Content-Type: application/json 
 
 {
@@ -209,11 +209,11 @@ Content-Type: application/json
     "customerId": 5  
 }
 ###
-POST http://localhost:8081/order/getcusdetail
+POST http://localhost:8081/order/getcusorder
 Content-Type: application/json 
 
 {
-    "customerId": 5  
+    "customerId": 1 
 }
 
 ###

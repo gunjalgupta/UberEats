@@ -6,7 +6,7 @@ const Customer = require('../models/customers.js');
 const Restaurant = require('../models/restaurants.js');
 
 exports.create = async (req, res) => {
-    console.log("In controller", req.body)
+    //console.log("In controller", req.body)
     // Validate request
     if (!req.body) {
       res.status(400).send({
@@ -27,6 +27,7 @@ exports.create = async (req, res) => {
     console.log("=======",customer)
     // Save Customer in the database
     Customer.create(customer, (err, data) => {
+      try{
       if (err)
         {
           if (err.kind === "already exists") {
@@ -39,7 +40,8 @@ exports.create = async (req, res) => {
             });
           }
         }
-      else {res.send(data);}
+      else {res.send(data);} }
+      catch(error){console.log(error)}
     });
   };
 //=======================================================
@@ -51,8 +53,8 @@ exports.find = async (req,res) => {
   }
   //SELECT Customer
   Customer.find(req.body.email, async (err, data) => {
-      console.log("emaill",req.body.email);
-      console.log("pwdd",req.body.pwd);
+      //console.log("emaill",req.body.email);
+      //console.log("pwdd",req.body.pwd);
       if(err){
         if (err.kind === "not register") {
           res.status(404).send({
@@ -79,6 +81,7 @@ exports.find = async (req,res) => {
           const accessToken = sign({ id: data}, "ubereats", {
               expiresIn: 86400 //24 hours
           })
+          
           return res.json({
               success: 1,
               message : "login successfull",
