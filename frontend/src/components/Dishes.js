@@ -339,7 +339,10 @@ function Dishes({ dname, des, ing, imageKey, price, id , restaurantId,rname}) {
               padding: "20px",
             }}
           >
-            <Grid container item>
+            <Grid container item onClick={() => {
+            toggle();
+            setdish({ dname, des, ing, imageKey, price });
+          }}>
               <Typography component="div" variant="h5">
                 {dname}
               </Typography>

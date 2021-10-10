@@ -215,3 +215,24 @@ Content-Type: application/json
 {
     "customerId": 5  
 }
+
+###
+POST http://localhost:8081/customer/fetchaddress/5
+Content-Type: application/json 
+
+{
+    "customerId": 5  
+}
+
+###
+POST http://localhost:8081/customer/addaddress
+Content-Type: application/json 
+
+{
+    "customerId": 5,  
+    "addline1": "The alameda",
+    "addline2": "near diridon station",
+    "city": "san jose",
+    "state": "CA",
+    "zipcode": 95126
+}

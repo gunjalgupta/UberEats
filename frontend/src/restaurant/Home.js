@@ -189,10 +189,10 @@ const deleteDish =  (id) =>{
           sx={{
             width: drawerWidth,
             flexShrink: 0,
-            "& .MuiDrawer-paper": {
-              width: drawerWidth,
-              boxSizing: "border-box",
-            },
+            // "& .MuiDrawer-paper": {
+            //   width: drawerWidth,
+            //   boxSizing: "border-box",
+            // },
           }}
           variant="persistent"
           anchor="left"
@@ -249,9 +249,9 @@ const deleteDish =  (id) =>{
           </List>
           <Divider />
         </Drawer>
-        <Main open={open}>
+        {/* <Main open={open}>
         <DrawerHeader />
-      </Main>
+      </Main> */}
         
         
         <div className = 'dish_home' style={{marginTop:100, marginLeft: 0, display:"flex"}}>

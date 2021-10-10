@@ -33,15 +33,15 @@ function Center(){
 
         </div>
         <div className="center__footer">
-            <div className="center__footercity">
+             {/*<div className="center__footercity">
                 <div className="city__header">
                 <h3>   Cities near me </h3>
                 <h2>   View all 500+ cities  </h2>
 
 
                 </div>
-                <div className="city__map">
-                <iframe 
+                <div className="city__map"> */}
+                {/* <iframe 
 
                 src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d3652151.2747342857!2d71.6326860125!3d26.63073975!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1617816959877!5m2!1sen!2sin"
 
@@ -50,8 +50,8 @@ function Center(){
                 allowFullScreen=""
                 loading="lazy"
                 title="cities near me "
-                />
-                </div>
+                /> */}
+                {/* </div>
                 <div className="city__citylist">
                 <p> Atlanta</p>
               <p> Austin</p>
@@ -81,10 +81,10 @@ function Center(){
               <p> Tampa Bay</p>
               <p> Washington D.C.</p>
 
-                </div>
+                </div> 
 
-            </div>
-            <div className="center__footercountry">
+                </div>*/}
+            {/* <div className="center__footercountry">
 
                 <h3>   Countries with uber eats </h3>
                 <div className="country__countrylist">
@@ -115,7 +115,7 @@ function Center(){
               <p>Guatemala </p>
 
                 </div>
-            </div>
+            </div> */}
         </div>
 
         </div>

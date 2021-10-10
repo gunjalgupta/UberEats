@@ -27,9 +27,9 @@ function Resdishes({id, dname, des, ing, imageKey , price, func}) {
                      {dname}
           </Typography>
           <Typography variant="subtitle1" color="text.secondary" component="div">
-            {des}
+            
             <br/>
-            Ingredients: {ing} {id}
+            Ingredients: {ing} 
           </Typography>
         </CardContent>
         <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>

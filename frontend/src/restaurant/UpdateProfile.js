@@ -14,6 +14,8 @@ import Showprofile from './Showprofile';
 import Profilepic from './Profilepic';
 import { logoutRestaurant } from "../actions/resActions";
 import { useDispatch } from "react-redux";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const UpdateProfile = () => {
     const history = useHistory()
@@ -73,99 +75,8 @@ const UpdateProfile = () => {
     },[]
         );
         
-    // const favouriteRestaurant = (id) => {
-    //     fetch('/like', {
-    //         method: "put",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //             "Authorization": "Bearer " + localStorage.getItem("jwt")
-    //         },
-    //         body: JSON.stringify({
-    //             postId: id
-    //         })
-    //     }).then(res => res.json())
-    //         .then(result => {
-    //             //   console.log(result)
-    //             const newData = data.map(item => {
-    //                 if (item._id == result._id) {
-    //                     return result
-    //                 } else {
-    //                     return item
-    //                 }
-    //             })
-    //             setData(newData)
-    //         }).catch(err => {
-    //             console.log(err)
-    //         })
-    // }
-    // const unfavouriteRestaurant = (id) => {
-    //     fetch('/unlike', {
-    //         method: "put",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //             "Authorization": "Bearer " + localStorage.getItem("jwt")
-    //         },
-    //         body: JSON.stringify({
-    //             postId: id
-    //         })
-    //     }).then(res => res.json())
-    //         .then(result => {
-    //             //   console.log(result)
-    //             const newData = data.map(item => {
-    //                 if (item._id == result._id) {
-    //                     return result
-    //                 } else {
-    //                     return item
-    //                 }
-    //             })
-    //             setData(newData)
-    //         }).catch(err => {
-    //             console.log(err)
-    //         })
-    // }
+  
 
-    // const updateRestaurant = (text, postId) => {
-    //     fetch('/comment', {
-    //         method: "put",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //             "Authorization": "Bearer " + localStorage.getItem("jwt")
-    //         },
-    //         body: JSON.stringify({
-    //             postId,
-    //             text
-    //         })
-    //     }).then(res => res.json())
-    //         .then(result => {
-    //             console.log(result)
-    //             const newData = data.map(item => {
-    //                 if (item._id == result._id) {
-    //                     return result
-    //                 } else {
-    //                     return item
-    //                 }
-    //             })
-    //             setData(newData)
-    //         }).catch(err => {
-    //             console.log(err)
-    //         })
-    // }
-
-    // const deleteRestaurant = (postid) => {
-    //     fetch(`/deletepost/${postid}`, {
-    //         method: "delete",
-    //         headers: {
-    //             Authorization: "Bearer " + localStorage.getItem("jwt")
-    //         }
-    //     }).then(res => res.json())
-    //         .then(result => {
-    //             console.log(result)
-    //             const newData = data.filter(item => {
-    //                 return item._id !== result._id
-    //             })
-    //             setData(newData)
-    //         })
-    // }
     return (restaurantData.restaurantId?
         <div className="update">
             <section className="section" id="about">
@@ -225,24 +136,7 @@ const UpdateProfile = () => {
                             }}
                             onSubmit={(values, { setSubmitting, resetForm }) => {
                                 console.log(values)
-                                // if (image) {
-                                //     const data = new FormData()
-                                //     data.append("api_key", '757831828593633');
-                                //     data.append("file", image)
-                                //     data.append("upload_preset", "l3ihyhha")
-                                //     data.append("cloud_name", "du8oeufnp")
-                                //     fetch("https://api.cloudinary.com/v1_1/du8oeufnp/image/upload", {
-                                //         method: "post",
-                                //         body: data
-                                //     }).then(res => res.json())
-                                //         .then(res => {
-                                //             console.log(res + "Hiii")
-                                //             setUrl(res.url)
-                                //         })
-                                //         .catch(err => {
-                                //             console.log(err)
-                                //         })
-                                // }
+                                
                                 const restaurantId = JSON.parse(localStorage.getItem("restaurant")).restaurantId
                                 console.log(restaurantId)
                                 axios.post(`http://localhost:8081/restaurant/updatedetails/`, { restaurantId ,values: values})
@@ -253,12 +147,20 @@ const UpdateProfile = () => {
                                         }
                                         else {
                                             console.log("update1",response)
-                                            M.toast({ html: "Updated restaurant details successfully", classes: "#43a047 green darken-1" })
+                                            toast.success('Updated details successful', {
+                                                position: "top-right",
+                                                autoClose: 5000,
+                                                hideProgressBar: true,
+                                                closeOnClick: true,
+                                                pauseOnHover: true,
+                                                draggable: true,
+                                                progress: undefined,
+                                                });
                                         }
                                     }).catch(err => {
                                         console.log(err)
                                     })
-                                history.push('/rhome')
+                               // history.push('/rhome')
                             }}>
                             {({
                                 errors,
@@ -314,7 +216,7 @@ const UpdateProfile = () => {
                                            
                                             <div className="form-group" >
                                             
-                                                <label>Pickup <input type="dropdown" className="form-control" id="pickup" /></label>
+                                                <label>Pickup <input type="dropdown" className="form-control" /></label>
                                                 <select name= 'pickup' value={values.pickup} id="pickup" onBlur={handleBlur} onChange={handleChange}>
                                                 <option value="Yes" label="Yes" defaultChecked/>
                                                 <option value="No" label="No" />
@@ -360,15 +262,27 @@ const UpdateProfile = () => {
                                             
                                         </div>
                                     </div>
+                                    <ToastContainer
+position="top-right"
+autoClose={5000}
+hideProgressBar
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+/>
                                     <Button type="submit" className= "update-button" style={{ width: "100%", borderRadius: 5 }}>
                                         Save changes
                                     </Button>
                                     <br />
                                     <br />
                                 </form>
+                                
                             )}
                         </Formik>
-}
+} 
                     </div>
                 </div>
             </section>

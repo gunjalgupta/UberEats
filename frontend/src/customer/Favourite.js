@@ -8,6 +8,8 @@ import { logout } from "../actions/userActions";
 import { useHistory } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Favourite= function (){
 
@@ -45,14 +47,20 @@ const Favourite= function (){
             console.log("res",response);
             if (response.data.error) {
                 console.log("res",response);
-                M.toast({ html: response.data.error, classes: "#c62828 red darken-3" })
+                toast.error('🦄 Wow so easy!', {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: true,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+                  });
             }
             else {
                     console.log(response.data)
                     setRestaurants(response.data)
-                    //console.log("resss ",customerData);
-                    //localStorage.setItem('customer', JSON.stringify(response.data[0]));
-                    M.toast({ html: response.data[0], classes: "#c62828 red darken-3" })
+                   
                 
             }
         })
@@ -89,13 +97,6 @@ const Favourite= function (){
                 </div>
              </div>
              <div className="res" style={{marginTop: 100,paddingLeft: 40 }}><h3>Favourites</h3></div>
-             {/* <div className="res" style={{marginTop: 10, display: "flex"}}>
-            {
-                restaurants.map(restaurant =>(
-                    <Restaurant id ={restaurant.restaurantId} Name ={restaurant.rname} Opens_at={restaurant.fromTime} imageKey={restaurant.profilepic}/>
-                ))
-            } 
-            </div> */}
 
             <Box style={{padding:40}}>
             <Grid container item xs={10} spacing={5}>
@@ -111,10 +112,17 @@ const Favourite= function (){
                 }
                 </Grid>
             </Box>
-
-            
-
-            
+            <ToastContainer
+position="top-right"
+autoClose={5000}
+hideProgressBar
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+/>
     </div>
     )
 }

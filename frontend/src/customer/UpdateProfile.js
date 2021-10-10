@@ -167,21 +167,16 @@ return (customerData.email?
                                             M.toast({ html: response.data.error, classes: "#c62828 red darken-3" })
                                         }
                                         else {
-                                            console.log("update1",response)
-                                            alert("success")
-                                            toast('🦄 Wow so easy!', {
-                                                position: "top-left",
-                                                autoClose: 1900,
+                                            toast.success('Updated details successful', {
+                                                position: "top-right",
+                                                autoClose: 5000,
                                                 hideProgressBar: true,
                                                 closeOnClick: true,
                                                 pauseOnHover: true,
                                                 draggable: true,
                                                 progress: undefined,
                                                 });
-                                            M.toast({ html: "Updated customer details successfully", inDuration: 300,
-                                            outDuration: 375,
-                                            displyLength: 4000,
-                                            classes: "rounded", })
+                                            
                                         }
                                     }).catch(err => {
                                         console.log(err)
@@ -239,6 +234,17 @@ return (customerData.email?
                                                 <label style={{ width: "100%" }}>Nickname <input type="text" style={{ width: "100%", borderRadius: 0 }} className="form-control" id="nickname" onBlur={handleBlur} onChange={handleChange} value={values.nickname} /></label>
                                                 <p className="help-block text-danger"></p>
                                             </div>
+                                            <ToastContainer
+position="top-right"
+autoClose={5000}
+hideProgressBar
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+/>
                                     
                                         </div>
                                     </div>

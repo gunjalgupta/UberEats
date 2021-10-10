@@ -35,7 +35,7 @@ function Login() {
                     name: res.data.name,
                     loggedIn: true, 
                 }))
-              history.push("/rprofile")
+              history.push("/rhome")
             }
             //console.log("response", res);
         }catch(err){

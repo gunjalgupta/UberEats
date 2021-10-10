@@ -9,6 +9,7 @@ import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -132,8 +133,8 @@ export default function PersistentDrawerLeft() {
               <ListItem >
           
           <ListItemIcon>
-          <Link to ='./rlogin'>
-           <InboxIcon /> </Link>  
+          <Link to ='./rlogin' style={{color:'black',}}>
+          <AccountBoxIcon />  </Link>  
           </ListItemIcon> 
           <ListItemText> <Link to ='./rlogin' style={{textDecoration:'none', color:"black"}}>  Sign in as restaurant </Link></ListItemText>
         </ListItem>
@@ -142,8 +143,8 @@ export default function PersistentDrawerLeft() {
   <ListItem >
           
           <ListItemIcon>
-          <Link to ='./rregister'>
-           <InboxIcon /> </Link>  
+          <Link to ='./rregister' style={{color:'black',}}>
+          <AccountBoxIcon />  </Link>  
           </ListItemIcon> 
           <ListItemText> <Link to ='./rregister' style={{textDecoration:'none', color:"black"}}>   Add Restaurant </Link></ListItemText>
         </ListItem>

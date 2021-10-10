@@ -21,6 +21,8 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { useDispatch } from "react-redux";
 import { logout } from "../actions/userActions";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Checkout = () => {
   const history= useHistory();
@@ -78,7 +80,16 @@ const Checkout = () => {
     console.log("here",mode,currentAddress)
     if(mode==='delivery' && (currentAddress===null || currentAddress==="")){
     console.log("here",mode,currentAddress)
-        M.toast({html:"Address required"})
+    
+    toast.error("Address required", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      });
       
   } 
     
@@ -123,11 +134,22 @@ const Checkout = () => {
         })
       }).then(()=>{
         
-        M.toast({ html:"Order placed successfully",  classes: "rounded", inDuration: 300,
-        outDuration: 375,})
+       
+        toast.success("Order placed successfully", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
         localStorage.removeItem("cart",null);
         localStorage.removeItem("rescartid",null);
         localStorage.removeItem("order",null);
+        const timeout = setTimeout(() => {
+          history.push("/chome");
+        }, 3000);
         //history.push("/chome")
       })
   }};
@@ -218,22 +240,23 @@ const Checkout = () => {
       >
         <Grid
           container
-          spacing={3}
+          // spacing={3}
           xs={6}
           style={{
             // border: "1px solid grey",
             height: "100%",
+            margin: 10
            
           }}
         >
-          <Grid container xs={6} style={{display:'flex', justifyContent:'center',  paddingTop: "0px",fontSize:32}}>
+          <Grid container xs={12} style={{display:'flex', justifyContent:'center',  paddingTop: "0px",fontSize:32}}>
           {JSON.parse(localStorage.getItem("cart"))[0].rname}
                 </Grid>
-                <table
+          <table
             style={{
             width: "100%",
           }}
-        >
+          >
           <tr>
             <th>Dish Name</th>
             <th>Quantity</th>
@@ -242,17 +265,9 @@ const Checkout = () => {
           {localStorage.getItem("cart") &&
             JSON.parse(localStorage.getItem("cart")).map((dish) => (
               <tr>
-              <Grid container item>
-                <Grid container xs={4}>
                 <td>{dish.dname}</td>
-                </Grid>
-                <Grid container xs={4}>
                 <td>{dish.quantity}</td>
-                </Grid>
-                <Grid container xs={4}>
                 <td>{dish.subtotal}</td>
-                </Grid>
-              </Grid>
               </tr>
             ))}
             </table>
@@ -280,6 +295,28 @@ const Checkout = () => {
                 <FormControlLabel value="delivery" control={<Radio />} label="Delivery" />
               </RadioGroup>
             </FormControl>
+            <ToastContainer
+position="top-right"
+autoClose={5000}
+hideProgressBar
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+/>
+<ToastContainer
+position="top-right"
+autoClose={5000}
+hideProgressBar
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+/>
           </Grid>
         <Grid
           container
@@ -384,6 +421,8 @@ const Checkout = () => {
             item
             style={{
               height: "fit-content",
+              display: "flex",
+              justifyContent: "center",
             }}
           >
             <button style={{color:'white', backgroundColor:'black',paddingLeft:50,paddingRight:50, fontSize:20}}onClick={submitOrder}>Place Order</button>

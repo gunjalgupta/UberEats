@@ -1,5 +1,5 @@
 const connection = require('../config/dbconfig');
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const { sign } = require('jsonwebtoken');
 const Restaurant = require('../models/restaurants.js');
 const Customer = require('../models/customers');

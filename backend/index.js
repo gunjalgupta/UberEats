@@ -41,10 +41,10 @@ require("./src/routes/imageDish.js")(app);
 require("./src/routes/order.js")(app);
 
 // set port, listen for requests
-app.listen(8081, () => {
+var server= app.listen(8081, () => {
   console.log("Server is running on port 8081.");
 });
-
+server.timeout =1200000;
 
 
 // global.__basedir = __dirname;
