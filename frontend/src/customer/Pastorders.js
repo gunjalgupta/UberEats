@@ -183,12 +183,12 @@ const Pastorders = () => {
                     ))}
                   <Grid container item>
                     <Grid container xs={4}></Grid>
-                    <Grid container xs={4}>
+                    {/* <Grid container xs={4}>
                       Total Price :
                     </Grid>
                     <Grid container xs={4}>
                     {total}
-                    </Grid>
+                    </Grid> */}
                   </Grid>
                 </Grid>
                 <Box

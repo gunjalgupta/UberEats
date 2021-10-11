@@ -59,7 +59,7 @@ exports.find = (req,res) => {
   }
   //SELECT Customer
   Restaurant.find(req.body.email,  async (err, data) => {
-      
+      console.log(data)
       if(err){
         if (err.kind === "not register") {
           res.status(404).send({
@@ -74,6 +74,7 @@ exports.find = (req,res) => {
       
       if (data)
       {
+        console.log(data)
       const result = await bcrypt.compare(req.body.pwd, data.pwd);
 
       if(result) {

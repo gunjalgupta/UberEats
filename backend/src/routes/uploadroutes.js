@@ -23,7 +23,9 @@ module.exports = app => {
         console.log("++++++",file)
         console.log("Here inside routes")
         const result = await uploadFile(file)
+        console.log("Hello");
         await unlinkFile(file.path)
+        console.log("Hello");
         console.log(result)
         const key = result.Key
         const customerId = req.body.customerId

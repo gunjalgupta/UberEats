@@ -57,7 +57,7 @@ function AllOrders() {
     const [shadow,setshadow]=useState('none');
     const [deliveryData, setDeliveryData] = useState([]);
     const [pickupData, setPickupData] = useState([]);
-    const [lookup, setLookup] = useState({  "placed": 'Placed', "Preparing": 'Preparing', "on the way": "on the way", " delivered":"delivered"  });
+    const [lookup, setLookup] = useState({  "placed": 'Placed', "Preparing": 'Preparing', "On the way": "On the way", "Delivered":"Delivered"  });
 
 
 
@@ -199,7 +199,7 @@ function AllOrders() {
           <button onClick={() => {
               setData(deliveryData)
             
-              setLookup({  "Order received": 'Order received', "Preparing": 'Preparing', "On the way": "On the way", " Delivered":"Delivered"  })}}>
+              setLookup({  "Order received": 'Order received', "Preparing": 'Preparing', "On the way": "On the way", "Delivered":"Delivered"  })}}>
                   Delivery orders</button>
       <MaterialTable
         icons={tableIcons}
